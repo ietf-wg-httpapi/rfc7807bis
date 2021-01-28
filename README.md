@@ -2,9 +2,9 @@
 
 This is the working area for the individual Internet-Draft, "Problem Details for HTTP APIs".
 
-* [Editor's Copy](https://mnot.github.io/rfc7807bis/#go.draft-nottingham-httpapi-rfc7807bis.html)
-* [Individual Draft](https://tools.ietf.org/html/draft-nottingham-httpapi-rfc7807bis)
-* [Compare Editor's Copy to Individual Draft](https://mnot.github.io/rfc7807bis/#go.draft-nottingham-httpapi-rfc7807bis.diff)
+* [Editor's Copy](https://mnot.github.io/rfc7807bis/#go.draft-ietf-httpapi-rfc7807bis.html)
+* [Individual Draft](https://tools.ietf.org/html/draft-ietf-httpapi-rfc7807bis)
+* [Compare Editor's Copy to Individual Draft](https://mnot.github.io/rfc7807bis/#go.draft-ietf-httpapi-rfc7807bis.diff)
 
 
 
