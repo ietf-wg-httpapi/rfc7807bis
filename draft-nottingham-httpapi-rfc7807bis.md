@@ -36,18 +36,30 @@ author:
 
 normative:
   RFC2119:
-	RFC2119:
-	RFC7230:
-	RFC7231:
-	RFC3986:
-	RFC7159:
-	RFC5234:
-  HTML5: W3C.REC-html5-20141028
+  RFC3986:
+  RFC5234:
+  RFC7159:
+  RFC7230:
+  RFC7231:
+  XML: W3C.REC-xml-20081126
 
 informative:
-  XSLT: W3C.REC-xml-stylesheet-20101028
+  RFC4918:
+  RFC5988:
+  RFC6694:
+  RFC6838:
+  RFC7303:
+  ISO-19757-2:
+    title: "Information Technology -- Document Schema Definition Languages (DSDL) -- Part 2: Grammar-based Validation -- RELAX NG"
+    author:
+     -
+        org: International Organization for Standardization
+    date: 2003
+    seriesinfo:
+      ISO/IEC: 19757-2
+  HTML5: W3C.REC-html5-20141028
   RDFA: W3C.REC-rdfa-core-20130822
-  XML: W3C.REC-xml-20081126
+  XSLT: W3C.REC-xml-stylesheet-20101028
 
 
 --- abstract
@@ -82,7 +94,7 @@ Instead, the aim of this specification is to define common error formats for tho
 
 # Requirements
 
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in {{RFC2119"}}.
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in {{RFC2119}}.
 
 
 # The Problem Details JSON Object {#problem-json}
@@ -116,9 +128,9 @@ occurrence-specific details in "detail", and adds two extensions;
 "balance" conveys the account's balance, and "accounts" gives links
 where the account can be topped up.
 
-The ability to convey problem-specific extensions allows more than 
+The ability to convey problem-specific extensions allows more than
   one problem to be conveyed. For example:
-        
+
 ~~~ http-message
 HTTP/1.1 400 Bad Request
 Content-Type: application/problem+json
@@ -127,11 +139,11 @@ Content-Language: en
 {
 "type": "https://example.net/validation-error",
 "title": "Your request parameters didn't validate.",
-"invalid-params": [ { 
-                      "name": "age", 
+"invalid-params": [ {
+                      "name": "age",
                       "reason": "must be a positive integer"
                     },
-                    { 
+                    {
                       "name": "color",
                       "reason": "must be 'green', 'red' or 'blue'"}
                   ]
@@ -139,12 +151,12 @@ Content-Language: en
 ~~~
 
 Note that this requires each of the subproblems to be similar enough to use the same HTTP status code. If they do not, the 207 (Multi-Status) {{RFC4918}} code could be used to encapsulate multiple status messages.
-          
-# Members of a Problem Details Object {#members}
+
+## Members of a Problem Details Object {#members}
 
 A problem details object can have the following members:
 
-* "type" (string) - A URI reference {{RFC3986}} that identifies the problem type. This specification encourages that, when dereferenced, it provide human-readable documentation for the problem type (e.g., using HTML {{HTML}}). When this member is not present, its value is assumed to be "about:blank".
+* "type" (string) - A URI reference {{RFC3986}} that identifies the problem type. This specification encourages that, when dereferenced, it provide human-readable documentation for the problem type (e.g., using HTML {{HTML5}}). When this member is not present, its value is assumed to be "about:blank".
 
 * "title" (string) - A short, human-readable summary of the problem type. It SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization (e.g., using proactive content negotiation; see {{RFC7231, Section 3.4}}).
 
@@ -166,9 +178,9 @@ Consumers SHOULD NOT parse the "detail" member for information; extensions are m
 
 Note that both "type" and "instance" accept relative URIs; this means that they must be resolved relative to the document's base URI, as per {{RFC3986, Section 5}}.
 
-      
-# Extension Members
-       
+
+## Extension Members
+
 Problem type definitions MAY extend the problem details object with additional members.
 
 For example, our "out of credit" problem above defines two such extensions -- "balance" and "accounts" to convey additional, problem-specific information.
@@ -194,9 +206,9 @@ That said, it is possible to add support for problem details to existing HTTP AP
 
 New problem type definitions MUST document:
 
-* a type URI (typically, with the "http" or "https" scheme),
-* a title that appropriately describes it (think short), and
-* the HTTP status code for it to be used with.
+1. a type URI (typically, with the "http" or "https" scheme),
+2. a title that appropriately describes it (think short), and
+3. the HTTP status code for it to be used with.
 
 Problem type definitions MAY specify the use of the Retry-After response header ({{RFC7231, Section 7.1.3}}) in appropriate circumstances.
 
@@ -204,10 +216,10 @@ A problem's type URI SHOULD resolve to HTML {{HTML5}} documentation that explain
 
 A problem type definition MAY specify additional members on the problem details object. For example, an extension might use typed links {{RFC5988}} to another resource that can be used by machines to resolve the problem.
 
-If such additional members are defined, their names SHOULD start with a letter (ALPHA, as per {{RFC5234, Section 8.1}}) and SHOULD consist of characters from ALPHA, DIGIT ({{RFC5234, Section 8.1}}), and "_" (so that it can be serialized in formats other than JSON), and they SHOULD be three characters or longer.
+If such additional members are defined, their names SHOULD start with a letter (ALPHA, as per {{RFC5234, Section B.1}}) and SHOULD consist of characters from ALPHA, DIGIT ({{RFC5234, Section B.1}}), and "_" (so that it can be serialized in formats other than JSON), and they SHOULD be three characters or longer.
 
 
-# Example
+## Example
 
 For example, if you are publishing an HTTP API to your online shopping cart, you might need to indicate that the user is out of credit (our example from above), and therefore cannot make the purchase.
 
@@ -220,7 +232,7 @@ If one isn't available, you could mint and document a new type URI (which ought 
 In summary: an instance URI will always identify a specific occurrence of a problem. On the other hand, type URIs can be reused if an appropriate description of a problem type is already available someplace else, or they can be created for new problem types.
 
 
-# Predefined Problem Types
+## Predefined Problem Types
 
 This specification reserves the use of one URI as a problem type:
 
@@ -228,10 +240,10 @@ The "about:blank" URI {{RFC6694}}, when used as a problem type, indicates that t
 
 When "about:blank" is used, the title SHOULD be the same as the recommended HTTP status phrase for that code (e.g., "Not Found" for 404, and so on), although it MAY be localized to suit client preferences (expressed with the Accept-Language request header).
 
-Please note that according to how the "type" member is defined ({{members}}, the "about:blank" URI is the default value for that member. Consequently, any problem details object not carrying an explicit "type" member implicitly uses this URI.
-      
-       
-# Security Considerations {#security-considerations}     
+Please note that according to how the "type" member is defined ({{members}}), the "about:blank" URI is the default value for that member. Consequently, any problem details object not carrying an explicit "type" member implicitly uses this URI.
+
+
+# Security Considerations {#security-considerations}
 
 When defining a new problem type, the information included must be carefully vetted. Likewise, when actually generating a problem -- however it is serialized -- the details given must also be scrutinized.
 
@@ -246,16 +258,137 @@ As such, those defining problem types as well as generators and consumers of pro
 
 # IANA Considerations
 
+This specification defines two new Internet media types {{RFC6838}}.
+
+
+## application/problem+json
+
+Type name:
+: application
+
+Subtype name:
+: problem+json
+
+Required parameters:
+: None
+
+Optional parameters:
+: None; unrecognized parameters should be ignored
+
+Encoding considerations:
+: Same as {{RFC7159}}
+
+Security considerations:
+: see {{security-considerations}} of this document
+
+Interoperability considerations:
+: None
+
+Published specification:
+: RFC 7807 (this document)
+
+Applications that use this media type:
+: HTTP
+
+Fragment identifier considerations:
+: Same as for application/json ({{RFC7159}})
+
+Deprecated alias names for this type:
+: n/a
+
+Magic number(s):
+: n/a
+
+File extension(s):
+: n/a
+
+Macintosh file type code(s):
+: n/a
+
+Person and email address to contact for further information:
+: Mark Nottingham \<mnot@mnot.net>
+
+Intended usage:
+: COMMON
+
+Restrictions on usage:
+: None.
+
+Author:
+: Mark Nottingham \<mnot@mnot.net>
+
+Change controller:
+: IESG
+
+## application/problem+xml
+
+Type name:
+: application
+
+Subtype name:
+: problem+xml
+
+Required parameters:
+: None
+
+Optional parameters:
+: None; unrecognized parameters should be ignored
+
+Encoding considerations:
+: Same as {{RFC7303}}
+
+Security considerations:
+: see {{security-considerations}} of this document
+
+Interoperability considerations:
+: None
+
+Published specification:
+: RFC 7807 (this document)
+
+Applications that use this media type:
+: HTTP
+
+Fragment identifier considerations:
+: Same as for application/xml (as specified by {{Section 5 of RFC7303}})
+
+Deprecated alias names for this type:
+: n/a
+
+Magic number(s):
+: n/a
+
+File extension(s):
+: n/a
+
+Macintosh file type code(s):
+: n/a
+
+Person and email address to contact for further information:
+: Mark Nottingham \<mnot@mnot.net>
+
+Intended usage:
+: COMMON
+
+Restrictions on usage:
+: None.
+
+Author:
+: Mark Nottingham \<mnot@mnot.net>
+
+Change controller:
+: IESG
+
 
 --- back
 
 
 # HTTP Problems and XML {#xml-syntax}
-   
+
 Some HTTP-based APIs use XML {{XML}} as their primary format convention. Such APIs can express problem details using the format defined in this appendix.
 
 The RELAX NG schema {{ISO-19757-2}} for the XML format is as follows. Keep in mind that this schema is only meant as documentation, and not as a normative schema that captures all constraints of the XML format. Also, it would be possible to use other XML schema languages to define a similar set of constraints (depending on the features of the chosen schema language).
-      
+
 ~~~ relax-ng-compact-syntax
    default namespace ns = "urn:ietf:rfc:7807"
 
@@ -279,13 +412,13 @@ The RELAX NG schema {{ISO-19757-2}} for the XML format is as follows. Keep in mi
 The media type for this format is "application/problem+xml".
 
 Extension arrays and objects are serialized into the XML format by considering an element containing a child or children to represent an object, except for elements that contain only child element(s) named 'i', which are considered arrays. For example, the example above appears in XML as follows:
-      
+
 ~~~ http-message
 HTTP/1.1 403 Forbidden
 Content-Type: application/problem+xml
 Content-Language: en
 
-<x:span x:lang=""><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <problem xmlns="urn:ietf:rfc:7807">
   <type>https://example.com/probs/out-of-credit</type>
   <title>You do not have enough credit.</title>
@@ -306,18 +439,11 @@ When using the XML format, it is possible to embed an XML processing instruction
 
 # Using Problem Details with Other Formats
 
-In some situations, it can be advantageous to embed problem details in
-formats other than those described here. For example, an API that uses
-HTML {{W3C.REC-html5-20141028}} might want to also use
-HTML for expressing its problem details.
+In some situations, it can be advantageous to embed problem details in formats other than those described here. For example, an API that uses HTML {{HTML5}} might want to also use HTML for expressing its problem details.
 
-Problem details can be embedded in other formats either by
-encapsulating one of the existing serializations (JSON or XML) into that
-format or by translating the model of a problem detail (as specified in
-{{problem-json}}) into the format's conventions.
+Problem details can be embedded in other formats either by encapsulating one of the existing serializations (JSON or XML) into that format or by translating the model of a problem detail (as specified in {{problem-json}}) into the format's conventions.
 
-For example, in HTML, a problem could be embedded by encapsulating
-JSON in a script tag:
+For example, in HTML, a problem could be embedded by encapsulating JSON in a script tag:
 
 ~~~ html
 <script type="application/problem+json">
@@ -336,12 +462,12 @@ JSON in a script tag:
 or by inventing a mapping into RDFa {{RDFA}}.
 
 This specification does not make specific recommendations regarding embedding problem details in other formats; the appropriate way to embed them depends both upon the format in use and application of that format.
-     
+
 
 # Acknowledgements
 {:numbered="false"}
 
-The authors would like to thank 
+The authors would like to thank
 Jan Algermissen,
 Subbu Allamaraju,
 Mike Amundsen,
