@@ -1,7 +1,7 @@
 ---
 title: Problem Details for HTTP APIs
 abbrev:
-docname: draft-nottingham-httpapi-rfc7807bis
+docname: draft-nottingham-httpapi-rfc7807bis-latest
 date: {DATE}
 category: std
 obsoletes: 7807
