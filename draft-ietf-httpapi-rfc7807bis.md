@@ -33,6 +33,12 @@ author:
     email: mnot@mnot.net
     uri: https://www.mnot.net/
  -
+    ins: E. Wilde
+    name: Erik Wilde
+    organization:
+    email: erik.wilde@dret.net
+    uri: http://dret.net/netdret/
+ -
     ins: S. Dalal
     name: Sanjay Dalal
     organization:
