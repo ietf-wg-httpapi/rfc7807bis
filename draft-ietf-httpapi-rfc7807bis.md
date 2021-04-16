@@ -7,8 +7,8 @@ category: std
 obsoletes: 7807
 
 ipr: trust200902
-area: General
-workgroup:
+area: Applications and Real-Time
+workgroup: HTTPAPI
 keyword:
   - status
   - HTTP
