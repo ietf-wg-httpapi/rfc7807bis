@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Problem Details JSON Object RFC 7807bis",
+  "allOf": [
+    {
+      "$ref": "./problem.json"
+    },
+    {
+      "properties": {
+        "contained_problems": {
+          "type": "array",
+          "description": "Problem details if more than one problem exist.",
+          "items": {
+            "$ref": "./problem.json"
+          }
+        }
+      }
+    }
+  ],
+  "x-examples": {
+    "example-1": {
+      "type": "string",
+      "title": "string",
+      "status": 0,
+      "detail": "string",
+      "instance": "http://example.com",
+      "contained_problems": [
+        {
+          "type": "string",
+          "title": "string",
+          "status": 0,
+          "detail": "string",
+          "instance": "http://example.com"
+        }
+      ]
+    }
+  }
+}
