@@ -7,7 +7,7 @@
     },
     {
       "properties": {
-        "contained_problems": {
+        "problems": {
           "type": "array",
           "description": "Problem details if more than one problem exist.",
           "items": {
@@ -24,7 +24,7 @@
       "status": 0,
       "detail": "string",
       "instance": "http://example.com",
-      "contained_problems": [
+      "problems": [
         {
           "type": "string",
           "title": "string",
