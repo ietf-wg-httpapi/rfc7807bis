@@ -155,7 +155,7 @@ Content-Language: en
 {
 "type": "https://example.net/validation-error",
 "title": "Your request parameters didn't validate.",
-"invalid-params": [ {
+"invalid_params": [ {
                       "name": "age",
                       "reason": "must be a positive integer"
                     },
