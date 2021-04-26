@@ -212,7 +212,7 @@ Consumers SHOULD NOT parse the "detail" member for information; extensions are m
 
 The "instance" member is a JSON string containing a URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced.
 
-While relative URIs are allowed in "instance", it is RECOMMENDED that only absolute URIs be used, to avoid confusion. For example, if "https://api.example.org/foo/bar/123" and "https://api.example.org/widget/456" both use the "example-problem" URI reference, they will identify different resources, which is counter-intuitive for many users.
+While relative URIs are allowed in "instance", it is RECOMMENDED that only absolute URIs be used, to avoid confusion. For example, if the two resources "https://api.example.org/foo/bar/123" and "https://api.example.org/widget/456" both respond with an "instance" equal to the relative URI reference "example-instance", when resolved they will identify different resources ("https://api.example.org/foo/bar/example-instance" and "https://api.example.org/widget/example-instance" respectively), which is counter-intuitive for many users.
 
 When "instance" contains a relative URI, it is resolved relative to the document's base URI, as per {{RFC3986, Section 5}}.
 
