@@ -68,7 +68,12 @@ informative:
     date: 2003
     seriesinfo:
       ISO/IEC: 19757-2
-  HTML5: W3C.REC-html5-20141028
+  HTML5:
+    target: https://html.spec.whatwg.org
+    title: HTML - Living Standard
+    author:
+     -
+        org: WHATWG
   RDFA: W3C.REC-rdfa-core-20130822
   XSLT: W3C.REC-xml-stylesheet-20101028
 
