@@ -74,7 +74,7 @@ informative:
     author:
      -
         org: WHATWG
-  RDFA: W3C.REC-rdfa-core-20130822
+  RDFA: W3C.REC-rdfa-core-20150317
   XSLT: W3C.REC-xml-stylesheet-20101028
 
 
