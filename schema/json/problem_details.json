@@ -17,16 +17,16 @@
       }
     }
   ],
-  "x-examples": {
-    "example-1": {
-      "type": "string",
-      "title": "string",
-      "status": 0,
-      "detail": "string",
-      "instance": "http://example.com",
+  "examples": [
+    {
+      "type": "https://example.com/probs/out-of-credit",
+      "title": "You do not have enough credit.",
+      "status": 403,
+      "detail": "Your current balance is 30, but that costs 50.",
+      "instance": "/account/12345/msgs/abc",
       "problems": [
         {
-          "type": "string",
+          "type": "https://example.net/validation-error",
           "title": "string",
           "status": 0,
           "detail": "string",
@@ -34,5 +34,5 @@
         }
       ]
     }
-  }
+  ]
 }
