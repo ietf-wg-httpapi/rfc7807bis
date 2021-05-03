@@ -178,7 +178,7 @@ The "type" member is a JSON string containing a URI reference {{RFC3986}} that i
 
 This specification encourages that, when dereferenced, it provide human-readable documentation for the problem type (e.g., using HTML {{HTML5}}). When this member is not present, its value is assumed to be "about:blank".
 
-While relative URIs are allowed in "type", it is RECOMMENDED that only absolute URIs be used, to avoid confusion. For example, if the two resources "https://api.example.org/foo/bar/123" and "https://api.example.org/widget/456" both respond with a "type" equal to the relative URI reference "example-problem", when resolved they will identify different resources ("https://api.example.org/foo/bar/example-problem" and "https://api.example.org/widget/example-problem" respectively), which is counter-intuitive for many users.
+While relative URIs are allowed in "type", it is RECOMMENDED that only absolute URIs be used, to avoid confusion. For example, if the two resources "https://api.example.org/foo/bar/123" and "https://api.example.org/widget/456" both respond with a "type" equal to the relative URI reference "example-problem", when resolved they will identify different resources ("https://api.example.org/foo/bar/example-problem" and "https://api.example.org/widget/example-problem" respectively), which is counter-intuitive for many users, and might be handled incorrectly by some implementations.
 
 When "type" contains a relative URI, it is resolved relative to the document's base URI, as per {{RFC3986, Section 5}}.
 
@@ -212,7 +212,7 @@ Consumers SHOULD NOT parse the "detail" member for information; extensions are m
 
 The "instance" member is a JSON string containing a URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced.
 
-While relative URIs are allowed in "instance", it is RECOMMENDED that only absolute URIs be used, to avoid confusion. For example, if the two resources "https://api.example.org/foo/bar/123" and "https://api.example.org/widget/456" both respond with an "instance" equal to the relative URI reference "example-instance", when resolved they will identify different resources ("https://api.example.org/foo/bar/example-instance" and "https://api.example.org/widget/example-instance" respectively), which is counter-intuitive for many users.
+While relative URIs are allowed in "instance", it is RECOMMENDED that only absolute URIs be used, to avoid confusion. For example, if the two resources "https://api.example.org/foo/bar/123" and "https://api.example.org/widget/456" both respond with an "instance" equal to the relative URI reference "example-instance", when resolved they will identify different resources ("https://api.example.org/foo/bar/example-instance" and "https://api.example.org/widget/example-instance" respectively), which is counter-intuitive for many users, and might be handled incorrectly by some implementations.
 
 When "instance" contains a relative URI, it is resolved relative to the document's base URI, as per {{RFC3986, Section 5}}.
 
