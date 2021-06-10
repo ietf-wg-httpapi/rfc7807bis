@@ -170,7 +170,7 @@ Note that this requires each of the subproblems to be similar enough to use the 
 
 ## Members of a Problem Details Object {#members}
 
-A problem details object can have the following members:
+A problem details object can have the following members, all of which are OPTIONAL:
 
 ### "type"
 
