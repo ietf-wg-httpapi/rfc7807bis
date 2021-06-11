@@ -226,7 +226,7 @@ Note that because extensions are effectively put into a namespace by the problem
 
 ## Processing Problem Detail Objects
 
-Processing problem detail objects MUST use the following processing model. Any member defined by this specification must be tested to use the type given in its definition. If the type is incorrect, the member MUST be ignored and processing must continue as if the member had not been present.
+When interpreting problem details, processing errors (such as an an extension member whose value type is unexpected) might be encountered. In these cases, the safest way to process problem detail is to ignore these ill-formed members, while the information in other valid parts of the problem details can still be relied upon.
 
 
 # Defining New Problem Types {#defining}
