@@ -223,6 +223,11 @@ Clients consuming problem details MUST ignore any such extensions that they don'
 Note that because extensions are effectively put into a namespace by the problem type, it is not possible to define new "standard" members without defining a new media type.
 
 
+## Processing Problem Detail Objects
+
+When interpreting problem details, processing errors (such as an an extension member whose value type is unexpected) might be encountered. In these cases, the safest way to process problem detail is to ignore these ill-formed members, while the information in other valid parts of the problem details can still be relied upon.
+
+
 # Defining New Problem Types {#defining}
 
 When an HTTP API needs to define a response that indicates an error condition, it might be appropriate to do so by defining a new problem type.
