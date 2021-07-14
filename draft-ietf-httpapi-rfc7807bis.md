@@ -59,7 +59,6 @@ informative:
   RFC8288:
   RFC6694:
   RFC6838:
-  RFC7303:
   ISO-19757-2:
     title: "Information Technology -- Document Schema Definition Languages (DSDL) -- Part 2: Grammar-based Validation -- RELAX NG"
     author:
@@ -292,126 +291,7 @@ As such, those defining problem types as well as generators and consumers of pro
 
 # IANA Considerations
 
-This specification defines two new Internet media types {{RFC6838}}.
-
-
-## application/problem+json
-
-Type name:
-: application
-
-Subtype name:
-: problem+json
-
-Required parameters:
-: None
-
-Optional parameters:
-: None; unrecognized parameters should be ignored
-
-Encoding considerations:
-: Same as {{RFC8259}}
-
-Security considerations:
-: see {{security-considerations}} of this document
-
-Interoperability considerations:
-: None
-
-Published specification:
-: RFC 7807 (this document)
-
-Applications that use this media type:
-: HTTP
-
-Fragment identifier considerations:
-: Same as for application/json ({{RFC8259}})
-
-Deprecated alias names for this type:
-: n/a
-
-Magic number(s):
-: n/a
-
-File extension(s):
-: n/a
-
-Macintosh file type code(s):
-: n/a
-
-Person and email address to contact for further information:
-: Mark Nottingham \<mnot@mnot.net>
-
-Intended usage:
-: COMMON
-
-Restrictions on usage:
-: None.
-
-Author:
-: Mark Nottingham \<mnot@mnot.net>
-
-Change controller:
-: IESG
-
-## application/problem+xml
-
-Type name:
-: application
-
-Subtype name:
-: problem+xml
-
-Required parameters:
-: None
-
-Optional parameters:
-: None; unrecognized parameters should be ignored
-
-Encoding considerations:
-: Same as {{RFC7303}}
-
-Security considerations:
-: see {{security-considerations}} of this document
-
-Interoperability considerations:
-: None
-
-Published specification:
-: RFC 7807 (this document)
-
-Applications that use this media type:
-: HTTP
-
-Fragment identifier considerations:
-: Same as for application/xml (as specified by {{Section 5 of RFC7303}})
-
-Deprecated alias names for this type:
-: n/a
-
-Magic number(s):
-: n/a
-
-File extension(s):
-: n/a
-
-Macintosh file type code(s):
-: n/a
-
-Person and email address to contact for further information:
-: Mark Nottingham \<mnot@mnot.net>
-
-Intended usage:
-: COMMON
-
-Restrictions on usage:
-: None.
-
-Author:
-: Mark Nottingham \<mnot@mnot.net>
-
-Change controller:
-: IESG
+Please update the "application/problem+json" and "application/problem+xml" registrations in the Internet media types registry {{RFC6838}}. to refer to this document.
 
 
 --- back
