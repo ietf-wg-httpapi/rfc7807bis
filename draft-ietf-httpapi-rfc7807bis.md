@@ -50,6 +50,7 @@ normative:
   RFC2119:
   RFC3986:
   RFC5234:
+  RFC8126:
   RFC8259:
   I-D.ietf-httpbis-semantics:
   XML: W3C.REC-xml-20081126
@@ -266,9 +267,34 @@ If one isn't available, you could mint and document a new type URI (which ought 
 In summary: an instance URI will always identify a specific occurrence of a problem. On the other hand, type URIs can be reused if an appropriate description of a problem type is already available someplace else, or they can be created for new problem types.
 
 
-## Predefined Problem Types
+## Registered Problem Types {#registry}
 
-This specification reserves the use of one URI as a problem type:
+This specification defines the HTTP Problem Type registry for common, widely-used problem type URIs, to promote reuse.
+
+Registration requests are reviewed and approved by a Designated Expert, as per {{RFC8126, Section 4.5}}. A specification document is appreciated, but not required.
+
+When evaluating requests the Expert(s) should consider community feedback, how well-defined the problem type is, and this specification's requirements. Vendor-specific, application-specific, and deployment-specific values are not registrable.
+
+Registrations MAY use the prefix "https://iana.org/assignments/http-problem-types#", and are encouraged to do so when a stable, neutral URI is desirable.
+
+Registration requests should use the following template:
+
+* Type URI: \[a URI for the problem type\]
+* Title: \[a short description of the problem type\]
+* Recommended HTTP status code: \[what status code is most appropriate to use with the type\]
+* Reference: \[to a specification defining the type\]
+
+See the registry at <https://iana.org/assignments/http-problem-types> for details on where to send registration requests.
+
+
+### about:blank {#blank}
+
+This specification registers one Problem Type, "about:blank".
+
+* Type URI: about:blank
+* Title: See HTTP Status Code
+* Recommended HTTP status code: N/A
+* Reference: \[this document\]
 
 The "about:blank" URI {{RFC6694}}, when used as a problem type, indicates that the problem has no additional semantics beyond that of the HTTP status code.
 
@@ -292,7 +318,11 @@ As such, those defining problem types as well as generators and consumers of pro
 
 # IANA Considerations
 
-This specification defines two new Internet media types {{RFC6838}}.
+This specification defines a new registry and two new Internet media types {{RFC6838}}.
+
+## HTTP Problem Types Registry
+
+Please create the HTTP Problem Types Registry, as specified in {{registry}}, and populate it with "about:blank" as per {{blank}}.
 
 
 ## application/problem+json
