@@ -244,7 +244,7 @@ New problem type definitions MUST document:
 2. a title that appropriately describes it (think short), and
 3. the HTTP status code for it to be used with.
 
-Problem type definitions MAY specify the use of the Retry-After response header ({{I-D.ietf-httpbis-semantics, Section 10.2.4}}) in appropriate circumstances.
+Problem type definitions MAY specify the use of the Retry-After response header ({{I-D.ietf-httpbis-semantics, Section 10.2.3}}) in appropriate circumstances.
 
 A problem's type URI SHOULD resolve to HTML {{HTML5}} documentation that explains how to resolve the problem.
 
