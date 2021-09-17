@@ -139,8 +139,7 @@ Content-Language: en
 
 Here, the out-of-credit problem (identified by its type URI) indicates the reason for the 403 in "title", gives a reference for the specific problem occurrence with "instance", gives occurrence-specific details in "detail", and adds two extensions; "balance" conveys the account's balance, and "accounts" gives links where the account can be topped up.
 
-The ability to convey problem-specific extensions allows more than
-  one problem to be conveyed. For example:
+The ability to convey problem-specific extensions allows more than one problem to be conveyed. For example:
 
 ~~~ http-message
 HTTP/1.1 400 Bad Request
