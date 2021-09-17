@@ -161,7 +161,7 @@ Content-Language: en
 }
 ~~~
 
-Note that this requires each of the subproblems to be similar enough to use the same HTTP status code. If they do not, the 207 (Multi-Status) {{RFC4918}} code could be used to encapsulate multiple status messages.
+Note that this requires each of the subproblems to be similar enough to use the same HTTP status code. If they do not, the 207 (Multi-Status) code {{RFC4918}} could be used to encapsulate multiple status messages.
 
 ## Members of a Problem Details Object {#members}
 
