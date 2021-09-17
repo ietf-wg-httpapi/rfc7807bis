@@ -168,9 +168,10 @@ Content-Language: en
 
 Note that this requires each of the subproblems to be similar enough to use the same HTTP status code. If they do not, the 207 (Multi-Status) {{RFC4918}} code could be used to encapsulate multiple status messages.
 
+
 ## Members of a Problem Details Object {#members}
 
-A problem details object can have the following members:
+Problem detail objects can have the following members. If the type of a member's value does not match that specified, the member MUST be ignored -- i.e., processing will continue as if the member had not been present.
 
 ### "type"
 
