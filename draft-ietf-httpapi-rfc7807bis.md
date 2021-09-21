@@ -171,7 +171,7 @@ Note that this requires each of the subproblems to be similar enough to use the 
 
 ## Members of a Problem Details Object {#members}
 
-Problem detail objects can have the following members. If the type of a member's value does not match that specified, the member MUST be ignored -- i.e., processing will continue as if the member had not been present.
+Problem detail objects can have the following members. If the type of a member's value does not match the specified type, the member MUST be ignored -- i.e., processing will continue as if the member had not been present.
 
 ### "type"
 
