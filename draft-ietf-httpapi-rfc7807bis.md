@@ -184,7 +184,7 @@ The type URI can also be a non-resolvable URI. For example, the tag URI scheme {
 tag:mnot@mnot.net,2021-09-17:OutOfLuck
 ~~~
 
-Non-resolvable URIs ought not be used when there is some future possibility that it might become desireable to do so. For example, if the URI above were used in an API and later a tool was adopted that resolves type URIs to discover information about the error, taking advantage of that function would require using a different URI, causing clients to break if additional transition work is not performed.
+Non-resolvable URIs ought not be used when there is some future possibility that it might become desireable to do so. For example, if the URI above were used in an API and later a tool was adopted that resolves type URIs to discover information about the error, taking advantage of that capability would require switching to a resolvable URI, thereby creating a new identity for the problem type and thus introducing a breaking change.
 
 
 ### "status"
