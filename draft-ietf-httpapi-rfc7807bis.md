@@ -329,6 +329,7 @@ Please create the HTTP Problem Types Registry, as specified in {{registry}}, and
 This section presents a non-normative JSON Schema {{?I-D.draft-bhutton-json-schema-00}} for HTTP Problem Details. If there is any disagreement between it and the text of the specification, the latter prevails.
 
 ~~~ json
+# NOTE: '\' line wrapping per RFC 8792
 {::include schema/json/problem.json}
 ~~~
 
