@@ -162,9 +162,10 @@ Content-Language: en
 
 Note that this requires each of the subproblems to be similar enough to use the same HTTP status code. If they do not, the 207 (Multi-Status) code {{RFC4918}} could be used to encapsulate multiple status messages.
 
+
 ## Members of a Problem Details Object {#members}
 
-A problem details object can have the following members:
+Problem detail objects can have the following members. If the type of a member's value does not match the specified type, the member MUST be ignored -- i.e., processing will continue as if the member had not been present.
 
 ### "type"
 
@@ -177,6 +178,14 @@ If the type URI is a locator (e.g., those with a "http" or "https" scheme), dere
 When "type" contains a relative URI, it is resolved relative to the document's base URI, as per {{RFC3986, Section 5}}. However, using relative URIs can cause confusion, and they might not be handled correctly by all implementations.
 
 For example, if the two resources "https://api.example.org/foo/bar/123" and "https://api.example.org/widget/456" both respond with a "type" equal to the relative URI reference "example-problem", when resolved they will identify different resources ("https://api.example.org/foo/bar/example-problem" and "https://api.example.org/widget/example-problem" respectively). As a result, it is RECOMMENDED that absolute URIs be used in "type" when possible, and that when relative URIs are used, they include the full path (e.g., "/types/123").
+
+The type URI can also be a non-resolvable URI. For example, the tag URI scheme {{?RFC4151}} can be used to uniquely identify problem types:
+
+~~~
+tag:mnot@mnot.net,2021-09-17:OutOfLuck
+~~~
+
+Non-resolvable URIs ought not be used when there is some future possibility that it might become desireable to do so. For example, if the URI above were used in an API and later a tool was adopted that resolves type URIs to discover information about the error, taking advantage of that capability would require switching to a resolvable URI, thereby creating a new identity for the problem type and thus introducing a breaking change.
 
 
 ### "status"
