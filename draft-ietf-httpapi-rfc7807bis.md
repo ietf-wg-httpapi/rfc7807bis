@@ -237,7 +237,7 @@ Consumers can use the status member to determine what the original status code u
 
 ### "title"
 
-The title member is a JSON string containing a short, human-readable summary of the problem type.
+The "title" member is a JSON string containing a short, human-readable summary of the problem type.
 
 It SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization (e.g., using proactive content negotiation; see {{HTTP, Section 12.1}}).
 
