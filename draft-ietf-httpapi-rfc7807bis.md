@@ -157,7 +157,7 @@ Content-Language: en
             },
             {
               "detail": "must be 'green', 'red' or 'blue'",
-              "instance": "/profile-background-color"
+              "instance": "/profile-background-color/yellow"
             }
   ]
 }
