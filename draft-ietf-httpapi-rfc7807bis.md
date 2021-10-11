@@ -150,7 +150,6 @@ Content-Language: en
 {
   "type": "https://example.net/validation-error",
   "title": "The request is invalid",
-  "status": 400,
   "causes": [
             {
               "detail": "must be a positive integer",
@@ -174,22 +173,24 @@ Content-Language: en
 
 {
   "type": "https://example.net/multiple-errors",
-  "title": "The request has multiple problems",
-  "status": 207,
+  "title": "The request has multiple errors",
   "causes": [
             {
+              "type": "https://example.net/validation-error",
               "title": "Invalid value",
               "status": 400,
               "detail": "must be a positive integer",
               "instance": "/age/-50"
             },
             {
+              "type": "https://example.net/validation-error",
               "title": "Invalid value",
               "status": 400,
               "detail": "must be 'green', 'red' or 'blue'",
               "instance": "/profile-background-color/yellow"
             },
             {
+              "type": "https://example.net/unauthorized-error",
               "title": "You do not have enough credit.",
               "status": 403,
               "detail": "Your current balance is 30, but that costs 50.",
