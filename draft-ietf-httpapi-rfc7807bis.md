@@ -42,6 +42,7 @@ author:
     ins: S. Dalal
     name: Sanjay Dalal
     organization:
+    country: United States of America
     email: sanjay.dalal@cal.berkeley.edu
     uri: https://github.com/sdatspun2
 
@@ -130,7 +131,7 @@ Content-Language: en
  "type": "https://example.com/probs/out-of-credit",
  "title": "You do not have enough credit.",
  "detail": "Your current balance is 30, but that costs 50.",
- "instance": "/account/12345/msgs/abc",
+ "instance": "/amount/value/50",
  "balance": 30,
  "accounts": ["/account/12345",
               "/account/67890"]
@@ -147,21 +148,58 @@ Content-Type: application/problem+json
 Content-Language: en
 
 {
-"type": "https://example.net/validation-error",
-"title": "Your request parameters didn't validate.",
-"invalid_params": [ {
-                      "name": "age",
-                      "reason": "must be a positive integer"
-                    },
-                    {
-                      "name": "color",
-                      "reason": "must be 'green', 'red' or 'blue'"}
-                  ]
+  "type": "https://example.net/validation-error",
+  "title": "The request is invalid",
+  "status": 400,
+  "causes": [
+            {
+              "detail": "must be a positive integer",
+              "instance": "/age/-50"
+            },
+            {
+              "detail": "must be 'green', 'red' or 'blue'",
+              "instance": "/profile-background-color"
+            }
+  ]
 }
 ~~~
 
-Note that this requires each of the subproblems to be similar enough to use the same HTTP status code. If they do not, the 207 (Multi-Status) code {{RFC4918}} could be used to encapsulate multiple status messages.
+Note that this requires each of the subproblems to be similar enough to use the same HTTP status code. If they do not, the 207 (Multi-Status) code {{RFC4918}} could be used to encapsulate multiple status messages as shown in the following example.
 
+
+~~~ http-message
+HTTP/1.1 207 Multi-Status
+Content-Type: application/problem+json
+Content-Language: en
+
+{
+  "type": "https://example.net/multiple-errors",
+  "title": "The request has multiple problems",
+  "status": 207,
+  "causes": [
+            {
+              "title": "Invalid value",
+              "status": 400,
+              "detail": "must be a positive integer",
+              "instance": "/age/-50"
+            },
+            {
+              "title": "Invalid value",
+              "status": 400,
+              "detail": "must be 'green', 'red' or 'blue'",
+              "instance": "/profile-background-color/yellow"
+            },
+            {
+              "title": "You do not have enough credit.",
+              "status": 403,
+              "detail": "Your current balance is 30, but that costs 50.",
+              "instance": "/amount/value/50",
+              "balance": 30
+            }
+
+  ]
+}
+~~~
 
 ## Members of a Problem Details Object {#members}
 
@@ -198,7 +236,7 @@ Consumers can use the status member to determine what the original status code u
 
 ### "title"
 
-The "title" member is a JSON string containing a short, human-readable summary of the problem type.
+The title member is a JSON string containing a short, human-readable summary of the problem type.
 
 It SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization (e.g., using proactive content negotiation; see {{HTTP, Section 12.1}}).
 
@@ -308,6 +346,7 @@ The "about:blank" URI {{RFC6694}}, when used as a problem type, indicates that t
 When "about:blank" is used, the title SHOULD be the same as the recommended HTTP status phrase for that code (e.g., "Not Found" for 404, and so on), although it MAY be localized to suit client preferences (expressed with the Accept-Language request header).
 
 Please note that according to how the "type" member is defined ({{members}}), the "about:blank" URI is the default value for that member. Consequently, any problem details object not carrying an explicit "type" member implicitly uses this URI.
+
 
 
 # Security Considerations {#security-considerations}
