@@ -213,9 +213,9 @@ Consumers SHOULD NOT parse the "detail" member for information; extensions are m
 
 ### "instance"
 
-The "instance" member is a JSON string containing a URI reference that identifies the specific occurrence of the problem. It may or may not yield further information if dereferenced.
+The "instance" member is a JSON string containing a URI reference that identifies the specific occurrence of the problem.
 
-When the "instance" URI is dereferenceable it can return the same problem response that was returned to the client which generated the problem originally. It might also return more information about the problem occurrence in other formats (e.g., using proactive content negotiation; see {{HTTP, Section 12.5.1}}).
+When the "instance" URI is dereferenceable, the problem details object can be fetched from it. It might also return information about the problem occurrence in other formats through use of proactive content negotiation (see {{HTTP, Section 12.5.1}}).
 
 When the "instance" URI is not dereferenceable, it serves as a unique identifier for the problem occurrence that may be of significance to the server, but is opaque to the client.
 
