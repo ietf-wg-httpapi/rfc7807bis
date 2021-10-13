@@ -153,11 +153,11 @@ Content-Language: en
   "causes": [
             {
               "detail": "must be a positive integer",
-              "instance": "/age/-50"
+              "instance": "#/age"
             },
             {
               "detail": "must be 'green', 'red' or 'blue'",
-              "instance": "/profile-background-color/yellow"
+              "instance": "#/profile-background-color"
             }
   ]
 }
@@ -180,21 +180,21 @@ Content-Language: en
               "title": "Invalid value",
               "status": 400,
               "detail": "must be a positive integer",
-              "instance": "/age/-50"
+              "instance": "#/age"
             },
             {
               "type": "https://example.net/validation-error",
               "title": "Invalid value",
               "status": 400,
               "detail": "must be 'green', 'red' or 'blue'",
-              "instance": "/profile-background-color/yellow"
+              "instance": "#/profile-background-color"
             },
             {
               "type": "https://example.net/unauthorized-error",
               "title": "You do not have enough credit.",
               "status": 403,
               "detail": "Your current balance is 30, but that costs 50.",
-              "instance": "/amount/value/50",
+              "instance": "#/amount/value",
               "balance": 30
             }
 
@@ -259,12 +259,35 @@ When "instance" contains a relative URI, it is resolved relative to the document
 
 For example, if the two resources "https://api.example.org/foo/bar/123" and "https://api.example.org/widget/456" both respond with an "instance" equal to the relative URI reference "example-instance", when resolved they will identify different resources ("https://api.example.org/foo/bar/example-instance" and "https://api.example.org/widget/example-instance" respectively). As a result, it is RECOMMENDED that absolute URIs be used in "instance" when possible, and that when relative URIs are used, they include the full path (e.g., "/instances/123").
 
+When "instance" contains a URI fragment identifier, as per {{RFC3986, Section 3.5}}, it SHOULD be resolved relative to the representation of the request to indicate a the specific occurrence of the problem in the request. The URI fragment identifier SHOULD only be used to identify problem occurrence associated with client side errors 4xx.
+
+For example, given the JSON representation of a request with problem
+
+~~~ json
+{
+      "size": ["small", "medium", "large"],
+      "amount": {
+        "value": 50,
+        "currency": "USD"
+      },
+      "age": -50,
+      "profile-background-color": "yellow"
+}
+~~~
+
+The following URI fragment identifiers provided in "instance" would evaluate to the accompanying values
+
+  "#/size"                         ["small", "medium", "large"]
+  "#/size/0"                       "small"
+  "#/age/value"                   -50
+  "#/profile-background-color"    "yellow"
+
 
 ## Extension Members
 
 Problem type definitions MAY extend the problem details object with additional members.
 
-For example, our "out of credit" problem above defines two such extensions -- "balance" and "accounts" to convey additional, problem-specific information.
+For example, our "out of credit" problem above defines two such extensions -- "balance" and "accounts" to convey additional, problem-specific information. Similarly, the "Multi-Status" example defines two extensions -- "causes" and "balance".
 
 Clients consuming problem details MUST ignore any such extensions that they don't recognize; this allows problem types to evolve and include additional information in the future.
 
