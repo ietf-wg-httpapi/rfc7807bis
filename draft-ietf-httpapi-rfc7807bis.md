@@ -131,7 +131,7 @@ Content-Language: en
  "type": "https://example.com/probs/out-of-credit",
  "title": "You do not have enough credit.",
  "detail": "Your current balance is 30, but that costs 50.",
- "instance": "/amount/value/50",
+ "instance": "/account/12345/msgs/abc",
  "balance": 30,
  "accounts": ["/account/12345",
               "/account/67890"]
@@ -148,22 +148,23 @@ Content-Type: application/problem+json
 Content-Language: en
 
 {
-  "type": "https://example.net/validation-error",
-  "title": "The request is invalid",
-  "causes": [
-            {
-              "detail": "must be a positive integer",
-              "instance": "#/age"
-            },
-            {
-              "detail": "must be 'green', 'red' or 'blue'",
-              "instance": "#/profile-background-color"
-            }
-  ]
-}
+ "type": "https://example.net/validation-error",
+ "title": "Your request is not valid.",
+ "status": 400,
+ "causes": [
+             {
+               "detail": "must be a positive integer",
+               "property_location": "#/age"
+             },
+             {
+               "detail": "must be 'green', 'red' or 'blue'",
+               "property_location": "#/profile/color"
+             }
+          ]     
+  }
 ~~~
 
-Note that this requires each of the subproblems to be similar enough to use the same HTTP status code. If they do not, the 207 (Multi-Status) code {{RFC4918}} could be used to encapsulate multiple status messages as shown in the following example.
+In this case, the validation-error problem (identified by its type URI) adds two extensions; "causes" is a JSON array that holds multiple problems and "property_location" is a JSON Pointer {::comment}{{RFC6901, Section 6}} says that a given media type needs to specify JSON Pointer as its fragment identifier syntax explicitly (usually, in its registration {{RFC6838}}). Does application/problem+json support JSON Pointer's fragment identifier syntax?{:/comment} that points to the source of problem in corresponding HTTP request. Note that in this example each of the subproblems are similar enough to use the same HTTP status code. If they do not, the 207 (Multi-Status) code {{RFC4918}} could be used to encapsulate multiple status messages as shown in the example below.
 
 
 ~~~ http-message
@@ -172,34 +173,37 @@ Content-Type: application/problem+json
 Content-Language: en
 
 {
-  "type": "https://example.net/multiple-errors",
-  "title": "The request has multiple errors",
-  "causes": [
-            {
+ "type": "https://example.net/multiple-errors",
+ "title": "The request has multiple errors",
+ "instance": "/users/12345/errors/9876",
+ "causes": [
+             {
               "type": "https://example.net/validation-error",
               "title": "Invalid value",
               "status": 400,
               "detail": "must be a positive integer",
-              "instance": "#/age"
-            },
-            {
+              "property_location": "#/age"
+             },
+             {
               "type": "https://example.net/validation-error",
               "title": "Invalid value",
               "status": 400,
               "detail": "must be 'green', 'red' or 'blue'",
-              "instance": "#/profile-background-color"
-            },
-            {
-              "type": "https://example.net/unauthorized-error",
-              "title": "You do not have enough credit.",
-              "status": 403,
-              "detail": "Your current balance is 30, but that costs 50.",
-              "instance": "#/amount/value",
-              "balance": 30
-            }
-
+              "property_location": "#/profile/color"
+             },
+             {
+               "type": "https://example.net/unauthorized-error",
+               "title": "Not allowed",
+               "status": 403,
+               "detail": "Your current plan does not allow to upload background picture.",
+               "property_location": "#/profile/background_picture"
+             }
   ]
 }
+
+Note that here  each subproblem may use different HTTP status code and "type".
+
+
 ~~~
 
 ## Members of a Problem Details Object {#members}
@@ -262,35 +266,34 @@ When "instance" contains a relative URI, it is resolved relative to the document
 
 For example, if the two resources "https://api.example.org/foo/bar/123" and "https://api.example.org/widget/456" both respond with an "instance" equal to the relative URI reference "example-instance", when resolved they will identify different resources ("https://api.example.org/foo/bar/example-instance" and "https://api.example.org/widget/example-instance" respectively). As a result, it is RECOMMENDED that absolute URIs be used in "instance" when possible, and that when relative URIs are used, they include the full path (e.g., "/instances/123").
 
-When "instance" contains a URI fragment identifier, as per {{RFC3986, Section 3.5}}, it SHOULD be resolved relative to the representation of the request to indicate a the specific occurrence of the problem in the request. The URI fragment identifier SHOULD only be used to identify problem occurrence associated with client side errors 4xx.
-
-For example, given the JSON representation of a request with problem
-
-~~~ json
-{
-      "size": ["small", "medium", "large"],
-      "amount": {
-        "value": 50,
-        "currency": "USD"
-      },
-      "age": -50,
-      "profile-background-color": "yellow"
-}
-~~~
-
-The following URI fragment identifiers provided in "instance" would evaluate to the accompanying values
-
-  "#/size"                         ["small", "medium", "large"]
-  "#/size/0"                       "small"
-  "#/age/value"                   -50
-  "#/profile-background-color"    "yellow"
-
 
 ## Extension Members
 
 Problem type definitions MAY extend the problem details object with additional members.
 
-For example, our "out of credit" problem above defines two such extensions -- "balance" and "accounts" to convey additional, problem-specific information. Similarly, the "Multi-Status" example defines two extensions -- "causes" and "balance".
+For example, our "out of credit" problem above defines two such extensions -- "balance" and "accounts" to convey additional, problem-specific information.
+
+Similarly, the "Multi-Status" example defines two extensions -- "causes" and "property_location". Extension "causes" is a JSON array that contains one or more problems. Extension "property_location" is a JSON Pointer {{RFC6901}} that points to the source of the problem in the corresponding HTTP request. For example, given the JSON representation of a request
+
+~~~ json
+{
+ "size": ["small", "medium", "large"],
+ "profile": {
+  "color": "yellow",
+  "background_picture": "https://my.page.com/background"
+ },
+ "age": -50
+}
+~~~
+
+The following JSON Pointers would evaluate to the accompanying values
+
+ "#/size"             ["small", "medium", "large"]
+ "#/size/0"           "small"
+ "#/age"              -50
+ "#/profile/color"    "yellow"
+
+Extensions like "property_location" are more appropriate to use for problems associated with client side errors 4xx only.
 
 Clients consuming problem details MUST ignore any such extensions that they don't recognize; this allows problem types to evolve and include additional information in the future.
 
