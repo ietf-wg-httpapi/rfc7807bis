@@ -61,6 +61,7 @@ informative:
   RFC8288:
   RFC6694:
   RFC6838:
+  RFC6901:
   ISO-19757-2:
     title: "Information Technology -- Document Schema Definition Languages (DSDL) -- Part 2: Grammar-based Validation -- RELAX NG"
     author:
