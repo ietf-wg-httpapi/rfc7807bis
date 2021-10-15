@@ -288,10 +288,12 @@ Similarly, the "Multi-Status" example defines two extensions -- "causes" and "pr
 
 The following JSON Pointers would evaluate to the accompanying values
 
+~~~
  "#/size"             ["small", "medium", "large"]
  "#/size/0"           "small"
  "#/age"              -50
  "#/profile/color"    "yellow"
+~~~
 
 Extensions like "property_location" are more appropriate to use for problems associated with client side errors 4xx only.
 
