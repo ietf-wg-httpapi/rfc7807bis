@@ -155,17 +155,17 @@ Content-Language: en
  "causes": [
              {
                "detail": "must be a positive integer",
-               "property_location": "#/age"
+               "propertyLocation": "#/age"
              },
              {
                "detail": "must be 'green', 'red' or 'blue'",
-               "property_location": "#/profile/color"
+               "propertyLocation": "#/profile/color"
              }
           ]     
   }
 ~~~
 
-In this case, the validation-error problem (identified by its type URI) adds two extensions; "causes" is a JSON array that holds multiple problems and "property_location" is a JSON Pointer {::comment}{{RFC6901, Section 6}} says that a given media type needs to specify JSON Pointer as its fragment identifier syntax explicitly (usually, in its registration {{RFC6838}}). Does application/problem+json support JSON Pointer's fragment identifier syntax?{:/comment} that points to the source of problem in corresponding HTTP request. Note that in this example each of the subproblems are similar enough to use the same HTTP status code. If they do not, the 207 (Multi-Status) code {{RFC4918}} could be used to encapsulate multiple status messages as shown in the example below.
+In this case, the validation-error problem (identified by its type URI) adds two extensions; "causes" is a JSON array that holds multiple problems and "propertyLocation" is a JSON Pointer {::comment}{{RFC6901, Section 6}} says that a given media type needs to specify JSON Pointer as its fragment identifier syntax explicitly (usually, in its registration {{RFC6838}}). Does application/problem+json support JSON Pointer's fragment identifier syntax?{:/comment} that points to the source of problem in corresponding HTTP request. Note that in this example each of the subproblems are similar enough to use the same HTTP status code. If they do not, the 207 (Multi-Status) code {{RFC4918}} could be used to encapsulate multiple status messages as shown in the example below.
 
 
 ~~~ http-message
@@ -183,21 +183,21 @@ Content-Language: en
               "title": "Invalid value",
               "status": 400,
               "detail": "must be a positive integer",
-              "property_location": "#/age"
+              "propertyLocation": "#/age"
              },
              {
               "type": "https://example.net/validation-error",
               "title": "Invalid value",
               "status": 400,
               "detail": "must be 'green', 'red' or 'blue'",
-              "property_location": "#/profile/color"
+              "propertyLocation": "#/profile/color"
              },
              {
                "type": "https://example.net/unauthorized-error",
                "title": "Not allowed",
                "status": 403,
                "detail": "Your current plan does not allow to upload background picture.",
-               "property_location": "#/profile/background_picture"
+               "propertyLocation": "#/profile/backgroundPicture"
              }
   ]
 }
@@ -274,14 +274,14 @@ Problem type definitions MAY extend the problem details object with additional m
 
 For example, our "out of credit" problem above defines two such extensions -- "balance" and "accounts" to convey additional, problem-specific information.
 
-Similarly, the "Multi-Status" example defines two extensions -- "causes" and "property_location". Extension "causes" is a JSON array that contains one or more problems. Extension "property_location" is a JSON Pointer {{RFC6901}} that points to the source of the problem in the corresponding HTTP request. For example, given the JSON representation of a request
+Similarly, the "Multi-Status" example defines two extensions -- "causes" and "propertyLocation". Extension "causes" is a JSON array that contains one or more problems. Extension "propertyLocation" is a JSON Pointer {{RFC6901}} that points to the source of the problem in the corresponding HTTP request. For example, given the JSON representation of a request
 
 ~~~ json
 {
  "size": ["small", "medium", "large"],
  "profile": {
   "color": "yellow",
-  "background_picture": "https://my.page.com/background"
+  "backgroundPicture": "https://my.page.com/background"
  },
  "age": -50
 }
@@ -296,7 +296,7 @@ The following JSON Pointers would evaluate to the accompanying values
  "#/profile/color"    "yellow"
 ~~~
 
-Extensions like "property_location" are more appropriate to use for problems associated with client side errors 4xx only.
+Extensions like "propertyLocation" are more appropriate to use for problems associated with client side errors 4xx only.
 
 Clients consuming problem details MUST ignore any such extensions that they don't recognize; this allows problem types to evolve and include additional information in the future.
 
