@@ -165,7 +165,7 @@ Content-Language: en
   }
 ~~~
 
-In this case, the validation-error problem (identified by its type URI) adds two extensions; "causes" is a JSON array that holds multiple problems and "problem-pointer" is a JSON Pointer {::comment}{{RFC6901, Section 6}} says that a given media type needs to specify JSON Pointer as its fragment identifier syntax explicitly (usually, in its registration {{RFC6838}}). Does application/problem+json support JSON Pointer's fragment identifier syntax?{:/comment} that points to the source of problem in corresponding HTTP request. Note that in this example each of the subproblems are similar enough to use the same HTTP status code. If they do not, the 207 (Multi-Status) code {{RFC4918}} could be used to encapsulate multiple status messages as shown in the example below.
+In this case, the validation-error problem (identified by its type URI) adds two extensions; "causes" is a JSON array that holds multiple problems and "problem-pointer" is a JSON Pointer that points to the source of problem in corresponding HTTP request. Note that in this example each of the subproblems are similar enough to use the same HTTP status code. If they do not, the 207 (Multi-Status) code {{RFC4918}} could be used to encapsulate multiple status messages as shown in the example below.
 
 
 ~~~ http-message
@@ -274,29 +274,7 @@ Problem type definitions MAY extend the problem details object with additional m
 
 For example, our "out of credit" problem above defines two such extensions -- "balance" and "accounts" to convey additional, problem-specific information.
 
-Similarly, the "Multi-Status" example defines two extensions -- "causes" and "problem-pointer". Extension "causes" is a JSON array that contains one or more problems. Extension "problem-pointer" is a JSON Pointer {{RFC6901}} that points to the source of the problem in the corresponding HTTP request. For example, given the JSON representation of a request
-
-~~~ json
-{
- "size": ["small", "medium", "large"],
- "profile": {
-  "color": "yellow",
-  "backgroundPicture": "https://my.page.com/background"
- },
- "age": -50
-}
-~~~
-
-The following JSON Pointers would evaluate to the accompanying values
-
-~~~
- "#/size"             ["small", "medium", "large"]
- "#/size/0"           "small"
- "#/age"              -50
- "#/profile/color"    "yellow"
-~~~
-
-Extensions like "problem-pointer" are more appropriate to use for problems associated with client side errors 4xx only.
+Similarly, the "Multi-Status" example defines two extensions -- "causes" and "problem-pointer". Extensions like "problem-pointer" are more appropriate to use for problems associated with client side errors 4xx only.
 
 Clients consuming problem details MUST ignore any such extensions that they don't recognize; this allows problem types to evolve and include additional information in the future.
 
