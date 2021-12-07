@@ -42,6 +42,7 @@ author:
     ins: S. Dalal
     name: Sanjay Dalal
     organization:
+    country: United States of America
     email: sanjay.dalal@cal.berkeley.edu
     uri: https://github.com/sdatspun2
 
@@ -60,6 +61,7 @@ informative:
   RFC8288:
   RFC6694:
   RFC6838:
+  RFC6901:
   ISO-19757-2:
     title: "Information Technology -- Document Schema Definition Languages (DSDL) -- Part 2: Grammar-based Validation -- RELAX NG"
     author:
@@ -147,21 +149,63 @@ Content-Type: application/problem+json
 Content-Language: en
 
 {
-"type": "https://example.net/validation-error",
-"title": "Your request parameters didn't validate.",
-"invalid_params": [ {
-                      "name": "age",
-                      "reason": "must be a positive integer"
-                    },
-                    {
-                      "name": "color",
-                      "reason": "must be 'green', 'red' or 'blue'"}
-                  ]
-}
+ "type": "https://example.net/validation-error",
+ "title": "Your request is not valid.",
+ "status": 400,
+ "causes": [
+             {
+               "detail": "must be a positive integer",
+               "problem-pointer": "#/age"
+             },
+             {
+               "detail": "must be 'green', 'red' or 'blue'",
+               "problem-pointer": "#/profile/color"
+             }
+          ]     
+  }
 ~~~
 
-Note that this requires each of the subproblems to be similar enough to use the same HTTP status code. If they do not, the 207 (Multi-Status) code {{RFC4918}} could be used to encapsulate multiple status messages.
+In this case, the validation-error problem (identified by its type URI) adds two extensions; "causes" is a JSON array that holds multiple problems and "problem-pointer" is a JSON Pointer that points to the source of problem in corresponding HTTP request. Note that in this example each of the subproblems are similar enough to use the same HTTP status code. If they do not, the 207 (Multi-Status) code {{RFC4918}} could be used to encapsulate multiple status messages as shown in the example below.
 
+
+~~~ http-message
+HTTP/1.1 207 Multi-Status
+Content-Type: application/problem+json
+Content-Language: en
+
+{
+ "type": "https://example.net/multiple-errors",
+ "title": "The request has multiple errors",
+ "instance": "/users/12345/errors/9876",
+ "causes": [
+             {
+              "type": "https://example.net/validation-error",
+              "title": "Invalid value",
+              "status": 400,
+              "detail": "must be a positive integer",
+              "problem-pointer": "#/age"
+             },
+             {
+              "type": "https://example.net/validation-error",
+              "title": "Invalid value",
+              "status": 400,
+              "detail": "must be 'green', 'red' or 'blue'",
+              "problem-pointer": "#/profile/color"
+             },
+             {
+               "type": "https://example.net/unauthorized-error",
+               "title": "Not allowed",
+               "status": 403,
+               "detail": "Your current plan does not allow to upload background picture.",
+               "problem-pointer": "#/profile/backgroundPicture"
+             }
+  ]
+}
+
+Note that here  each subproblem may use different HTTP status code and "type".
+
+
+~~~
 
 ## Members of a Problem Details Object {#members}
 
@@ -229,6 +273,8 @@ For example, if the two resources "https://api.example.org/foo/bar/123" and "htt
 Problem type definitions MAY extend the problem details object with additional members.
 
 For example, our "out of credit" problem above defines two such extensions -- "balance" and "accounts" to convey additional, problem-specific information.
+
+Similarly, the "Multi-Status" example defines two extensions -- "causes" and "problem-pointer". Extensions like "problem-pointer" are more appropriate to use for problems associated with client side errors 4xx only.
 
 Clients consuming problem details MUST ignore any such extensions that they don't recognize; this allows problem types to evolve and include additional information in the future.
 
@@ -311,6 +357,7 @@ The "about:blank" URI {{RFC6694}}, when used as a problem type, indicates that t
 When "about:blank" is used, the title SHOULD be the same as the recommended HTTP status phrase for that code (e.g., "Not Found" for 404, and so on), although it MAY be localized to suit client preferences (expressed with the Accept-Language request header).
 
 Please note that according to how the "type" member is defined ({{members}}), the "about:blank" URI is the default value for that member. Consequently, any problem details object not carrying an explicit "type" member implicitly uses this URI.
+
 
 
 # Security Considerations {#security-considerations}
