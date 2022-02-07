@@ -82,7 +82,7 @@ informative:
 
 --- abstract
 
-This document defines a "problem detail" as a way to carry machine-readable details of errors in a HTTP response to avoid the need to define new error response formats for HTTP APIs.
+This document defines a "problem detail" to carry machine-readable details of errors in a HTTP response to avoid the need to define new error response formats for HTTP APIs.
 
 
 --- middle
@@ -90,25 +90,21 @@ This document defines a "problem detail" as a way to carry machine-readable deta
 
 # Introduction
 
-HTTP {{HTTP}} status codes are sometimes not sufficient to convey enough information about an error to be helpful. While humans behind Web browsers can be informed about the nature of the problem with an HTML {{HTML5}} response body, non-human consumers of so-called "HTTP APIs" are usually not.
+HTTP status codes ({{Section 15 of HTTP}}) cannot always convey enough information about errors to be helpful. While humans using Web browsers can often understand an HTML {{HTML5}} response body, non-human consumers of HTTP APIs have difficulty doing so.
 
-This specification defines simple JSON {{RFC8259}} and XML {{XML}} document formats to suit this purpose. They are designed to be reused by HTTP APIs, which can identify distinct "problem types" specific to their needs.
+To address that shortcoming, this specification defines simple JSON {{RFC8259}} and XML {{XML}} document formats to describe the specifics of problem(s) encountered -- "problem details".
 
-Thus, API clients can be informed of both the high-level error class (using the status code) and the finer-grained details of the problem (using one of these formats).
+For example, consider a response indicating that the client's account doesn't have enough credit. The API's designer might decide to use the 403 Forbidden status code to inform HTTP-generic software (such as client libraries, caches, and proxies) of the response's general semantics. API-specific problem details (such as the why the server refused the request and the applicable account balance) can be carried in the response content, so that the client can act upon them appropriately (for example, triggering a transfer of more credit into the account).
 
-For example, consider a response that indicates that the client's account doesn't have enough credit. The 403 Forbidden status code might be deemed most appropriate to use, as it will inform HTTP-generic software (such as client libraries, caches, and proxies) of the general semantics of the response.
+This specification identifies the specific "problem type" (e.g., "out of credit") with a URI {{RFC3986}}. HTTP APIs can use URIs under their control to identify problems specific to them, or can reuse existing ones to facilitate interoperability and leverage common semantics (see {{registry}}).
 
-However, that doesn't give the API client enough information about why the request was forbidden, the applicable account balance, or how to correct the problem. If these details are included in the response body in a machine-readable format, the client can treat it appropriately; for example, triggering a transfer of more credit into the account.
+Problem details can contain other information, such as a URI identifying the problem's specific occurrence (effectively giving an identifier to the concept "The time Joe didn't have enough credit last Thursday"), which can be useful for support or forensic purposes.
 
-This specification does this by identifying a specific type of problem (e.g., "out of credit") with a URI {{RFC3986}}; HTTP APIs can do this by nominating new URIs under their control, or by reusing existing ones.
+The data model for problem details is a JSON {{RFC8259}} object; when serialized as a JSON document, it uses the "application/problem+json" media type. {{xml-syntax}} defines an equivalent XML format, which uses the "application/problem+xml" media type.
 
-Additionally, problem details can contain other information, such as a URI that identifies the specific occurrence of the problem (effectively giving an identifier to the concept "The time Joe didn't have enough credit last Thursday"), which can be useful for support or forensic purposes.
+Note that problem details are (naturally) not the only way to convey the details of a problem in HTTP. If the response is still a representation of a resource, for example, it's often preferable to describe the relevant details in that application's format. Likewise, defined HTTP status codes cover many situations with no need to convey extra detail.
 
-The data model for problem details is a JSON {{RFC8259}} object; when formatted as a JSON document, it uses the "application/problem+json" media type. {{xml-syntax}} defines how to express them in an equivalent XML format, which uses the "application/problem+xml" media type.
-
-Note that problem details are (naturally) not the only way to convey the details of a problem in HTTP; if the response is still a representation of a resource, for example, it's often preferable to accommodate describing the relevant details in that application's format. Likewise, in many situations, there is an appropriate HTTP status code that does not require extra detail to be conveyed.
-
-Instead, the aim of this specification is to define common error formats for those applications that need one, so that they aren't required to define their own, or worse, tempted to redefine the semantics of existing HTTP status codes. Even if an application chooses not to use it to convey errors, reviewing its design can help guide the design decisions faced when conveying errors in an existing format.
+This specification's aim is to define common error formats for applications that need one so that they aren't required to define their own, or worse, tempted to redefine the semantics of existing HTTP status codes. Even if an application chooses not to use it to convey errors, reviewing its design can help guide the design decisions faced when conveying errors in an existing format.
 
 # Requirements
 
