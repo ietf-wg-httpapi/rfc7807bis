@@ -203,15 +203,15 @@ Content-Language: en
 
 ## Members of a Problem Details Object {#members}
 
-Problem detail objects can have the following members. If the type of a member's value does not match the specified type, the member MUST be ignored -- i.e., processing will continue as if the member had not been present.
+Problem detail objects can have the following members. If a member's value type does not match the specified type, the member MUST be ignored -- i.e., processing will continue as if the member had not been present.
 
 ### "type"
 
-The "type" member is a JSON string containing a URI reference {{RFC3986}} that identifies the problem type. Consumers MUST use the "type" URI (after resolution, if necessary) as the primary identifier for the problem type.
+The "type" member is a JSON string containing a URI reference {{RFC3986}} that identifies the problem type. Consumers MUST use the "type" URI (after resolution, if necessary) problem's primary identifier.
 
 When this member is not present, its value is assumed to be "about:blank".
 
-If the type URI is a locator (e.g., those with a "http" or "https" scheme), dereferencing it SHOULD provide human-readable documentation for the problem type (e.g., using HTML {{HTML5}}). However, consumers SHOULD NOT automatically dereference the type URI, unless they do so in the course of providing information to developers (e.g., when a debugging tool is in use).
+If the type URI is a locator (e.g., those with a "http" or "https" scheme), dereferencing it SHOULD provide human-readable documentation for the problem type (e.g., using HTML {{HTML5}}). However, consumers SHOULD NOT automatically dereference the type URI, unless they do so when providing information to developers (e.g., when a debugging tool is in use).
 
 When "type" contains a relative URI, it is resolved relative to the document's base URI, as per {{RFC3986, Section 5}}. However, using relative URIs can cause confusion, and they might not be handled correctly by all implementations.
 
@@ -223,7 +223,7 @@ The type URI can also be a non-resolvable URI. For example, the tag URI scheme {
 tag:mnot@mnot.net,2021-09-17:OutOfLuck
 ~~~
 
-Non-resolvable URIs ought not be used when there is some future possibility that it might become desireable to do so. For example, if the URI above were used in an API and later a tool was adopted that resolves type URIs to discover information about the error, taking advantage of that capability would require switching to a resolvable URI, thereby creating a new identity for the problem type and thus introducing a breaking change.
+Non-resolvable URIs ought not be used when there is some future possibility that it might become desirable to do so. For example, if an API designer used the URI above and later adopted a tool that resolves type URIs to discover information about the error, taking advantage of that capability would require switching to a resolvable URI, creating a new identity for the problem type and thus introducing a breaking change.
 
 ### "status"
 
@@ -237,9 +237,9 @@ Consumers can use the status member to determine what the original status code u
 
 The "title" member is a JSON string containing a short, human-readable summary of the problem type.
 
-It SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization (e.g., using proactive content negotiation; see {{HTTP, Section 12.1}}).
+It SHOULD NOT change from occurrence to occurrence of the problem, except for localization (e.g., using proactive content negotiation; see {{HTTP, Section 12.1}}).
 
-The "title" string is advisory and included only for users who are not aware of the semantics of the URI and do not have the ability to discover them (e.g., offline log analysis).
+The "title" string is advisory and included only for users who are not aware of the semantics of the URI and can not discover them (e.g., during offline log analysis).
 
 ### "detail"
 
@@ -283,7 +283,7 @@ Before doing so, it's important to understand what they are good for, and what's
 
 Problem details are not a debugging tool for the underlying implementation; rather, they are a way to expose greater detail about the HTTP interface itself. Designers of new problem types need to carefully consider the Security Considerations ({{security-considerations}}), in particular, the risk of exposing attack vectors by exposing implementation internals through error messages.
 
-Likewise, truly generic problems -- i.e., conditions that could potentially apply to any resource on the Web -- are usually better expressed as plain status codes. For example, a "write access disallowed" problem is probably unnecessary, since a 403 Forbidden status code in response to a PUT request is self-explanatory.
+Likewise, truly generic problems -- i.e., conditions that might apply to any resource on the Web -- are usually better expressed as plain status codes. For example, a "write access disallowed" problem is probably unnecessary, since a 403 Forbidden status code in response to a PUT request is self-explanatory.
 
 Finally, an application might have a more appropriate way to carry an error in a format that it already defines. Problem details are intended to avoid the necessity of establishing new "fault" or "error" document formats, not to replace existing domain-specific formats.
 
@@ -299,31 +299,29 @@ Problem type definitions MAY specify the use of the Retry-After response header 
 
 A problem's type URI SHOULD resolve to HTML {{HTML5}} documentation that explains how to resolve the problem.
 
-A problem type definition MAY specify additional members on the problem details object. For example, an extension might use typed links {{RFC8288}} to another resource that can be used by machines to resolve the problem.
+A problem type definition MAY specify additional members on the problem details object. For example, an extension might use typed links {{RFC8288}} to another resource that machines can use to resolve the problem.
 
-If such additional members are defined, their names SHOULD start with a letter (ALPHA, as per {{RFC5234, Section B.1}}) and SHOULD consist of characters from ALPHA, DIGIT ({{RFC5234, Section B.1}}), and "_" (so that it can be serialized in formats other than JSON), and they SHOULD be three characters or longer.
+If such additional members are defined, their names SHOULD start with a letter (ALPHA, as per {{RFC5234, Section B.1}}) and SHOULD comprise characters from ALPHA, DIGIT ({{RFC5234, Section B.1}}), and "_" (so that it can be serialized in formats other than JSON), and they SHOULD be three characters or longer.
 
 
 ## Example
 
 For example, if you are publishing an HTTP API to your online shopping cart, you might need to indicate that the user is out of credit (our example from above), and therefore cannot make the purchase.
 
-If you already have an application-specific format that can accommodate this information, it's probably best to do that. However, if you don't, you might consider using one of the problem details formats -- JSON if your API is JSON-based, or XML if it uses that format.
+If you already have an application-specific format that can accommodate this information, it's probably best to do that. However, if you don't, you might use one of the problem details formats -- JSON if your API is JSON-based, or XML if it uses that format.
 
-To do so, you might look for an already-defined type URI that suits your purposes. If one is available, you can reuse that URI.
+To do so, you might look in the registry ({{registry}}) for an already-defined type URI that suits your purposes. If one is available, you can reuse that URI.
 
 If one isn't available, you could mint and document a new type URI (which ought to be under your control and stable over time), an appropriate title and the HTTP status code that it will be used with, along with what it means and how it should be handled.
-
-In summary: an instance URI will always identify a specific occurrence of a problem. On the other hand, type URIs can be reused if an appropriate description of a problem type is already available someplace else, or they can be created for new problem types.
 
 
 ## Registered Problem Types {#registry}
 
 This specification defines the HTTP Problem Type registry for common, widely-used problem type URIs, to promote reuse.
 
-Registration requests are reviewed and approved by a Designated Expert, as per {{RFC8126, Section 4.5}}. A specification document is appreciated, but not required.
+A Designated Expert reviews and approves registration requests, as per {{RFC8126, Section 4.5}}. A specification document is appreciated, but not required.
 
-When evaluating requests the Expert(s) should consider community feedback, how well-defined the problem type is, and this specification's requirements. Vendor-specific, application-specific, and deployment-specific values are not registrable.
+When evaluating requests, the Expert(s) should consider community feedback, how well-defined the problem type is, and this specification's requirements. Vendor-specific, application-specific, and deployment-specific values are not registrable.
 
 Registrations MAY use the prefix "https://iana.org/assignments/http-problem-types#", and are encouraged to do so when a stable, neutral URI is desirable.
 
@@ -362,9 +360,7 @@ Risks include leaking information that can be exploited to compromise the system
 
 Generators providing links to occurrence information are encouraged to avoid making implementation details such as a stack dump available through the HTTP interface, since this can expose sensitive details of the server implementation, its data, and so on.
 
-The "status" member duplicates the information available in the HTTP status code itself, thereby bringing the possibility of disagreement between the two. Their relative precedence is not clear, since a disagreement might indicate that (for example) an intermediary has modified the HTTP status code in transit (e.g., by a proxy or cache).
-
-As such, those defining problem types as well as generators and consumers of problems need to be aware that generic software (such as proxies, load balancers, firewalls, and virus scanners) are unlikely to know of or respect the status code conveyed in this member.
+The "status" member duplicates the information available in the HTTP status code itself, bringing the possibility of disagreement between the two. Their relative precedence is not clear, since a disagreement might indicate that (for example) an intermediary has changed the HTTP status code in transit (e.g., by a proxy or cache). Generic HTTP software (such as proxies, load balancers, firewalls, and virus scanners) are unlikely to know of or respect the status code conveyed in this member.
 
 
 # IANA Considerations
@@ -389,9 +385,9 @@ This section presents a non-normative JSON Schema {{?I-D.draft-bhutton-json-sche
 
 # HTTP Problems and XML {#xml-syntax}
 
-Some HTTP-based APIs use XML {{XML}} as their primary format convention. Such APIs can express problem details using the format defined in this appendix.
+HTTP-based APIs that use XML {{XML}} can express problem details using the format defined in this appendix.
 
-The RELAX NG schema {{ISO-19757-2}} for the XML format is as follows. Keep in mind that this schema is only meant as documentation, and not as a normative schema that captures all constraints of the XML format. Also, it would be possible to use other XML schema languages to define a similar set of constraints (depending on the features of the chosen schema language).
+The RELAX NG schema {{ISO-19757-2}} for the XML format is:
 
 ~~~ relax-ng-compact-syntax
    default namespace ns = "urn:ietf:rfc:7807"
@@ -412,6 +408,8 @@ The RELAX NG schema {{ISO-19757-2}} for the XML format is as follows. Keep in mi
      (  element    ns:*  { anyNsElement | text }
       | attribute  *     { text })*
 ~~~
+
+Note that this schema is only intended as documentation, and not as a normative schema that captures all constraints of the XML format. It is possible to use other XML schema languages to define a similar set of constraints (depending on the features of the chosen schema language).
 
 The media type for this format is "application/problem+xml".
 
@@ -436,7 +434,7 @@ Content-Language: en
 </problem>
 ~~~
 
-Note that this format uses an XML namespace. This is primarily to allow embedding it into other XML-based formats; it does not imply that it can or should be extended with elements or attributes in other namespaces. The RELAX NG schema explicitly only allows elements from the one namespace used in the XML format. Any extension arrays and objects MUST be serialized into XML markup using only that namespace.
+This format uses an XML namespace, primarily to allow embedding it into other XML-based formats; it does not imply that it can or should be extended with elements or attributes in other namespaces. The RELAX NG schema explicitly only allows elements from the one namespace used in the XML format. Any extension arrays and objects MUST be serialized into XML markup using only that namespace.
 
 When using the XML format, it is possible to embed an XML processing instruction in the XML that instructs clients to transform the XML, using the referenced XSLT code {{XSLT}}. If this code is transforming the XML into (X)HTML, then it is possible to serve the XML format, and yet have clients capable of performing the transformation display human-friendly (X)HTML that is rendered and displayed at the client. Note that when using this method, it is advisable to use XSLT 1.0 in order to maximize the number of clients capable of executing the XSLT code.
 
