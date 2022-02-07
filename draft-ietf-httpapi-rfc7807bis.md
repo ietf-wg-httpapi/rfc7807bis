@@ -135,9 +135,9 @@ Content-Language: en
 }
 ~~~
 
-Here, the out-of-credit problem (identified by its type URI) indicates the reason for the 403 in "title", gives a reference for the specific problem occurrence with "instance", gives occurrence-specific details in "detail", and adds two extensions; "balance" conveys the account's balance, and "accounts" gives links where the account can be topped up.
+Here, the out-of-credit problem (identified by its type) indicates the reason for the 403 in "title", identifies the specific problem occurrence with "instance", gives occurrence-specific details in "detail", and adds two extensions; "balance" conveys the account's balance, and "accounts" lists links where the account can be topped up.
 
-The ability to convey problem-specific extensions allows more than one problem to be conveyed. For example:
+When designed to accommodate it, problem-specific extensions can allow more than one instance of the same problem type to be conveyed. For example:
 
 ~~~ http-message
 HTTP/1.1 400 Bad Request
@@ -147,7 +147,6 @@ Content-Language: en
 {
  "type": "https://example.net/validation-error",
  "title": "Your request is not valid.",
- "status": 400,
  "causes": [
              {
                "detail": "must be a positive integer",
@@ -161,8 +160,9 @@ Content-Language: en
   }
 ~~~
 
-In this case, the validation-error problem (identified by its type URI) adds two extensions; "causes" is a JSON array that holds multiple problems and "problem-pointer" is a JSON Pointer that points to the source of problem in corresponding HTTP request. Note that in this example each of the subproblems are similar enough to use the same HTTP status code. If they do not, the 207 (Multi-Status) code {{RFC4918}} could be used to encapsulate multiple status messages as shown in the example below.
+The fictional problem type here defines the "causes" extension, an array that describes the details of multiple occurrences. Each member is an object containing "detail" to describe the issue, and "problem-pointer" to locate the problem within the request's content using a JSON Pointer {{?RFC6901}}.
 
+When the problems to be conveyed cannot share the same HTTP status code, the 207 (Multi-Status) code {{RFC4918}} could be used to encapsulate multiple status messages as shown in the example below.
 
 ~~~ http-message
 HTTP/1.1 207 Multi-Status
@@ -189,16 +189,14 @@ Content-Language: en
               "problem-pointer": "#/profile/color"
              },
              {
-               "type": "https://example.net/unauthorized-error",
-               "title": "Not allowed",
-               "status": 403,
-               "detail": "Your current plan does not allow to upload background picture.",
-               "problem-pointer": "#/profile/backgroundPicture"
+              "type": "https://example.net/unauthorized-error",
+              "title": "Not allowed",
+              "status": 403,
+              "detail": "Your current plan does not allow to upload background picture.",
+              "problem-pointer": "#/profile/backgroundPicture"
              }
   ]
 }
-
-Note that here  each subproblem may use different HTTP status code and "type".
 
 
 ~~~
