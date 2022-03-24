@@ -210,7 +210,7 @@ It SHOULD NOT change from occurrence to occurrence of the problem, except for lo
 
 The "title" string is advisory and included only for users who are not aware of the semantics of the URI and can not discover them (e.g., during offline log analysis).
 
-### "detail" {#title}
+### "detail" {#detail}
 
 The "detail" member is a JSON string containing a human-readable explanation specific to this occurrence of the problem.
 
@@ -267,7 +267,7 @@ instance:
 
 The title and detail values MUST NOT be serialized in the Problem field if they contain characters that are not allowed by String; see {{Section 3.3.3 of STRUCTURED-FIELDS}}. Practically, this has the effect of limiting them to ASCII strings.
 
-An extension member (see {{extension}}) MAY occur in the Problem field if its name is compatible with the syntax of Dictionary keys (see {{Section of STRUCTURED-FIELDS}}) and if the defining problem type specifies a Structured Type to serialize the value into.
+An extension member (see {{extension}}) MAY occur in the Problem field if its name is compatible with the syntax of Dictionary keys (see {{Section 3.2 of STRUCTURED-FIELDS}}) and if the defining problem type specifies a Structured Type to serialize the value into.
 
 For example:
 
