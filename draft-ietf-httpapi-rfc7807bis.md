@@ -319,11 +319,11 @@ If one isn't available, you could mint and document a new type URI (which ought 
 
 This specification defines the HTTP Problem Type registry for common, widely-used problem type URIs, to promote reuse.
 
-A Designated Expert reviews and approves registration requests, as per {{RFC8126, Section 4.5}}. A specification document is appreciated, but not required.
+The policy for this registry is Specification Required, per {{RFC8126, Section 4.5}}.
 
-When evaluating requests, the Expert(s) should consider community feedback, how well-defined the problem type is, and this specification's requirements. Vendor-specific, application-specific, and deployment-specific values are not registrable.
+When evaluating requests, the Expert(s) should consider community feedback, how well-defined the problem type is, and this specification's requirements. Vendor-specific, application-specific, and deployment-specific values are not registrable. Specification documents should be published in a stable, freely available manner (ideally located with a URL), but need not be standards.
 
-Registrations MAY use the prefix "https://iana.org/assignments/http-problem-types#", and are encouraged to do so when a stable, neutral URI is desirable.
+Registrations MAY use the prefix "https://iana.org/assignments/http-problem-types#" for the type URI.
 
 Registration requests should use the following template:
 
