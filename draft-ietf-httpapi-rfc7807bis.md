@@ -162,44 +162,8 @@ Content-Language: en
 
 The fictional problem type here defines the "causes" extension, an array that describes the details of multiple occurrences. Each member is an object containing "detail" to describe the issue, and "problem-pointer" to locate the problem within the request's content using a JSON Pointer {{?RFC6901}}.
 
-When the problems to be conveyed cannot share the same HTTP status code, the 207 (Multi-Status) code {{RFC4918}} could be used to encapsulate multiple status messages as shown in the example below.
+When an API encounters multiple problems that do not share the same type, it is RECOMMENDED that the most relevant or urgent problem be represented in the response. While it is possible to create generic "batch" problem types that convey multiple, disparate types, they do not map well into HTTP semantics.
 
-~~~ http-message
-HTTP/1.1 207 Multi-Status
-Content-Type: application/problem+json
-Content-Language: en
-
-{
- "type": "https://example.net/multiple-errors",
- "title": "The request has multiple errors",
- "instance": "/users/12345/errors/9876",
- "causes": [
-             {
-              "type": "https://example.net/validation-error",
-              "title": "Invalid value",
-              "status": 400,
-              "detail": "must be a positive integer",
-              "problem-pointer": "#/age"
-             },
-             {
-              "type": "https://example.net/validation-error",
-              "title": "Invalid value",
-              "status": 400,
-              "detail": "must be 'green', 'red' or 'blue'",
-              "problem-pointer": "#/profile/color"
-             },
-             {
-              "type": "https://example.net/unauthorized-error",
-              "title": "Not allowed",
-              "status": 403,
-              "detail": "Your current plan does not allow to upload background picture.",
-              "problem-pointer": "#/profile/backgroundPicture"
-             }
-  ]
-}
-
-
-~~~
 
 ## Members of a Problem Details Object {#members}
 
