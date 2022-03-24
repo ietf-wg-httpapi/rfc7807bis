@@ -241,7 +241,7 @@ Clients consuming problem details MUST ignore any such extensions that they don'
 
 Note that because extensions are effectively put into a namespace by the problem type, it is not possible to define new "standard" members without defining a new media type.
 
-When creating extensions, problem type authors should choose their names carefully. To be used in the XML format (see {{xml-syntax}}), they will need to conform to the Name rule in {{Section 2.3 of XML}}. To be used in the HTTP field (see {{field}}), they will need to conform to the Dictionary key syntax defined in {{Section 3.2 of STRUCTURED-FIELDS}}.
+When creating extensions, problem type authors should choose their names carefully. To be used in the XML format (see {{xml-syntax}}), they will need to conform to the Name rule in {{Section 2.3 of XML}}{:relative="#NT-Name"}. To be used in the HTTP field (see {{field}}), they will need to conform to the Dictionary key syntax defined in {{Section 3.2 of STRUCTURED-FIELDS}}.
 
 Problem type authors that wish their extensions to be usable in the Problem HTTP field (see {{field}}) will also need to define the Structured Type(s) that their values are mapped to.
 
