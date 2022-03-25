@@ -18,9 +18,7 @@ keyword:
   - JSON
   - XML
 
-stand_alone: yes
-smart_quotes: no
-pi: [toc, tocindent, sortrefs, symrefs, strict, compact, comments, inline]
+v: 3
 entity:
   SELF: "RFC nnnn"
 
