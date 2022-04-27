@@ -237,7 +237,7 @@ Similarly, the "validation error" example defines a "causes" extension that cont
 
 Clients consuming problem details MUST ignore any such extensions that they don't recognize; this allows problem types to evolve and include additional information in the future.
 
-Note that because extensions are effectively put into a namespace by the problem type, it is not possible to define new "standard" members without defining a new media type.
+Future updates to this specification might define additional members that are available to all problem types. To avoid conflicts, extension member names SHOULD NOT start with the "*" character.
 
 
 # Defining New Problem Types {#defining}
