@@ -234,8 +234,6 @@ For example, our "out of credit" problem above defines two such extensions -- "b
 
 Similarly, the "validation error" example defines a "causes" extension that contains a list of individual problems of that type found, with details and a pointer to the location of the problem.
 
-two extensions -- "causes" and "problem-pointer". Extensions like "problem-pointer" are more appropriate to use for problems associated with client side errors 4xx only.
-
 Clients consuming problem details MUST ignore any such extensions that they don't recognize; this allows problem types to evolve and include additional information in the future.
 
 Note that because extensions are effectively put into a namespace by the problem type, it is not possible to define new "standard" members without defining a new media type.
