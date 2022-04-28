@@ -148,7 +148,7 @@ Content-Language: en
 {
  "type": "https://example.net/validation-error",
  "title": "Your request is not valid.",
- "causes": [
+ "errors": [
              {
                "detail": "must be a positive integer",
                "problem-pointer": "#/age"
@@ -161,7 +161,7 @@ Content-Language: en
   }
 ~~~
 
-The fictional problem type here defines the "causes" extension, an array that describes the details of multiple occurrences. Each member is an object containing "detail" to describe the issue, and "problem-pointer" to locate the problem within the request's content using a JSON Pointer {{?RFC6901}}.
+The fictional problem type here defines the "errors" extension, an array that describes the details of each validation error. Each member is an object containing "detail" to describe the issue, and "problem-pointer" to locate the problem within the request's content using a JSON Pointer {{?RFC6901}}.
 
 When an API encounters multiple problems that do not share the same type, it is RECOMMENDED that the most relevant or urgent problem be represented in the response. While it is possible to create generic "batch" problem types that convey multiple, disparate types, they do not map well into HTTP semantics.
 
@@ -233,7 +233,7 @@ Problem type definitions MAY extend the problem details object with additional m
 
 For example, our "out of credit" problem above defines two such extensions -- "balance" and "accounts" to convey additional, problem-specific information.
 
-Similarly, the "validation error" example defines a "causes" extension that contains a list of individual problems of that type found, with details and a pointer to the location of the problem.
+Similarly, the "validation error" example defines a "errors" extension that contains a list of individual error occurrences found, with details and a pointer to the location of each.
 
 Clients consuming problem details MUST ignore any such extensions that they don't recognize; this allows problem types to evolve and include additional information in the future.
 
