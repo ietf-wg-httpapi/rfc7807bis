@@ -229,7 +229,7 @@ For example, if the two resources "https://api.example.org/foo/bar/123" and "htt
 
 ## Extension Members
 
-Problem type definitions MAY extend the problem details object with additional members.
+Problem type definitions MAY extend the problem details object with additional members that are specific to that problem type.
 
 For example, our "out of credit" problem above defines two such extensions -- "balance" and "accounts" to convey additional, problem-specific information.
 
@@ -237,7 +237,7 @@ Similarly, the "validation error" example defines a "errors" extension that cont
 
 Clients consuming problem details MUST ignore any such extensions that they don't recognize; this allows problem types to evolve and include additional information in the future.
 
-Future updates to this specification might define additional members that are available to all problem types. To avoid conflicts, extension member names SHOULD NOT start with the "*" character.
+Future updates to this specification might define additional members that are available to all problem types, distinguished by a name starting with "\*". To avoid conflicts, extension member names SHOULD NOT start with the "*" character.
 
 
 # Defining New Problem Types {#defining}
