@@ -105,6 +105,7 @@ Note that problem details are (naturally) not the only way to convey the details
 
 This specification's aim is to define common error formats for applications that need one so that they aren't required to define their own, or worse, tempted to redefine the semantics of existing HTTP status codes. Even if an application chooses not to use it to convey errors, reviewing its design can help guide the design decisions faced when conveying errors in an existing format.
 
+
 # Notational Conventions
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 {{!RFC2119}} {{!RFC8174}} when, and only when, they appear in all capitals, as shown here.
@@ -148,7 +149,7 @@ Content-Language: en
 {
  "type": "https://example.net/validation-error",
  "title": "Your request is not valid.",
- "causes": [
+ "errors": [
              {
                "detail": "must be a positive integer",
                "problem-pointer": "#/age"
@@ -161,7 +162,7 @@ Content-Language: en
   }
 ~~~
 
-The fictional problem type here defines the "causes" extension, an array that describes the details of multiple occurrences. Each member is an object containing "detail" to describe the issue, and "problem-pointer" to locate the problem within the request's content using a JSON Pointer {{?RFC6901}}.
+The fictional problem type here defines the "errors" extension, an array that describes the details of each validation error. Each member is an object containing "detail" to describe the issue, and "problem-pointer" to locate the problem within the request's content using a JSON Pointer {{?RFC6901}}.
 
 When an API encounters multiple problems that do not share the same type, it is RECOMMENDED that the most relevant or urgent problem be represented in the response. While it is possible to create generic "batch" problem types that convey multiple, disparate types, they do not map well into HTTP semantics.
 
@@ -229,15 +230,15 @@ For example, if the two resources "https://api.example.org/foo/bar/123" and "htt
 
 ## Extension Members {#extension}
 
-Problem type definitions MAY extend the problem details object with additional members.
+Problem type definitions MAY extend the problem details object with additional members that are specific to that problem type.
 
 For example, our "out of credit" problem above defines two such extensions -- "balance" and "accounts" to convey additional, problem-specific information.
 
-Similarly, the "Multi-Status" example defines two extensions -- "causes" and "problem-pointer". Extensions like "problem-pointer" are more appropriate to use for problems associated with client side errors 4xx only.
+Similarly, the "validation error" example defines a "errors" extension that contains a list of individual error occurrences found, with details and a pointer to the location of each.
 
 Clients consuming problem details MUST ignore any such extensions that they don't recognize; this allows problem types to evolve and include additional information in the future.
 
-Note that because extensions are effectively put into a namespace by the problem type, it is not possible to define new "standard" members without defining a new media type.
+Future updates to this specification might define additional members that are available to all problem types, distinguished by a name starting with "\*". To avoid conflicts, extension member names SHOULD NOT start with the "*" character.
 
 When creating extensions, problem type authors should choose their names carefully. To be used in the XML format (see {{xml-syntax}}), they will need to conform to the Name rule in {{Section 2.3 of XML}}{:relative="#NT-Name"}. To be used in the HTTP field (see {{field}}), they will need to conform to the Dictionary key syntax defined in {{Section 3.2 of STRUCTURED-FIELDS}}.
 
