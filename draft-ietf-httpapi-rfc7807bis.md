@@ -49,18 +49,19 @@ author:
 
 normative:
   RFC2119:
-  RFC3986:
-  RFC5234:
+  URI: RFC3986
+  ABNF: RFC5234
   RFC8126:
-  RFC8259:
+  JSON: RFC8259
   HTTP: I-D.ietf-httpbis-semantics
   STRUCTURED-FIELDS: RFC8941
   XML: W3C.REC-xml-20081126
 
 informative:
-  RFC8288:
-  RFC6694:
-  RFC6901:
+  WEB-LINKING: RFC8288
+  ABOUT: RFC6694
+  TAG: RFC4151
+  JSON-POINTER: RFC6901
   ISO-19757-2:
     title: "Information Technology -- Document Schema Definition Languages (DSDL) -- Part 2: Grammar-based Validation -- RELAX NG"
     author:
@@ -91,15 +92,15 @@ This document defines a "problem detail" to carry machine-readable details of er
 
 HTTP status codes ({{Section 15 of HTTP}}) cannot always convey enough information about errors to be helpful. While humans using Web browsers can often understand an HTML {{HTML5}} response body, non-human consumers of HTTP APIs have difficulty doing so.
 
-To address that shortcoming, this specification defines simple JSON {{RFC8259}} and XML {{XML}} document formats and a HTTP field to describe the specifics of problem(s) encountered -- "problem details".
+To address that shortcoming, this specification defines simple JSON {{JSON}} and XML {{XML}} document formats and a HTTP field to describe the specifics of problem(s) encountered -- "problem details".
 
 For example, consider a response indicating that the client's account doesn't have enough credit. The API's designer might decide to use the 403 Forbidden status code to inform HTTP-generic software (such as client libraries, caches, and proxies) of the response's general semantics. API-specific problem details (such as the why the server refused the request and the applicable account balance) can be carried in the response content, so that the client can act upon them appropriately (for example, triggering a transfer of more credit into the account).
 
-This specification identifies the specific "problem type" (e.g., "out of credit") with a URI {{RFC3986}}. HTTP APIs can use URIs under their control to identify problems specific to them, or can reuse existing ones to facilitate interoperability and leverage common semantics (see {{registry}}).
+This specification identifies the specific "problem type" (e.g., "out of credit") with a URI {{URI}}. HTTP APIs can use URIs under their control to identify problems specific to them, or can reuse existing ones to facilitate interoperability and leverage common semantics (see {{registry}}).
 
 Problem details can contain other information, such as a URI identifying the problem's specific occurrence (effectively giving an identifier to the concept "The time Joe didn't have enough credit last Thursday"), which can be useful for support or forensic purposes.
 
-The data model for problem details is a JSON {{RFC8259}} object; when serialized as a JSON document, it uses the "application/problem+json" media type. {{xml-syntax}} defines an equivalent XML format, which uses the "application/problem+xml" media type.
+The data model for problem details is a JSON {{JSON}} object; when serialized as a JSON document, it uses the "application/problem+json" media type. {{xml-syntax}} defines an equivalent XML format, which uses the "application/problem+xml" media type.
 
 Note that problem details are (naturally) not the only way to convey the details of a problem in HTTP. If the response is still a representation of a resource, for example, it's often preferable to describe the relevant details in that application's format. Likewise, defined HTTP status codes cover many situations with no need to convey extra detail.
 
@@ -115,7 +116,7 @@ This document uses the following terminology from {{STRUCTURED-FIELDS}} to speci
 
 # The Problem Details JSON Object {#problem-json}
 
-The canonical model for problem details is a JSON {{RFC8259}} object.
+The canonical model for problem details is a JSON {{JSON}} object.
 
 When serialized as a JSON document, that format is identified with the "application/problem+json" media type.
 
@@ -162,7 +163,7 @@ Content-Language: en
   }
 ~~~
 
-The fictional problem type here defines the "errors" extension, an array that describes the details of each validation error. Each member is an object containing "detail" to describe the issue, and "pointer" to locate the problem within the request's content using a JSON Pointer {{?RFC6901}}.
+The fictional problem type here defines the "errors" extension, an array that describes the details of each validation error. Each member is an object containing "detail" to describe the issue, and "pointer" to locate the problem within the request's content using a JSON Pointer {{JSON-POINTER}}.
 
 When an API encounters multiple problems that do not share the same type, it is RECOMMENDED that the most relevant or urgent problem be represented in the response. While it is possible to create generic "batch" problem types that convey multiple, disparate types, they do not map well into HTTP semantics.
 
@@ -173,17 +174,17 @@ Problem detail objects can have the following members. If a member's value type 
 
 ### "type" {#type}
 
-The "type" member is a JSON string containing a URI reference {{RFC3986}} that identifies the problem type. Consumers MUST use the "type" URI (after resolution, if necessary) problem's primary identifier.
+The "type" member is a JSON string containing a URI reference {{URI}} that identifies the problem type. Consumers MUST use the "type" URI (after resolution, if necessary) problem's primary identifier.
 
 When this member is not present, its value is assumed to be "about:blank".
 
 If the type URI is a locator (e.g., those with a "http" or "https" scheme), dereferencing it SHOULD provide human-readable documentation for the problem type (e.g., using HTML {{HTML5}}). However, consumers SHOULD NOT automatically dereference the type URI, unless they do so when providing information to developers (e.g., when a debugging tool is in use).
 
-When "type" contains a relative URI, it is resolved relative to the document's base URI, as per {{RFC3986, Section 5}}. However, using relative URIs can cause confusion, and they might not be handled correctly by all implementations.
+When "type" contains a relative URI, it is resolved relative to the document's base URI, as per {{URI, Section 5}}. However, using relative URIs can cause confusion, and they might not be handled correctly by all implementations.
 
 For example, if the two resources "https://api.example.org/foo/bar/123" and "https://api.example.org/widget/456" both respond with a "type" equal to the relative URI reference "example-problem", when resolved they will identify different resources ("https://api.example.org/foo/bar/example-problem" and "https://api.example.org/widget/example-problem" respectively). As a result, it is RECOMMENDED that absolute URIs be used in "type" when possible, and that when relative URIs are used, they include the full path (e.g., "/types/123").
 
-The type URI can also be a non-resolvable URI. For example, the tag URI scheme {{?RFC4151}} can be used to uniquely identify problem types:
+The type URI can also be a non-resolvable URI. For example, the tag URI scheme {{TAG}} can be used to uniquely identify problem types:
 
 ~~~
 tag:mnot@mnot.net,2021-09-17:OutOfLuck
@@ -223,7 +224,7 @@ When the "instance" URI is dereferenceable, the problem details object can be fe
 
 When the "instance" URI is not dereferenceable, it serves as a unique identifier for the problem occurrence that may be of significance to the server, but is opaque to the client.
 
-When "instance" contains a relative URI, it is resolved relative to the document's base URI, as per {{RFC3986, Section 5}}. However, using relative URIs can cause confusion, and they might not be handled correctly by all implementations.
+When "instance" contains a relative URI, it is resolved relative to the document's base URI, as per {{URI, Section 5}}. However, using relative URIs can cause confusion, and they might not be handled correctly by all implementations.
 
 For example, if the two resources "https://api.example.org/foo/bar/123" and "https://api.example.org/widget/456" both respond with an "instance" equal to the relative URI reference "example-instance", when resolved they will identify different resources ("https://api.example.org/foo/bar/example-instance" and "https://api.example.org/widget/example-instance" respectively). As a result, it is RECOMMENDED that absolute URIs be used in "instance" when possible, and that when relative URIs are used, they include the full path (e.g., "/instances/123").
 
@@ -304,9 +305,9 @@ Problem type definitions MAY specify the use of the Retry-After response header 
 
 A problem's type URI SHOULD resolve to HTML {{HTML5}} documentation that explains how to resolve the problem.
 
-A problem type definition MAY specify additional members on the problem details object. For example, an extension might use typed links {{RFC8288}} to another resource that machines can use to resolve the problem.
+A problem type definition MAY specify additional members on the problem details object. For example, an extension might use typed links {{WEB-LINKING}} to another resource that machines can use to resolve the problem.
 
-If such additional members are defined, their names SHOULD start with a letter (ALPHA, as per {{RFC5234, Section B.1}}) and SHOULD comprise characters from ALPHA, DIGIT ({{RFC5234, Section B.1}}), and "_" (so that it can be serialized in formats other than JSON), and they SHOULD be three characters or longer.
+If such additional members are defined, their names SHOULD start with a letter (ALPHA, as per {{ABNF, Section B.1}}) and SHOULD comprise characters from ALPHA, DIGIT ({{ABNF, Section B.1}}), and "_" (so that it can be serialized in formats other than JSON), and they SHOULD be three characters or longer.
 
 
 ## Example
@@ -349,7 +350,7 @@ This specification registers one Problem Type, "about:blank".
 * Recommended HTTP status code: N/A
 * Reference: \[this document\]
 
-The "about:blank" URI {{RFC6694}}, when used as a problem type, indicates that the problem has no additional semantics beyond that of the HTTP status code.
+The "about:blank" URI {{ABOUT}}, when used as a problem type, indicates that the problem has no additional semantics beyond that of the HTTP status code.
 
 When "about:blank" is used, the title SHOULD be the same as the recommended HTTP status phrase for that code (e.g., "Not Found" for 404, and so on), although it MAY be localized to suit client preferences (expressed with the Accept-Language request header).
 
