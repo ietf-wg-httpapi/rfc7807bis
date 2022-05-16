@@ -1,7 +1,5 @@
 ---
-title: Problem Details for HTTP APIs
-abbrev:
-docname: draft-ietf-httpapi-rfc7807bis-latest
+title: Problem Details for HTTP APIsdocname: draft-ietf-httpapi-rfc7807bis-latest
 date: {DATE}
 category: std
 obsoletes: 7807
@@ -275,7 +273,7 @@ For example:
 
 ~~~ http-message
 HTTP/1.1 200 OK
-Content-Type: application/json
+Content-Type: application/problem+json
 Problem: type="https://example.net/problems/almost-out",
    title="you're almost out of credit", credit_left=20
 ~~~
