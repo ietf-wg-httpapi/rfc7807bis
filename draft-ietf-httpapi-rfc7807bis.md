@@ -176,7 +176,7 @@ Content-Language: en
                "detail": "must be 'green', 'red' or 'blue'",
                "pointer": "#/profile/color"
              }
-          ]     
+          ]
   }
 ~~~
 
