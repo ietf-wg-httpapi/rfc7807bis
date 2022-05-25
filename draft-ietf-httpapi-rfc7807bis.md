@@ -157,6 +157,13 @@ When designed to accommodate it, problem-specific extensions can allow more than
 POST /details HTTP/1.1
 Host: account.example.com
 Accept: application/json
+
+{
+  "age": 42.3,
+  "profile": {
+    "color": "yellow"
+  }
+}
 ~~~
 
 ~~~ http-message
