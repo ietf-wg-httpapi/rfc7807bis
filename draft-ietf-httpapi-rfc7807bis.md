@@ -62,6 +62,7 @@ informative:
   ABOUT: RFC6694
   TAG: RFC4151
   JSON-POINTER: RFC6901
+  JSON-SCHEMA: I-D.draft-bhutton-json-schema
   ISO-19757-2:
     title: "Information Technology -- Document Schema Definition Languages (DSDL) -- Part 2: Grammar-based Validation -- RELAX NG"
     author:
@@ -410,7 +411,7 @@ Reference:
 
 # JSON Schema for HTTP Problems {#json-schema}
 
-This section presents a non-normative JSON Schema {{?I-D.draft-bhutton-json-schema-00}} for HTTP Problem Details. If there is any disagreement between it and the text of the specification, the latter prevails.
+This section presents a non-normative JSON Schema {{JSON-SCHEMA}} for HTTP Problem Details. If there is any disagreement between it and the text of the specification, the latter prevails.
 
 ~~~ json
 # NOTE: '\' line wrapping per RFC 8792
