@@ -116,11 +116,21 @@ This document uses the following terminology from {{STRUCTURED-FIELDS}} to speci
 
 # The Problem Details JSON Object {#problem-json}
 
-The canonical model for problem details is a JSON {{JSON}} object.
+The canonical model for problem details is a JSON {{JSON}} object. When serialized in a JSON document, that format is identified with the "application/problem+json" media type.
 
-When serialized as a JSON document, that format is identified with the "application/problem+json" media type.
+For example:
 
-For example, an HTTP response carrying JSON problem details:
+~~~ http-message
+POST /purchase HTTP/1.1
+Host: store.example.com
+Content-Type: application/json
+Accept: application/json, application/problem+json
+
+{
+  "item": 123456,
+  "quantity": 2
+}
+~~~
 
 ~~~ http-message
 HTTP/1.1 403 Forbidden
@@ -138,9 +148,15 @@ Content-Language: en
 }
 ~~~
 
-Here, the out-of-credit problem (identified by its type) indicates the reason for the 403 in "title", identifies the specific problem occurrence with "instance", gives occurrence-specific details in "detail", and adds two extensions; "balance" conveys the account's balance, and "accounts" lists links where the account can be topped up.
+Here, the out-of-credit problem (identified by its type) indicates the reason for the 403 in "title", identifies the specific problem occurrence with "instance", gives occurrence-specific details in "detail", and adds two extensions: "balance" conveys the account's balance, and "accounts" lists links where the account can be topped up.
 
 When designed to accommodate it, problem-specific extensions can allow more than one instance of the same problem type to be conveyed. For example:
+
+~~~ http-message
+POST /details HTTP/1.1
+Host: account.example.com
+Accept: application/json
+~~~
 
 ~~~ http-message
 HTTP/1.1 400 Bad Request
@@ -166,6 +182,8 @@ Content-Language: en
 The fictional problem type here defines the "errors" extension, an array that describes the details of each validation error. Each member is an object containing "detail" to describe the issue, and "pointer" to locate the problem within the request's content using a JSON Pointer {{JSON-POINTER}}.
 
 When an API encounters multiple problems that do not share the same type, it is RECOMMENDED that the most relevant or urgent problem be represented in the response. While it is possible to create generic "batch" problem types that convey multiple, disparate types, they do not map well into HTTP semantics.
+
+Note also that the API has responded with the application/problem+json type, even though the client did not list it in Accept, as is allowed by HTTP (see {{Section 12.5.1 of HTTP}}).
 
 
 ## Members of a Problem Details Object {#members}
