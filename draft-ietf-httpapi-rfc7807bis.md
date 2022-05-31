@@ -224,7 +224,7 @@ The "status" member is a JSON number indicating the HTTP status code ({{HTTP, Se
 
 The "status" member, if present, is only advisory; it conveys the HTTP status code used for the convenience of the consumer. Generators MUST use the same status code in the actual HTTP response, to assure that generic HTTP software that does not understand this format still behaves correctly. See {{security-considerations}} for further caveats regarding its use.
 
-Consumers can use the status member to determine what the original status code used by the generator was, in cases where it has been changed (e.g., by an intermediary or cache), and when message contents persist without HTTP information. Generic HTTP software will still use the HTTP status code.
+Consumers can use the status member to determine what the original status code used by the generator was when it has been changed (e.g., by an intermediary or cache), and when a message's content is persisted without HTTP information. Generic HTTP software will still use the HTTP status code.
 
 ### "title" {#title}
 
@@ -232,7 +232,7 @@ The "title" member is a JSON string containing a short, human-readable summary o
 
 It SHOULD NOT change from occurrence to occurrence of the problem, except for localization (e.g., using proactive content negotiation; see {{HTTP, Section 12.1}}).
 
-The "title" string is advisory and is included only for users who are not aware of the semantics of the type URI and can not discover them (e.g., during offline log analysis).
+The "title" string is advisory, and is included only for users who both are not aware of and cannot discover the semantics of the type URI (e.g., during offline log analysis).
 
 ### "detail" {#detail}
 
