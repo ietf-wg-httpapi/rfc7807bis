@@ -200,7 +200,7 @@ Problem detail objects can have the following members. If a member's value type 
 
 ### "type" {#type}
 
-The "type" member is a JSON string containing a URI reference {{URI}} that identifies the problem type. Consumers MUST use the "type" URI (after resolution, if necessary) problem's primary identifier.
+The "type" member is a JSON string containing a URI reference {{URI}} that identifies the problem type. Consumers MUST use the "type" URI (after resolution, if necessary) as the problem's primary identifier.
 
 When this member is not present, its value is assumed to be "about:blank".
 
