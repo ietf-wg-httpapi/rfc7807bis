@@ -91,7 +91,7 @@ This document defines a "problem detail" to carry machine-readable details of er
 
 # Introduction
 
-HTTP status codes ({{Section 15 of HTTP}}) cannot always convey enough information about errors to be helpful. While humans using Web browsers can often understand an HTML {{HTML5}} response body, non-human consumers of HTTP APIs have difficulty doing so.
+HTTP status codes ({{Section 15 of HTTP}}) cannot always convey enough information about errors to be helpful. While humans using Web browsers can often understand an HTML {{HTML5}} response content, non-human consumers of HTTP APIs have difficulty doing so.
 
 To address that shortcoming, this specification defines simple JSON {{JSON}} and XML {{XML}} document formats and a HTTP field to describe the specifics of problem(s) encountered -- "problem details".
 
@@ -110,7 +110,7 @@ This specification's aim is to define common error formats for applications that
 
 # Notational Conventions
 
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 {{!RFC2119}} {{!RFC8174}} when, and only when, they appear in all capitals, as shown here.
+{::boilerplate bcp14}
 
 This document uses the following terminology from {{STRUCTURED-FIELDS}} to specify syntax and parsing: Dictionary, String, and Integer.
 
@@ -151,7 +151,7 @@ Content-Language: en
 
 Here, the out-of-credit problem (identified by its type) indicates the reason for the 403 in "title", identifies the specific problem occurrence with "instance", gives occurrence-specific details in "detail", and adds two extensions: "balance" conveys the account's balance, and "accounts" lists links where the account can be topped up.
 
-When designed to accommodate it, problem-specific extensions can allow more than one instance of the same problem type to be conveyed. For example:
+When designed to accommodate it, problem-specific extensions can convey more than one instance of the same problem type. For example:
 
 ~~~ http-message
 POST /details HTTP/1.1
@@ -224,7 +224,7 @@ The "status" member is a JSON number indicating the HTTP status code ({{HTTP, Se
 
 The "status" member, if present, is only advisory; it conveys the HTTP status code used for the convenience of the consumer. Generators MUST use the same status code in the actual HTTP response, to assure that generic HTTP software that does not understand this format still behaves correctly. See {{security-considerations}} for further caveats regarding its use.
 
-Consumers can use the status member to determine what the original status code used by the generator was, in cases where it has been changed (e.g., by an intermediary or cache), and when message bodies persist without HTTP information. Generic HTTP software will still use the HTTP status code.
+Consumers can use the status member to determine what the original status code used by the generator was when it has been changed (e.g., by an intermediary or cache), and when a message's content is persisted without HTTP information. Generic HTTP software will still use the HTTP status code.
 
 ### "title" {#title}
 
@@ -232,13 +232,13 @@ The "title" member is a JSON string containing a short, human-readable summary o
 
 It SHOULD NOT change from occurrence to occurrence of the problem, except for localization (e.g., using proactive content negotiation; see {{HTTP, Section 12.1}}).
 
-The "title" string is advisory and included only for users who are not aware of the semantics of the URI and can not discover them (e.g., during offline log analysis).
+The "title" string is advisory, and is included only for users who both are not aware of and cannot discover the semantics of the type URI (e.g., during offline log analysis).
 
 ### "detail" {#detail}
 
 The "detail" member is a JSON string containing a human-readable explanation specific to this occurrence of the problem.
 
-The "detail" member, if present, ought to focus on helping the client correct the problem, rather than giving debugging information.
+The "detail" string, if present, ought to focus on helping the client correct the problem, rather than giving debugging information.
 
 Consumers SHOULD NOT parse the "detail" member for information; extensions are more suitable and less error-prone ways to obtain such information.
 
@@ -313,7 +313,7 @@ When an HTTP API needs to define a response that indicates an error condition, i
 
 Before doing so, it's important to understand what they are good for, and what's better left to other mechanisms.
 
-Problem details are not a debugging tool for the underlying implementation; rather, they are a way to expose greater detail about the HTTP interface itself. Designers of new problem types need to carefully consider the Security Considerations ({{security-considerations}}), in particular, the risk of exposing attack vectors by exposing implementation internals through error messages.
+Problem details are not a debugging tool for the underlying implementation; rather, they are a way to expose greater detail about the HTTP interface itself. Designers of new problem types need to carefully take into account the Security Considerations ({{security-considerations}}), in particular, the risk of exposing attack vectors by exposing implementation internals through error messages.
 
 Likewise, truly generic problems -- i.e., conditions that might apply to any resource on the Web -- are usually better expressed as plain status codes. For example, a "write access disallowed" problem is probably unnecessary, since a 403 Forbidden status code in response to a PUT request is self-explanatory.
 
