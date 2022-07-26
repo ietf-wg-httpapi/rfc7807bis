@@ -60,7 +60,15 @@ normative:
 informative:
   WEB-LINKING: RFC8288
   ABOUT: RFC6694
+  HYDRA:
+    target: https://www.hydra-cg.com/spec/latest/core/
+    title: Hydra Core Vocabulary –– A Vocabulary for Hypermedia-Driven Web APIs
+    author:
+     -
+        org: W3C Hydra Community Group
+    date: 2021
   TAG: RFC4151
+  JSON-LD: W3C.REC-json-ld-20200716
   JSON-POINTER: RFC6901
   JSON-SCHEMA: I-D.draft-bhutton-json-schema
   ISO-19757-2:
@@ -507,6 +515,48 @@ For example, in HTML, a problem could be embedded by encapsulating JSON in a scr
 or by inventing a mapping into RDFa {{RDFA}}.
 
 This specification does not make specific recommendations regarding embedding problem details in other formats; the appropriate way to embed them depends both upon the format in use and application of that format.
+
+
+# JSON-LD Context
+
+This section presents a non-normative JSON-LD context {{JSON-LD}} for HTTP Problem Details. It is provided to facilitate the use of HTTP Problem Details by JSON-LD capable clients and to improve interoperability amongst them by defining a standard mapping between the terms used in this specification and their associated vocabularies.
+
+~~~ json
+{
+  "@context": {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "type": { "@id": "rdf:type", "@type": "@id" },
+    "status": "urn:ietf:rfc:7807:status",
+    "title": "rdfs:label",
+    "detail": "rdfs:comment",
+    "instance": { "@id": "rdfs:seeAlso", "@type": "@id" }
+  }
+}
+~~~
+
+The provided JSON-LD context is intended as a starting point for an application's own context, it is not intended as a normative context. If you wish to use the context in your own application, you can copy it and modify it as necessary. However, if you wish to use the context unmodified, Hydra {{HYDRA}} provides it at the following URI:
+
+https://www.w3.org/ns/hydra/error
+
+When referencing the JSON-LD context -- either self hosted or the one provided above -- it is advisable to use the HTTP Link header {{WEB-LINKING}} over an inline "@context" property to improve interoperability with non-JSON-LD capable clients:
+
+~~~ http-message
+HTTP/1.1 403 Forbidden
+Content-Type: application/problem+json
+Content-Language: en
+Link: <https://www.w3.org/ns/hydra/error>; rel="http://www.w3.org/ns/json-ld#context"
+
+{
+ "type": "https://example.com/probs/out-of-credit",
+ "title": "You do not have enough credit.",
+ "detail": "Your current balance is 30, but that costs 50.",
+ "instance": "/account/12345/msgs/abc",
+ "balance": 30,
+ "accounts": ["/account/12345",
+              "/account/67890"]
+}
+~~~
 
 
 # Acknowledgements
