@@ -85,7 +85,7 @@ informative:
 
 This document defines a "problem detail" to carry machine-readable details of errors in HTTP response content and/or fields to avoid the need to define new error response formats for HTTP APIs.
 
-
+This document obsoletes RF7807.
 --- middle
 
 
