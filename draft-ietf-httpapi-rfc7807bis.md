@@ -107,6 +107,8 @@ Note that problem details are (naturally) not the only way to convey the details
 
 This specification's aim is to define common error formats for applications that need one so that they aren't required to define their own, or worse, tempted to redefine the semantics of existing HTTP status codes. Even if an application chooses not to use it to convey errors, reviewing its design can help guide the design decisions faced when conveying errors in an existing format.
 
+See {{changes}} for a list of changes from RFC7807.
+
 
 # Notational Conventions
 
