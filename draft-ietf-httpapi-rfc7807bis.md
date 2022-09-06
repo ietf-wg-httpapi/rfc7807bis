@@ -53,7 +53,7 @@ normative:
   ABNF: RFC5234
   RFC8126:
   JSON: RFC8259
-  HTTP: I-D.ietf-httpbis-semantics
+  HTTP: RFC9110
   STRUCTURED-FIELDS: RFC8941
   XML: W3C.REC-xml-20081126
 
