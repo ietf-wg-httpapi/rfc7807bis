@@ -509,6 +509,17 @@ or by inventing a mapping into RDFa {{RDFA}}.
 This specification does not make specific recommendations regarding embedding problem details in other formats; the appropriate way to embed them depends both upon the format in use and application of that format.
 
 
+# Changes from RFC7807 {#changes}
+
+This revision has made the following changes:
+
+* {{registry}} introduces a registry of common problem type URIs
+* {{problem-json}} clarifies how multiple problems should be treated
+* {{extension}} reserves a prefix for future standards-defined object members
+* {{type}} provides guidance for using type URIs that cannot be dereferenced
+* {{field}} allows problem details to be communicate in a HTTP header or trailer field
+
+
 # Acknowledgements
 {:numbered="false"}
 
