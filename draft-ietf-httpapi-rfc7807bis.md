@@ -93,9 +93,9 @@ This document obsoletes RFC7807.
 
 HTTP status codes ({{Section 15 of HTTP}}) cannot always convey enough information about errors to be helpful. While humans using Web browsers can often understand an HTML {{HTML5}} response content, non-human consumers of HTTP APIs have difficulty doing so.
 
-To address that shortcoming, this specification defines simple JSON {{JSON}} and XML {{XML}} document formats and a HTTP field to describe the specifics of problem(s) encountered -- "problem details".
+To address that shortcoming, this specification defines simple JSON {{JSON}} and XML {{XML}} document formats and an HTTP field to describe the specifics of problem(s) encountered -- "problem details".
 
-For example, consider a response indicating that the client's account doesn't have enough credit. The API's designer might decide to use the 403 Forbidden status code to inform HTTP-generic software (such as client libraries, caches, and proxies) of the response's general semantics. API-specific problem details (such as the why the server refused the request and the applicable account balance) can be carried in the response content, so that the client can act upon them appropriately (for example, triggering a transfer of more credit into the account).
+For example, consider a response indicating that the client's account doesn't have enough credit. The API's designer might decide to use the 403 Forbidden status code to inform HTTP-generic software (such as client libraries, caches, and proxies) of the response's general semantics. API-specific problem details (such as why the server refused the request and the applicable account balance) can be carried in the response content, so that the client can act upon them appropriately (for example, triggering a transfer of more credit into the account).
 
 This specification identifies the specific "problem type" (e.g., "out of credit") with a URI {{URI}}. HTTP APIs can use URIs under their control to identify problems specific to them, or can reuse existing ones to facilitate interoperability and leverage common semantics (see {{registry}}).
 
@@ -206,7 +206,7 @@ The "type" member is a JSON string containing a URI reference {{URI}} that ident
 
 When this member is not present, its value is assumed to be "about:blank".
 
-If the type URI is a locator (e.g., those with a "http" or "https" scheme), dereferencing it SHOULD provide human-readable documentation for the problem type (e.g., using HTML {{HTML5}}). However, consumers SHOULD NOT automatically dereference the type URI, unless they do so when providing information to developers (e.g., when a debugging tool is in use).
+If the type URI is a locator (e.g., those with an "http" or "https" scheme), dereferencing it SHOULD provide human-readable documentation for the problem type (e.g., using HTML {{HTML5}}). However, consumers SHOULD NOT automatically dereference the type URI, unless they do so when providing information to developers (e.g., when a debugging tool is in use).
 
 When "type" contains a relative URI, it is resolved relative to the document's base URI, as per {{URI, Section 5}}. However, using relative URIs can cause confusion, and they might not be handled correctly by all implementations.
 
@@ -263,7 +263,7 @@ Problem type definitions MAY extend the problem details object with additional m
 
 For example, our "out of credit" problem above defines two such extensions -- "balance" and "accounts" to convey additional, problem-specific information.
 
-Similarly, the "validation error" example defines a "errors" extension that contains a list of individual error occurrences found, with details and a pointer to the location of each.
+Similarly, the "validation error" example defines an "errors" extension that contains a list of individual error occurrences found, with details and a pointer to the location of each.
 
 Clients consuming problem details MUST ignore any such extensions that they don't recognize; this allows problem types to evolve and include additional information in the future.
 
@@ -276,7 +276,7 @@ Problem type authors that wish their extensions to be usable in the Problem HTTP
 
 # The Problem HTTP Field {#field}
 
-Some problems might best be conveyed in a HTTP header or trailer field, rather than in the message content. For example, when a problem does not prevent a successful response from being generated, or when the problem's details are useful to software that does not inspect the response content.
+Some problems might best be conveyed in an HTTP header or trailer field, rather than in the message content. For example, when a problem does not prevent a successful response from being generated, or when the problem's details are useful to software that does not inspect the response content.
 
 The Problem HTTP field allows a limited expression of a problem object in HTTP headers or trailers. It is a Dictionary Structured Field ({{Section 3.2 of STRUCTURED-FIELDS}}) that can contain the following keys, whose semantics and related requirements are inherited from problem objects:
 
@@ -519,7 +519,7 @@ This revision has made the following changes:
 * {{problem-json}} clarifies how multiple problems should be treated
 * {{extension}} reserves a prefix for future standards-defined object members
 * {{type}} provides guidance for using type URIs that cannot be dereferenced
-* {{field}} allows problem details to be communicate in a HTTP header or trailer field
+* {{field}} allows problem details to be communicated in an HTTP header or trailer field
 
 
 # Acknowledgements
