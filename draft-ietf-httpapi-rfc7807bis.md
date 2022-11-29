@@ -389,7 +389,7 @@ The policy for this registry is Specification Required, per {{RFC8126, Section 4
 
 When evaluating requests, the Expert(s) should consider community feedback, how well-defined the problem type is, and this specification's requirements. Vendor-specific, application-specific, and deployment-specific values are not registrable. Specification documents should be published in a stable, freely available manner (ideally located with a URL), but need not be standards.
 
-Registrations MAY use the prefix "https://iana.org/assignments/http-problem-types#" for the type URI.
+Registrations MAY use the prefix "https://iana.org/assignments/http-problem-types#" for the type URI. Note that those URIs may not be able to be resolved.
 
 Registration requests should use the following template:
 
