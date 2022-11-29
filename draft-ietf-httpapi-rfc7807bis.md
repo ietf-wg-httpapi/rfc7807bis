@@ -85,7 +85,7 @@ informative:
 
 This document defines a "problem detail" to carry machine-readable details of errors in HTTP response content and/or fields to avoid the need to define new error response formats for HTTP APIs.
 
-This document obsoletes RFC7807.
+This document obsoletes RFC 7807.
 --- middle
 
 
@@ -107,7 +107,7 @@ Note that problem details are (naturally) not the only way to convey the details
 
 This specification's aim is to define common error formats for applications that need one so that they aren't required to define their own, or worse, tempted to redefine the semantics of existing HTTP status codes. Even if an application chooses not to use it to convey errors, reviewing its design can help guide the design decisions faced when conveying errors in an existing format.
 
-See {{changes}} for a list of changes from RFC7807.
+See {{changes}} for a list of changes from RFC 7807.
 
 
 # Notational Conventions
@@ -234,7 +234,7 @@ The "title" member is a JSON string containing a short, human-readable summary o
 
 It SHOULD NOT change from occurrence to occurrence of the problem, except for localization (e.g., using proactive content negotiation; see {{HTTP, Section 12.1}}).
 
-The "title" string is advisory, and is included only for users who both are not aware of and cannot discover the semantics of the type URI (e.g., during offline log analysis).
+The "title" string is advisory, and is included only for users who are both unaware of and cannot discover the semantics of the type URI (e.g., during offline log analysis).
 
 ### "detail" {#detail}
 
@@ -401,7 +401,7 @@ The "status" member duplicates the information available in the HTTP status code
 
 Please update the "application/problem+json" and "application/problem+xml" registrations in the "Media Types" registry to refer to this document.
 
-Please create the "HTTP Problem Types Registry" as specified in {{registry}}, and populate it with "about:blank" as per {{blank}}.
+Please create the "HTTP Problem Types" registry as specified in {{registry}}, and populate it with "about:blank" as per {{blank}}.
 
 Please register the following entry into the "Hypertext Transfer Protocol (HTTP) Field Name Registry":
 
@@ -511,7 +511,7 @@ or by inventing a mapping into RDFa {{RDFA}}.
 This specification does not make specific recommendations regarding embedding problem details in other formats; the appropriate way to embed them depends both upon the format in use and application of that format.
 
 
-# Changes from RFC7807 {#changes}
+# Changes from RFC 7807 {#changes}
 
 This revision has made the following changes:
 
