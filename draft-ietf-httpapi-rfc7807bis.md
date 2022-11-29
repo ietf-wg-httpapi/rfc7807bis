@@ -297,7 +297,7 @@ instance:
 
 The title and detail values MUST NOT be serialized in the Problem field if they contain characters that are not allowed by String; see {{Section 3.3.3 of STRUCTURED-FIELDS}}. Practically, this has the effect of limiting them to ASCII strings.
 
-An extension member (see {{extension}}) MAY occur in the Problem field if its name is compatible with the syntax of Dictionary keys (see {{Section 3.2 of STRUCTURED-FIELDS}}) and if the defining problem type specifies a Structured Type to serialize the value into.
+If an extension member (see {{extension}}) occurs in the Problem field, its name MUST be compatible with the syntax of Dictionary keys (see {Section 3.2 of STRUCTURED-FIELDS}}) and the defining problem type MUST specify a Structured Type to serialize the value into.
 
 For example:
 
