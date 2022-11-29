@@ -215,13 +215,13 @@ When "type" contains a relative URI, it is resolved relative to the document's b
 
 For example, if the two resources "https://api.example.org/foo/bar/123" and "https://api.example.org/widget/456" both respond with a "type" equal to the relative URI reference "example-problem", when resolved they will identify different resources ("https://api.example.org/foo/bar/example-problem" and "https://api.example.org/widget/example-problem" respectively). As a result, it is RECOMMENDED that absolute URIs be used in "type" when possible, and that when relative URIs are used, they include the full path (e.g., "/types/123").
 
-The type URI can also be a non-resolvable URI. For example, the tag URI scheme {{TAG}} can be used to uniquely identify problem types:
+The type URI is allowed to be a non-resolvable URI. For example, the tag URI scheme {{TAG}} can be used to uniquely identify problem types:
 
 ~~~
 tag:mnot@mnot.net,2021-09-17:OutOfLuck
 ~~~
 
-A non-resolvable URI ought not be used when there is some future possibility that it might become desirable to be able to resolve the URI. For example, if an API designer used the URI above and later adopted a tool that resolves type URIs to discover information about the error, taking advantage of that capability would require switching to a resolvable URI, creating a new identity for the problem type and thus introducing a breaking change.
+However, resolvable type URIs are encouraged by this specification because it might become desirable to resolve the URI in the future. For example, if an API designer used the URI above and later adopted a tool that resolves type URIs to discover information about the error, taking advantage of that capability would require switching to a resolvable URI, creating a new identity for the problem type and thus introducing a breaking change.
 
 ### "status" {#status}
 
