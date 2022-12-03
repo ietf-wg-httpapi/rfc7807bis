@@ -312,9 +312,9 @@ Problem: type="https://example.net/problems/almost-out",
 
 ## Percent-Encoded Strings {#percent}
 
-To accommodate non-ASCII content, this section defines a percent-encoding based upon {{Section 2.1 of URI}}. This encoding is only used on values whose definitions explicitly invoke it.
+A percent-encoded string is a String ({{Section 3.3.3 of STRUCTURED-FIELDS}}) with additional processing before serialisation and after parsing, to accommodate non-ASCII content.
 
-A percent-encoded string is a String ({{Section 3.3.3 of STRUCTURED-FIELDS}}) with additional processing before serialisation and after parsing.
+This encoding is only used on values whose definitions explicitly invoke it.
 
 
 ### Serialization
