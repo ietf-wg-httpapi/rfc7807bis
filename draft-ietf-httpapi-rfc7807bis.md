@@ -319,25 +319,26 @@ This encoding is only used on values whose definitions explicitly invoke it.
 
 ### Serialization
 
-Given a string of characters as input_string, return an ASCII string suitable for use in an HTTP field value.
+Given a string of Unicode characters as input_string, return an ASCII string suitable for use in an HTTP field value.
 
-1. Replace each instance (if any) of the character "%" in input_string with "%25".
-2. For each character char in input_string which is not in the range %x00-1f or %x7f-ff:
-   1. Let char_bytes be the result of applying UTF-8 encoding ({{UTF8}}) to char.
-   2. Replace char in input_string with the result of applying the percent-encoding defined in {{Section 2.1 of URI}} to char_bytes.
-3. Return the result of running Serialising a String ({{Section 4.1.6 of STRUCTURED-FIELDS}}) with input_string.
+0. Let byte_string be the result of applying UTF-8 encoding {{UTF8}} to input_string. If there is an error in doing so, fail parsing.
+1. Replace each instance (if any) of the character "%" in byte_string with "%25".
+2. For each byte in byte_string which is in the range %x00-1f or %x7f-ff:
+   1. Replace byte with the result of applying the percent-encoding defined in {{Section 2.1 of URI}} to it.
+3. Return the result of running Serialising a String ({{Section 4.1.6 of STRUCTURED-FIELDS}}) with byte_string.
 
 
 ### Parsing
 
-Given an ASCII string as input_string, return an unquoted String. input_string is modified to remove the parsed value.
+Given an ASCII string as input_string, return a string of Unicode characters. input_string is modified to remove the parsed value.
 
 1. Let parsed_string be the result of running Parsing a String ({{Section 4.2.5 of STRUCTURED-FIELDS}}) with input_string.
-2. For each character char in parsed_string which is the character "%":
+2. Let byte_string be the result of applying ASCII encoding to input_string.
+2. For each character char in byte_string which is the character "%":
    1. Let octet_hex be the two characters after char. If there are not two characters, fail parsing.
    2. Let octet be the result of decoding octet_hex as hexidecimal.
-   3. Replace the "%" character and octet_hex in parsed_string with octet.
-4. Let unicode_string be the result of decoding parsed_string as a UTF-8 string. Fail parsing if decoding fails.
+   3. Replace the "%" character and octet_hex in byte_string with octet.
+4. Let unicode_string be the result of decoding byte_string as a UTF-8 string {{UTF8}}. Fail parsing if decoding fails.
 3. Return unicode_string.
 
 
