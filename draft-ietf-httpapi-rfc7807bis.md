@@ -281,10 +281,7 @@ Problem type authors that wish their extensions to be usable in the Problem HTTP
 
 Some problems might best be conveyed in an HTTP header or trailer field, rather than in the message content. For example, when a problem does not prevent a successful response from being generated, or when the problem's details are useful to software that does not inspect the response content.
 
-The Problem HTTP field allows a limited expression of a problem object in HTTP headers or trailers. It is a Dictionary Structured Field ({{Section 3.2 of STRUCTURED-FIELDS}}) that can contain the following keys, whose semantics and related requirements are inherited from problem objects:
-
-type:
-: the type value (see {{type}}), as a String
+The Problem HTTP field allows a limited expression of a problem object in HTTP headers or trailers. It is an Item Structured Field whose value is a String ({{Section 3..3.3 of STRUCTURED-FIELDS}}) that conveys the type value (see {{type}}). It has the following optional Parameters:
 
 status:
 : the status value (see {{status}}), as an Integer
@@ -298,16 +295,18 @@ detail:
 instance:
 : The instance value (see {{instance}}), as a String
 
-If an extension member (see {{extension}}) occurs in the Problem field, its name MUST be compatible with the syntax of Dictionary keys (see {Section 3.2 of STRUCTURED-FIELDS}}) and the defining problem type MUST specify a Structured Type to serialize the value into.
+Extension members (see {{extension}} can be serialised as additional Parameters, provided that their names are compatible with the syntax of Parameter keys (see {Section 3.1.2 of STRUCTURED-FIELDS}}) and the defining problem type specifies a Structured Type to serialize the value into.
 
 For example:
 
 ~~~ http-message
 HTTP/1.1 200 OK
 Content-Type: application/json
-Problem: type="https://example.net/problems/almost-out",
-   title="you're almost out of credit", credit_left=20
+Problem: "https://example.net/problems/almost-out";
+   title="you're almost out of credit"; credit_left=20
 ~~~
+
+Note that because this is an Item Structured Field, presence of more than one Problem field will cause parsing to fail.
 
 
 ## Percent-Encoded Strings {#percent}
