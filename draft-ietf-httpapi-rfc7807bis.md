@@ -281,7 +281,7 @@ Problem type authors that wish their extensions to be usable in the Problem HTTP
 
 Some problems might best be conveyed in an HTTP header or trailer field, rather than in the message content. For example, when a problem does not prevent a successful response from being generated, or when the problem's details are useful to software that does not inspect the response content.
 
-The Problem HTTP field allows a limited expression of a problem object in HTTP headers or trailers. It is an Item Structured Field whose value is a String ({{Section 3..3.3 of STRUCTURED-FIELDS}}) that conveys the type value (see {{type}}). It has the following optional Parameters:
+The Problem HTTP field allows a limited expression of a problem object in HTTP headers or trailers. It is an Item Structured Field whose value is a String ({{Section 3.3.3 of STRUCTURED-FIELDS}}) that conveys the type value (see {{type}}). It has the following optional Parameters:
 
 status:
 : the status value (see {{status}}), as an Integer
