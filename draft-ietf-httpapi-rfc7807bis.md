@@ -298,7 +298,7 @@ detail:
 instance:
 : The instance value (see {{instance}}), as a String
 
-If an extension member (see {{extension}}) occurs in the Problem field, its name MUST be compatible with the syntax of Dictionary keys (see {Section 3.2 of STRUCTURED-FIELDS}}) and the defining problem type MUST specify a Structured Type to serialize the value into.
+If an extension member (see {{extension}}) occurs in the Problem field, its name MUST be compatible with the syntax of Dictionary keys (see {{Section 3.2 of STRUCTURED-FIELDS}}) and the defining problem type MUST specify a Structured Type to serialize the value into.
 
 For example:
 
