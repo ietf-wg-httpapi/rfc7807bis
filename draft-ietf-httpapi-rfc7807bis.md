@@ -54,7 +54,6 @@ normative:
   RFC8126:
   JSON: RFC8259
   HTTP: RFC9110
-  STRUCTURED-FIELDS: RFC8941
   UTF8: RFC3629
   XML: W3C.REC-xml-20081126
 
@@ -84,7 +83,7 @@ informative:
 
 --- abstract
 
-This document defines a "problem detail" to carry machine-readable details of errors in HTTP response content and/or fields to avoid the need to define new error response formats for HTTP APIs.
+This document defines a "problem detail" to carry machine-readable details of errors in HTTP response content to avoid the need to define new error response formats for HTTP APIs.
 
 This document obsoletes RFC 7807.
 --- middle
@@ -94,7 +93,7 @@ This document obsoletes RFC 7807.
 
 HTTP status codes ({{Section 15 of HTTP}}) cannot always convey enough information about errors to be helpful. While humans using Web browsers can often understand an HTML {{HTML5}} response content, non-human consumers of HTTP APIs have difficulty doing so.
 
-To address that shortcoming, this specification defines simple JSON {{JSON}} and XML {{XML}} document formats and an HTTP field to describe the specifics of problem(s) encountered -- "problem details".
+To address that shortcoming, this specification defines simple JSON {{JSON}} and XML {{XML}} document formats to describe the specifics of problem(s) encountered -- "problem details".
 
 For example, consider a response indicating that the client's account doesn't have enough credit. The API's designer might decide to use the 403 Forbidden status code to inform HTTP-generic software (such as client libraries, caches, and proxies) of the response's general semantics. API-specific problem details (such as why the server refused the request and the applicable account balance) can be carried in the response content, so that the client can act upon them appropriately (for example, triggering a transfer of more credit into the account).
 
@@ -116,8 +115,6 @@ See {{changes}} for a list of changes from RFC 7807.
 # Notational Conventions
 
 {::boilerplate bcp14}
-
-This document uses the following terminology from {{STRUCTURED-FIELDS}} to specify syntax and parsing: Dictionary, String, and Integer.
 
 
 # The Problem Details JSON Object {#problem-json}
@@ -272,74 +269,7 @@ Clients consuming problem details MUST ignore any such extensions that they don'
 
 Future updates to this specification might define additional members that are available to all problem types, distinguished by a name starting with "\*". To avoid conflicts, extension member names SHOULD NOT start with the "*" character.
 
-When creating extensions, problem type authors should choose their names carefully. To be used in the XML format (see {{xml-syntax}}), they will need to conform to the Name rule in {{Section 2.3 of XML}}{:relative="#NT-Name"}. To be used in the HTTP field (see {{field}}), they will need to conform to the Dictionary key syntax defined in {{Section 3.2 of STRUCTURED-FIELDS}}.
-
-Problem type authors that wish their extensions to be usable in the Problem HTTP field (see {{field}}) will also need to define the Structured Type(s) that their values are mapped to.
-
-
-# The Problem HTTP Field {#field}
-
-Some problems might best be conveyed in an HTTP header or trailer field, rather than in the message content. For example, when a problem does not prevent a successful response from being generated, or when the problem's details are useful to software that does not inspect the response content.
-
-The Problem HTTP field allows a limited expression of a problem object in HTTP headers or trailers. It is a Dictionary Structured Field ({{Section 3.2 of STRUCTURED-FIELDS}}) that can contain the following keys, whose semantics and related requirements are inherited from problem objects:
-
-type:
-: the type value (see {{type}}), as a String
-
-status:
-: the status value (see {{status}}), as an Integer
-
-title:
-: The title value (see {{title}}), as a percent-encoded string (see {{percent}})
-
-detail:
-: The detail value (see {{detail}}), as a percent-encoded string (see {{percent}})
-
-instance:
-: The instance value (see {{instance}}), as a String
-
-If an extension member (see {{extension}}) occurs in the Problem field, its name MUST be compatible with the syntax of Dictionary keys (see {{Section 3.2 of STRUCTURED-FIELDS}}) and the defining problem type MUST specify a Structured Type to serialize the value into.
-
-For example:
-
-~~~ http-message
-HTTP/1.1 200 OK
-Content-Type: application/json
-Problem: type="https://example.net/problems/almost-out",
-   title="you're almost out of credit", credit_left=20
-~~~
-
-
-## Percent-Encoded Strings {#percent}
-
-A percent-encoded string is a String ({{Section 3.3.3 of STRUCTURED-FIELDS}}) with additional processing before serialisation and after parsing, to accommodate non-ASCII content.
-
-This encoding is only used on values whose definitions explicitly invoke it.
-
-
-### Serialization
-
-Given a string of Unicode characters as input_string, return an ASCII string suitable for use in an HTTP field value.
-
-0. Let byte_string be the result of applying UTF-8 encoding {{UTF8}} to input_string. If there is an error in doing so, fail parsing.
-1. Replace each instance (if any) of the character "%" in byte_string with "%25".
-2. For each byte in byte_string which is in the range %x00-1f or %x7f-ff:
-   1. Replace byte with the result of applying the percent-encoding defined in {{Section 2.1 of URI}} to it.
-3. Return the result of running Serialising a String ({{Section 4.1.6 of STRUCTURED-FIELDS}}) with byte_string.
-
-
-### Parsing
-
-Given an ASCII string as input_string, return a string of Unicode characters. input_string is modified to remove the parsed value.
-
-1. Let parsed_string be the result of running Parsing a String ({{Section 4.2.5 of STRUCTURED-FIELDS}}) with input_string.
-2. Let byte_string be the result of applying ASCII encoding to input_string.
-2. For each character char in byte_string which is the character "%":
-   1. Let octet_hex be the two characters after char. If there are not two characters, fail parsing.
-   2. Let octet be the result of decoding octet_hex as hexidecimal.
-   3. Replace the "%" character and octet_hex in byte_string with octet.
-4. Let unicode_string be the result of decoding byte_string as a UTF-8 string {{UTF8}}. Fail parsing if decoding fails.
-3. Return unicode_string.
+When creating extensions, problem type authors should choose their names carefully. To be used in the XML format (see {{xml-syntax}}), they will need to conform to the Name rule in {{Section 2.3 of XML}}{:relative="#NT-Name"}.
 
 
 # Defining New Problem Types {#defining}
@@ -435,17 +365,6 @@ The "status" member duplicates the information available in the HTTP status code
 Please update the "application/problem+json" and "application/problem+xml" registrations in the "Media Types" registry to refer to this document.
 
 Please create the "HTTP Problem Types" registry as specified in {{registry}}, and populate it with "about:blank" as per {{blank}}.
-
-Please register the following entry into the "Hypertext Transfer Protocol (HTTP) Field Name Registry":
-
-Field Name:
-: Problem
-
-Status:
-: Permanent
-
-Reference:
-: {{&SELF}}
 
 
 --- back
@@ -552,7 +471,6 @@ This revision has made the following changes:
 * {{problem-json}} clarifies how multiple problems should be treated
 * {{extension}} reserves a prefix for future standards-defined object members
 * {{type}} provides guidance for using type URIs that cannot be dereferenced
-* {{field}} allows problem details to be communicated in an HTTP header or trailer field
 
 
 # Acknowledgements
