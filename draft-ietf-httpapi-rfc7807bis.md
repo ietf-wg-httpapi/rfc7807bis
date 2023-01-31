@@ -215,7 +215,7 @@ For example, if the two resources "https://api.example.org/foo/bar/123" and "htt
 The type URI is allowed to be a non-resolvable URI. For example, the tag URI scheme {{TAG}} can be used to uniquely identify problem types:
 
 ~~~
-tag:mnot@mnot.net,2021-09-17:OutOfLuck
+tag:mnot@example.org,2021-09-17:OutOfLuck
 ~~~
 
 However, resolvable type URIs are encouraged by this specification because it might become desirable to resolve the URI in the future. For example, if an API designer used the URI above and later adopted a tool that resolves type URIs to discover information about the error, taking advantage of that capability would require switching to a resolvable URI, creating a new identity for the problem type and thus introducing a breaking change.
