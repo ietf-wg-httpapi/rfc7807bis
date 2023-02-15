@@ -54,7 +54,6 @@ normative:
   RFC8126:
   JSON: RFC8259
   HTTP: RFC9110
-  UTF8: RFC3629
   XML: W3C.REC-xml-20081126
 
 informative:
