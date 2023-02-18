@@ -104,7 +104,7 @@ The data model for problem details is a JSON {{JSON}} object; when serialized as
 
 When they are conveyed in an HTTP response, the contents of problem details can be negotiated using proactive negotiation; see {{Section 12.1 of HTTP}}. In particular, the language used for human-readable strings (such as those in title and description) can be negotiated using the Accept-Language request header field ({{Section 12.5.4 of HTTP}}), although that negotiation may still result in a non-preferred, default representation being returned.
 
-Note that problem details are (naturally) not the only way to convey the details of a problem in HTTP. If the response is still a representation of a resource, for example, it's often preferable to describe the relevant details in that application's format. Likewise, defined HTTP status codes cover many situations with no need to convey extra detail.
+Problem details can be used with any HTTP status code, but they most naturally fit the semantics of 4xx and 5xx responses. Note that problem details are (naturally) not the only way to convey the details of a problem in HTTP. If the response is still a representation of a resource, for example, it's often preferable to describe the relevant details in that application's format. Likewise, defined HTTP status codes cover many situations with no need to convey extra detail.
 
 This specification's aim is to define common error formats for applications that need one so that they aren't required to define their own, or worse, tempted to redefine the semantics of existing HTTP status codes. Even if an application chooses not to use it to convey errors, reviewing its design can help guide the design decisions faced when conveying errors in an existing format.
 
