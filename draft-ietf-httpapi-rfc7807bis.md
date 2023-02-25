@@ -185,7 +185,7 @@ Content-Language: en
                "pointer": "#/profile/color"
              }
           ]
-  }
+}
 ~~~
 
 The fictional problem type here defines the "errors" extension, an array that describes the details of each validation error. Each member is an object containing "detail" to describe the issue, and "pointer" to locate the problem within the request's content using a JSON Pointer {{JSON-POINTER}}.
