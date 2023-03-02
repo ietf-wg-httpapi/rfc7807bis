@@ -12,9 +12,7 @@ problem type."
     "title": {
       "type": "string",
       "description": "A short, human-readable summary of the \
-problem type. It SHOULD NOT change from occurrence to occurrence \
-of the problem, except for purposes of localization (e.g., using \
-proactive content negotiation; see RFC9110, Section 12.1)"
+problem type."
     },
     "status": {
       "type": "integer",
