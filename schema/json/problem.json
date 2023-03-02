@@ -6,7 +6,7 @@
     "type": {
       "type": "string",
       "format": "uri-reference",
-      "description": "A URI reference RFC3986 that identifies the \
+      "description": "A URI reference that identifies the \
 problem type."
     },
     "title": {
