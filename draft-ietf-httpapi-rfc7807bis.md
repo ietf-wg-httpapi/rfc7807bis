@@ -168,7 +168,7 @@ Accept: application/json
 ~~~
 
 ~~~ http-message
-HTTP/1.1 400 Bad Request
+HTTP/1.1 422 Unprocessable Content
 Content-Type: application/problem+json
 Content-Language: en
 
