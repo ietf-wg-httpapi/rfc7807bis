@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "A problem object RFC 7807bis",
+  "title": "An RFC7807 problem object",
   "type": "object",
   "properties": {
     "type": {
