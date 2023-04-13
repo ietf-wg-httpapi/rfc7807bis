@@ -455,7 +455,7 @@ For example, in HTML, a problem could be embedded by encapsulating JSON in a scr
 </script>
 ~~~
 
-or by inventing a mapping into RDFa {{RDFA}}.
+or by defining a mapping into RDFa {{RDFA}}.
 
 This specification does not make specific recommendations regarding embedding problem details in other formats; the appropriate way to embed them depends both upon the format in use and application of that format.
 
