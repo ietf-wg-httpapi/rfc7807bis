@@ -482,4 +482,4 @@ Sam Johnston,
 Mike McCall,
 Julian Reschke, and
 James Snell
-for review of this specification.
+for their comments and suggestions.
