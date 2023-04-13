@@ -336,7 +336,7 @@ This specification registers one Problem Type, "about:blank".
 * Type URI: about:blank
 * Title: See HTTP Status Code
 * Recommended HTTP status code: N/A
-* Reference: \[this document\]
+* Reference: {{&SELF}}
 
 The "about:blank" URI {{ABOUT}}, when used as a problem type, indicates that the problem has no additional semantics beyond that of the HTTP status code.
 
