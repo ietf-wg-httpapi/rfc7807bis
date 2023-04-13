@@ -266,8 +266,6 @@ Similarly, the "validation error" example defines an "errors" extension that con
 
 Clients consuming problem details MUST ignore any such extensions that they don't recognize; this allows problem types to evolve and include additional information in the future.
 
-Future updates to this specification might define additional members that are available to all problem types, distinguished by a name starting with "\*". To avoid conflicts, extension member names SHOULD NOT start with the "*" character.
-
 When creating extensions, problem type authors should choose their names carefully. To be used in the XML format (see {{xml-syntax}}), they will need to conform to the Name rule in {{Section 2.3 of XML}}{:relative="#NT-Name"}.
 
 
@@ -468,7 +466,6 @@ This revision has made the following changes:
 
 * {{registry}} introduces a registry of common problem type URIs
 * {{problem-json}} clarifies how multiple problems should be treated
-* {{extension}} reserves a prefix for future standards-defined object members
 * {{type}} provides guidance for using type URIs that cannot be dereferenced
 
 
