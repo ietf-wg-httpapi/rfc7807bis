@@ -20,7 +20,7 @@ keyword:
 
 v: 3
 entity:
-  SELF: "RFC nnnn"
+  SELF: "RFC 9457"
 
 author:
  -
@@ -111,7 +111,7 @@ This specification's aim is to define common error formats for applications that
 See {{changes}} for a list of changes from {{?RFC7807}}.
 
 
-# Requirements Language
+# Requirements Language {#requirements-lang}
 
 {::boilerplate bcp14}
 
@@ -227,7 +227,7 @@ The "status" member, if present, is only advisory; it conveys the HTTP status co
 
 Consumers can use the status member to determine what the original status code used by the generator was when it has been changed (e.g., by an intermediary or cache) and when a message's content is persisted without HTTP information. Generic HTTP software will still use the HTTP status code.
 
-### "title" {#title}
+### "title" {#title1}
 
 The "title" member is a JSON string containing a short, human-readable summary of the problem type.
 
@@ -300,7 +300,7 @@ If such additional members are defined, their names SHOULD start with a letter (
 
 ## Example
 
-For example, if you are publishing an HTTP API to your online shopping cart, you might need to indicate that the user is out of credit (our example from above), and therefore cannot make the purchase.
+For example, if you are publishing an HTTP API to your online shopping cart, you might need to indicate that the user is out of credit (our example from above) and therefore cannot make the purchase.
 
 If you already have an application-specific format that can accommodate this information, it's probably best to do that. However, if you don't, you might use one of the problem detail formats -- JSON if your API is JSON-based or XML if it uses that format.
 
@@ -311,7 +311,7 @@ If one isn't available, you could mint and document a new type URI (which ought 
 
 ## Registered Problem Types {#registry}
 
-This specification defines the "HTTP Problem Types" registry for common, widely-used problem type URIs, to promote reuse.
+This specification defines the "HTTP Problem Types" registry for common, widely used problem type URIs, to promote reuse.
 
 The policy for this registry is Specification Required, per {{RFC8126, Section 4.6}}.
 
@@ -321,10 +321,17 @@ Registrations MAY use the prefix "https://iana.org/assignments/http-problem-type
 
 The following template should be used for registration requests:
 
-* Type URI: \[a URI for the problem type\]
-* Title: \[a short description of the problem type\]
-* Recommended HTTP status code: \[what status code is most appropriate to use with the type\]
-* Reference: \[to a specification defining the type\]
+Type URI:
+: \[a URI for the problem type\]
+
+Title:
+: \[a short description of the problem type\]
+
+Recommended HTTP status code:
+: \[what status code is most appropriate to use with the type\]
+
+Reference:
+: \[to a specification defining the type\]
 
 See the registry at <https://iana.org/assignments/http-problem-types> for details on where to send registration requests.
 
@@ -333,10 +340,17 @@ See the registry at <https://iana.org/assignments/http-problem-types> for detail
 
 This specification registers one Problem Type, "about:blank".
 
-* Type URI: about:blank
-* Title: See HTTP Status Code
-* Recommended HTTP status code: N/A
-* Reference: {{&SELF}}
+Type URI:
+: about:blank
+
+Title:
+: See HTTP Status Code
+
+Recommended HTTP status code:
+: N/A
+
+Reference:
+: {{&SELF}}
 
 The "about:blank" URI {{ABOUT}}, when used as a problem type, indicates that the problem has no additional semantics beyond that of the HTTP status code.
 
@@ -430,7 +444,7 @@ Content-Language: en
 
 This format uses an XML namespace, primarily to allow embedding it into other XML-based formats; it does not imply that it can or should be extended with elements or attributes in other namespaces. The RELAX NG schema explicitly only allows elements from the one namespace used in the XML format. Any extension arrays and objects MUST be serialized into XML markup using only that namespace.
 
-When using the XML format, it is possible to embed an XML processing instruction in the XML that instructs clients to transform the XML, using the referenced XSLT code {{XSLT}}. If this code is transforming the XML into (X)HTML, then it is possible to serve the XML format, and yet have clients capable of performing the transformation display human-friendly (X)HTML that is rendered and displayed at the client. Note that when using this method, it is advisable to use XSLT 1.0 in order to maximize the number of clients capable of executing the XSLT code.
+When using the XML format, it is possible to embed an XML processing instruction in the XML that instructs clients to transform the XML, using the referenced XSL Transformations (XSLT) code {{XSLT}}. If this code is transforming the XML into (X)HTML, then it is possible to serve the XML format, and yet have clients capable of performing the transformation display human-friendly (X)HTML that is rendered and displayed at the client. Note that when using this method, it is advisable to use XSLT 1.0 in order to maximize the number of clients capable of executing the XSLT code.
 
 
 # Using Problem Details with Other Formats
