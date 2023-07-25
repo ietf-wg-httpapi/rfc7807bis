@@ -92,7 +92,7 @@ This document obsoletes RFC 7807.
 
 HTTP status codes ({{Section 15 of HTTP}}) cannot always convey enough information about errors to be helpful. While humans using web browsers can often understand an HTML {{HTML5}} response content, non-human consumers of HTTP APIs have difficulty doing so.
 
-To address that shortcoming, this specification defines simple JSON {{JSON}} and XML {{XML}} document formats to describe the specifics of a problem(s) encountered -- "problem details".
+To address that shortcoming, this specification defines simple JSON {{JSON}} and XML {{XML}} document formats to describe the specifics of a problem encountered -- "problem details".
 
 For example, consider a response indicating that the client's account doesn't have enough credit. The API's designer might decide to use the 403 Forbidden status code to inform generic HTTP software (such as client libraries, caches, and proxies) of the response's general semantics. API-specific problem details (such as why the server refused the request and the applicable account balance) can be carried in the response content so that the client can act upon them appropriately (for example, triggering a transfer of more credit into the account).
 
