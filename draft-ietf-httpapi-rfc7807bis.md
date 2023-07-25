@@ -359,9 +359,9 @@ The "status" member duplicates the information available in the HTTP status code
 
 # IANA Considerations
 
-Please update the "application/problem+json" and "application/problem+xml" registrations in the "Media Types" registry to refer to this document.
+In the "application" registry under the "Media Types" registry, IANA has updated the "application/problem+json" and "application/problem+xml" registrations to refer to this document.
 
-Please create the "HTTP Problem Types" registry as specified in {{registry}}, and populate it with "about:blank" as per {{blank}}.
+IANA has created the "HTTP Problem Types" registry as specified in {{registry}}, and populated it with "about:blank" as per {{blank}}.
 
 
 --- back
