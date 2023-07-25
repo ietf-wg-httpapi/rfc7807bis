@@ -2,12 +2,12 @@
 
 
 
-HTTPAPI                                                    M. Nottingham
+httpapi                                                    M. Nottingham
 Internet-Draft                                                          
 Obsoletes: 7807 (if approved)                                   E. Wilde
 Intended status: Standards Track                                        
-Expires: 15 October 2023                                        S. Dalal
-                                                           13 April 2023
+Expires: 26 January 2024                                        S. Dalal
+                                                            25 July 2023
 
 
                      Problem Details for HTTP APIs
@@ -43,7 +43,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 October 2023.
+   This Internet-Draft will expire on 26 January 2024.
 
 Copyright Notice
 
@@ -62,7 +62,7 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction
-   2.  Notational Conventions
+   2.  Requirements Language
    3.  The Problem Details JSON Object
      3.1.  Members of a Problem Details Object
        3.1.1.  "type"
@@ -90,27 +90,27 @@ Table of Contents
 1.  Introduction
 
    HTTP status codes (Section 15 of [HTTP]) cannot always convey enough
-   information about errors to be helpful.  While humans using Web
+   information about errors to be helpful.  While humans using web
    browsers can often understand an HTML [HTML5] response content, non-
    human consumers of HTTP APIs have difficulty doing so.
 
    To address that shortcoming, this specification defines simple JSON
-   [JSON] and XML [XML] document formats to describe the specifics of
-   problem(s) encountered -- "problem details".
+   [JSON] and XML [XML] document formats to describe the specifics of a
+   problem encountered -- "problem details".
 
    For example, consider a response indicating that the client's account
    doesn't have enough credit.  The API's designer might decide to use
-   the 403 Forbidden status code to inform HTTP-generic software (such
+   the 403 Forbidden status code to inform generic HTTP software (such
    as client libraries, caches, and proxies) of the response's general
    semantics.  API-specific problem details (such as why the server
    refused the request and the applicable account balance) can be
-   carried in the response content, so that the client can act upon them
+   carried in the response content so that the client can act upon them
    appropriately (for example, triggering a transfer of more credit into
    the account).
 
    This specification identifies the specific "problem type" (e.g., "out
    of credit") with a URI [URI].  HTTP APIs can use URIs under their
-   control to identify problems specific to them, or can reuse existing
+   control to identify problems specific to them or can reuse existing
    ones to facilitate interoperability and leverage common semantics
    (see Section 4.2).
 
@@ -144,14 +144,14 @@ Table of Contents
 
    This specification's aim is to define common error formats for
    applications that need one so that they aren't required to define
-   their own, or worse, tempted to redefine the semantics of existing
+   their own or, worse, tempted to redefine the semantics of existing
    HTTP status codes.  Even if an application chooses not to use it to
    convey errors, reviewing its design can help guide the design
    decisions faced when conveying errors in an existing format.
 
-   See Appendix D for a list of changes from RFC 7807.
+   See Appendix D for a list of changes from [RFC7807].
 
-2.  Notational Conventions
+2.  Requirements Language
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
@@ -233,7 +233,7 @@ Table of Contents
 
    The fictional problem type here defines the "errors" extension, an
    array that describes the details of each validation error.  Each
-   member is an object containing "detail" to describe the issue, and
+   member is an object containing "detail" to describe the issue and
    "pointer" to locate the problem within the request's content using a
    JSON Pointer [JSON-POINTER].
 
@@ -243,8 +243,8 @@ Table of Contents
    "batch" problem types that convey multiple, disparate types, they do
    not map well into HTTP semantics.
 
-   Note also that the API has responded with the application/
-   problem+json type, even though the client did not list it in Accept,
+   Note also that the API has responded with the "application/
+   problem+json" type, even though the client did not list it in Accept,
    as is allowed by HTTP (see Section 12.5.1 of [HTTP]).
 
 3.1.  Members of a Problem Details Object
@@ -281,9 +281,9 @@ Table of Contents
    "type" equal to the relative URI reference "example-problem", when
    resolved they will identify different resources
    ("https://api.example.org/foo/bar/example-problem" and
-   "https://api.example.org/widget/example-problem" respectively).  As a
-   result, it is RECOMMENDED that absolute URIs be used in "type" when
-   possible, and that when relative URIs are used, they include the full
+   "https://api.example.org/widget/example-problem", respectively).  As
+   a result, it is RECOMMENDED that absolute URIs be used in "type" when
+   possible and that when relative URIs are used, they include the full
    path (e.g., "/types/123").
 
    The type URI is allowed to be a non-resolvable URI.  For example, the
@@ -314,7 +314,7 @@ Table of Contents
 
    Consumers can use the status member to determine what the original
    status code used by the generator was when it has been changed (e.g.,
-   by an intermediary or cache), and when a message's content is
+   by an intermediary or cache) and when a message's content is
    persisted without HTTP information.  Generic HTTP software will still
    use the HTTP status code.
 
@@ -327,9 +327,9 @@ Table of Contents
    except for localization (e.g., using proactive content negotiation;
    see [HTTP], Section 12.1).
 
-   The "title" string is advisory, and is included only for users who
-   are both unaware of and cannot discover the semantics of the type URI
-   (e.g., during offline log analysis).
+   The "title" string is advisory and is included only for users who are
+   unaware of and cannot discover the semantics of the type URI (e.g.,
+   during offline log analysis).
 
 3.1.4.  "detail"
 
@@ -355,7 +355,7 @@ Table of Contents
 
    When the "instance" URI is not dereferenceable, it serves as a unique
    identifier for the problem occurrence that may be of significance to
-   the server, but is opaque to the client.
+   the server but is opaque to the client.
 
    When "instance" contains a relative URI, it is resolved relative to
    the document's base URI, as per [URI], Section 5.  However, using
@@ -367,7 +367,7 @@ Table of Contents
    an "instance" equal to the relative URI reference "example-instance",
    when resolved they will identify different resources
    ("https://api.example.org/foo/bar/example-instance" and
-   "https://api.example.org/widget/example-instance" respectively).  As
+   "https://api.example.org/widget/example-instance", respectively).  As
    a result, it is RECOMMENDED that absolute URIs be used in "instance"
    when possible, and that when relative URIs are used, they include the
    full path (e.g., "/instances/123").
@@ -377,7 +377,7 @@ Table of Contents
    Problem type definitions MAY extend the problem details object with
    additional members that are specific to that problem type.
 
-   For example, our "out of credit" problem above defines two such
+   For example, our out-of-credit problem above defines two such
    extensions -- "balance" and "accounts" to convey additional, problem-
    specific information.
 
@@ -399,15 +399,15 @@ Table of Contents
    condition, it might be appropriate to do so by defining a new problem
    type.
 
-   Before doing so, it's important to understand what they are good for,
-   and what's better left to other mechanisms.
+   Before doing so, it's important to understand what they are good for
+   and what is better left to other mechanisms.
 
    Problem details are not a debugging tool for the underlying
    implementation; rather, they are a way to expose greater detail about
    the HTTP interface itself.  Designers of new problem types need to
-   carefully take into account the Security Considerations (Section 5),
-   in particular, the risk of exposing attack vectors by exposing
-   implementation internals through error messages.
+   carefully take into account the Section 5, in particular, the risk of
+   exposing attack vectors by exposing implementation internals through
+   error messages.
 
    Likewise, truly generic problems -- i.e., conditions that might apply
    to any resource on the Web -- are usually better expressed as plain
@@ -428,18 +428,18 @@ Table of Contents
 
    New problem type definitions MUST document:
 
-   1.  a type URI (typically, with the "http" or "https" scheme),
+   1.  a type URI (typically, with the "http" or "https" scheme)
 
-   2.  a title that appropriately describes it (think short), and
+   2.  a title that appropriately describes it (think short)
 
-   3.  the HTTP status code for it to be used with.
+   3.  the HTTP status code for it to be used with
 
    Problem type definitions MAY specify the use of the Retry-After
    response header ([HTTP], Section 10.2.3) in appropriate
    circumstances.
 
-   A problem's type URI SHOULD resolve to HTML [HTML5] documentation
-   that explains how to resolve the problem.
+   A problem type URI SHOULD resolve to HTML [HTML5] documentation that
+   explains how to resolve the problem.
 
    A problem type definition MAY specify additional members on the
    problem details object.  For example, an extension might use typed
@@ -456,13 +456,13 @@ Table of Contents
 
    For example, if you are publishing an HTTP API to your online
    shopping cart, you might need to indicate that the user is out of
-   credit (our example from above), and therefore cannot make the
+   credit (our example from above) and therefore cannot make the
    purchase.
 
    If you already have an application-specific format that can
    accommodate this information, it's probably best to do that.
-   However, if you don't, you might use one of the problem details
-   formats -- JSON if your API is JSON-based, or XML if it uses that
+   However, if you don't, you might use one of the problem detail
+   formats -- JSON if your API is JSON-based or XML if it uses that
    format.
 
    To do so, you might look in the registry (Section 4.2) for an
@@ -476,33 +476,34 @@ Table of Contents
 
 4.2.  Registered Problem Types
 
-   This specification defines the HTTP Problem Type registry for common,
-   widely-used problem type URIs, to promote reuse.
+   This specification defines the "HTTP Problem Types" registry for
+   common, widely used problem type URIs, to promote reuse.
 
    The policy for this registry is Specification Required, per
    [RFC8126], Section 4.6.
 
-   When evaluating requests, the Expert(s) should consider community
-   feedback, how well-defined the problem type is, and this
+   When evaluating requests, the designated expert(s) should consider
+   community feedback, how well-defined the problem type is, and this
    specification's requirements.  Vendor-specific, application-specific,
-   and deployment-specific values are not registerable.  Specification
-   documents should be published in a stable, freely available manner
-   (ideally located with a URL), but need not be standards.
+   and deployment-specific values are unable to be registered.
+   Specification documents should be published in a stable, freely
+   available manner (ideally located with a URL), but need not be
+   standards.
 
    Registrations MAY use the prefix "https://iana.org/assignments/http-
    problem-types#" for the type URI.  Note that those URIs may not be
    able to be resolved.
 
-   Registration requests should use the following template:
+   The following template should be used for registration requests:
 
-   *  Type URI: [a URI for the problem type]
+   Type URI:  [a URI for the problem type]
 
-   *  Title: [a short description of the problem type]
+   Title:  [a short description of the problem type]
 
-   *  Recommended HTTP status code: [what status code is most
-      appropriate to use with the type]
+   Recommended HTTP status code:  [what status code is most appropriate
+      to use with the type]
 
-   *  Reference: [to a specification defining the type]
+   Reference:  [to a specification defining the type]
 
    See the registry at https://iana.org/assignments/http-problem-types
    (https://iana.org/assignments/http-problem-types) for details on
@@ -512,13 +513,13 @@ Table of Contents
 
    This specification registers one Problem Type, "about:blank".
 
-   *  Type URI: about:blank
+   Type URI:  about:blank
 
-   *  Title: See HTTP Status Code
+   Title:  See HTTP Status Code
 
-   *  Recommended HTTP status code: N/A
+   Recommended HTTP status code:  N/A
 
-   *  Reference: RFC nnnn
+   Reference:  RFC 9457
 
    The "about:blank" URI [ABOUT], when used as a problem type, indicates
    that the problem has no additional semantics beyond that of the HTTP
@@ -561,12 +562,12 @@ Table of Contents
 
 6.  IANA Considerations
 
-   Please update the "application/problem+json" and "application/
-   problem+xml" registrations in the "Media Types" registry to refer to
-   this document.
+   In the "application" registry under the "Media Types" registry, IANA
+   has updated the "application/problem+json" and "application/
+   problem+xml" registrations to refer to this document.
 
-   Please create the "HTTP Problem Types" registry as specified in
-   Section 4.2, and populate it with "about:blank" as per Section 4.2.1.
+   IANA has created the "HTTP Problem Types" registry as specified in
+   Section 4.2 and populated it with "about:blank" as per Section 4.2.1.
 
 7.  References
 
@@ -646,6 +647,10 @@ Table of Contents
               March 2015,
               <https://www.w3.org/TR/2015/REC-rdfa-core-20150317/>.
 
+   [RFC7807]  Nottingham, M. and E. Wilde, "Problem Details for HTTP
+              APIs", RFC 7807, DOI 10.17487/RFC7807, March 2016,
+              <https://www.rfc-editor.org/rfc/rfc7807>.
+
    [TAG]      Kindberg, T. and S. Hawke, "The 'tag' URI Scheme",
               RFC 4151, DOI 10.17487/RFC4151, October 2005,
               <https://www.rfc-editor.org/rfc/rfc4151>.
@@ -664,7 +669,7 @@ Table of Contents
 Appendix A.  JSON Schema for HTTP Problems
 
    This section presents a non-normative JSON Schema [JSON-SCHEMA] for
-   HTTP Problem Details.  If there is any disagreement between it and
+   HTTP problem details.  If there is any disagreement between it and
    the text of the specification, the latter prevails.
 
    # NOTE: '\' line wrapping per RFC 8792
@@ -741,9 +746,9 @@ Appendix B.  HTTP Problems and XML
 
    Extension arrays and objects are serialized into the XML format by
    considering an element containing a child or children to represent an
-   object, except for elements that contain only child element(s) named
-   'i', which are considered arrays.  For example, the example above
-   appears in XML as follows:
+   object, except for elements containing only one or more child
+   elements named "i", which are considered arrays.  For example, the
+   example above appears in XML as follows:
 
    HTTP/1.1 403 Forbidden
    Content-Type: application/problem+xml
@@ -771,13 +776,13 @@ Appendix B.  HTTP Problems and XML
 
    When using the XML format, it is possible to embed an XML processing
    instruction in the XML that instructs clients to transform the XML,
-   using the referenced XSLT code [XSLT].  If this code is transforming
-   the XML into (X)HTML, then it is possible to serve the XML format,
-   and yet have clients capable of performing the transformation display
-   human-friendly (X)HTML that is rendered and displayed at the client.
-   Note that when using this method, it is advisable to use XSLT 1.0 in
-   order to maximize the number of clients capable of executing the XSLT
-   code.
+   using the referenced XSL Transformations (XSLT) code [XSLT].  If this
+   code is transforming the XML into (X)HTML, then it is possible to
+   serve the XML format, and yet have clients capable of performing the
+   transformation display human-friendly (X)HTML that is rendered and
+   displayed at the client.  Note that when using this method, it is
+   advisable to use XSLT 1.0 in order to maximize the number of clients
+   capable of executing the XSLT code.
 
 Appendix C.  Using Problem Details with Other Formats
 
@@ -806,7 +811,8 @@ Appendix C.  Using Problem Details with Other Formats
      }
    </script>
 
-   or by defining a mapping into RDFa [RDFA].
+   or by defining a mapping into a Resource Description Framework in
+   Attributes (RDFa) [RDFA].
 
    This specification does not make specific recommendations regarding
    embedding problem details in other formats; the appropriate way to

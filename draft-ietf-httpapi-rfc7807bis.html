@@ -12,7 +12,7 @@
        This document defines a "problem detail" to carry machine-readable details of errors in HTTP response content to avoid the need to define new error response formats for HTTP APIs. 
        This document obsoletes RFC 7807. 
     ' name="description">
-<meta content="xml2rfc 3.17.0" name="generator">
+<meta content="xml2rfc 3.17.4" name="generator">
 <meta content="status" name="keyword">
 <meta content="HTTP" name="keyword">
 <meta content="error" name="keyword">
@@ -22,20 +22,18 @@
 <meta content="XML" name="keyword">
 <meta content="draft-ietf-httpapi-rfc7807bis-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.17.0
-    Python 3.10.10
-    appdirs 1.4.4
+  xml2rfc 3.17.4
+    Python 3.11.4
     ConfigArgParse 1.5.3
-    google-i18n-address 2.5.2
-    html5lib 1.1
+    google-i18n-address 3.1.0
     intervaltree 3.1.0
     Jinja2 3.1.2
-    lxml 4.9.2
-    MarkupSafe 2.1.1
+    lxml 4.9.3
+    platformdirs 3.9.1
     pycountry 22.3.5
     PyYAML 6.0
-    requests 2.28.1
-    setuptools 65.6.0
+    requests 2.31.0
+    setuptools 67.7.2
     six 1.16.0
     wcwidth 0.2.6
 -->
@@ -619,6 +617,7 @@ sub, sup {
   clear: left;
   float: left;
   text-align: right;
+  margin-right: 1ch;
 }
 #identifiers dd {
   margin: 0;
@@ -670,7 +669,8 @@ sub, sup {
 .references dt {
   text-align: right;
   font-weight: bold;
-  min-width: 7em;
+  min-width: 10ch;
+  margin-right: 1.5ch;
 }
 .references dt:target::before {
   content: "⇒";
@@ -678,7 +678,7 @@ sub, sup {
   margin: 0 10px 0 -25px;
 }
 .references dd {
-  margin-left: 8em !important;
+  margin-left: 12ch !important;
   overflow: auto;
 }
 
@@ -1056,11 +1056,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Problem Details for HTTP APIs</td>
-<td class="right">April 2023</td>
+<td class="right">July 2023</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Nottingham, et al.</td>
-<td class="center">Expires 15 October 2023</td>
+<td class="center">Expires 26 January 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1068,7 +1068,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <div id="internal-metadata" class="document-information">
 <dl id="identifiers">
 <dt class="label-workgroup">Workgroup:</dt>
-<dd class="workgroup">HTTPAPI</dd>
+<dd class="workgroup">httpapi</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
 <dd class="internet-draft">draft-ietf-httpapi-rfc7807bis-latest</dd>
 <dt class="label-obsoletes">Obsoletes:</dt>
@@ -1076,12 +1076,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc7807" class="eref">7807</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-04-13" class="published">13 April 2023</time>
+<time datetime="2023-07-25" class="published">25 July 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2023-10-15">15 October 2023</time></dd>
+<dd class="expires"><time datetime="2024-01-26">26 January 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1129,7 +1129,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 15 October 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 26 January 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1162,7 +1162,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
-            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-notational-conventions" class="internal xref">Notational Conventions</a></p>
+            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-requirements-language" class="internal xref">Requirements Language</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
             <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-the-problem-details-json-ob" class="internal xref">The Problem Details JSON Object</a></p>
@@ -1252,22 +1252,22 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">HTTP status codes (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-15" class="relref">Section 15</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>) cannot always convey enough information about errors to be helpful. While humans using Web browsers can often understand an HTML <span>[<a href="#HTML5" class="cite xref">HTML5</a>]</span> response content, non-human consumers of HTTP APIs have difficulty doing so.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">To address that shortcoming, this specification defines simple JSON <span>[<a href="#JSON" class="cite xref">JSON</a>]</span> and XML <span>[<a href="#XML" class="cite xref">XML</a>]</span> document formats to describe the specifics of problem(s) encountered -- "problem details".<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">For example, consider a response indicating that the client's account doesn't have enough credit. The API's designer might decide to use the 403 Forbidden status code to inform HTTP-generic software (such as client libraries, caches, and proxies) of the response's general semantics. API-specific problem details (such as why the server refused the request and the applicable account balance) can be carried in the response content, so that the client can act upon them appropriately (for example, triggering a transfer of more credit into the account).<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">This specification identifies the specific "problem type" (e.g., "out of credit") with a URI <span>[<a href="#URI" class="cite xref">URI</a>]</span>. HTTP APIs can use URIs under their control to identify problems specific to them, or can reuse existing ones to facilitate interoperability and leverage common semantics (see <a href="#registry" class="auto internal xref">Section 4.2</a>).<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-1">HTTP status codes (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-15" class="relref">Section 15</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>) cannot always convey enough information about errors to be helpful. While humans using web browsers can often understand an HTML <span>[<a href="#HTML5" class="cite xref">HTML5</a>]</span> response content, non-human consumers of HTTP APIs have difficulty doing so.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">To address that shortcoming, this specification defines simple JSON <span>[<a href="#JSON" class="cite xref">JSON</a>]</span> and XML <span>[<a href="#XML" class="cite xref">XML</a>]</span> document formats to describe the specifics of a problem encountered -- "problem details".<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">For example, consider a response indicating that the client's account doesn't have enough credit. The API's designer might decide to use the 403 Forbidden status code to inform generic HTTP software (such as client libraries, caches, and proxies) of the response's general semantics. API-specific problem details (such as why the server refused the request and the applicable account balance) can be carried in the response content so that the client can act upon them appropriately (for example, triggering a transfer of more credit into the account).<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">This specification identifies the specific "problem type" (e.g., "out of credit") with a URI <span>[<a href="#URI" class="cite xref">URI</a>]</span>. HTTP APIs can use URIs under their control to identify problems specific to them or can reuse existing ones to facilitate interoperability and leverage common semantics (see <a href="#registry" class="auto internal xref">Section 4.2</a>).<a href="#section-1-4" class="pilcrow">¶</a></p>
 <p id="section-1-5">Problem details can contain other information, such as a URI identifying the problem's specific occurrence (effectively giving an identifier to the concept "The time Joe didn't have enough credit last Thursday"), which can be useful for support or forensic purposes.<a href="#section-1-5" class="pilcrow">¶</a></p>
 <p id="section-1-6">The data model for problem details is a JSON <span>[<a href="#JSON" class="cite xref">JSON</a>]</span> object; when serialized as a JSON document, it uses the "application/problem+json" media type. <a href="#xml-syntax" class="auto internal xref">Appendix B</a> defines an equivalent XML format, which uses the "application/problem+xml" media type.<a href="#section-1-6" class="pilcrow">¶</a></p>
 <p id="section-1-7">When they are conveyed in an HTTP response, the contents of problem details can be negotiated using proactive negotiation; see <span><a href="https://rfc-editor.org/rfc/rfc9110#section-12.1" class="relref">Section 12.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>. In particular, the language used for human-readable strings (such as those in title and description) can be negotiated using the Accept-Language request header field (<span><a href="https://rfc-editor.org/rfc/rfc9110#section-12.5.4" class="relref">Section 12.5.4</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>), although that negotiation may still result in a non-preferred, default representation being returned.<a href="#section-1-7" class="pilcrow">¶</a></p>
 <p id="section-1-8">Problem details can be used with any HTTP status code, but they most naturally fit the semantics of 4xx and 5xx responses. Note that problem details are (naturally) not the only way to convey the details of a problem in HTTP. If the response is still a representation of a resource, for example, it's often preferable to describe the relevant details in that application's format. Likewise, defined HTTP status codes cover many situations with no need to convey extra detail.<a href="#section-1-8" class="pilcrow">¶</a></p>
-<p id="section-1-9">This specification's aim is to define common error formats for applications that need one so that they aren't required to define their own, or worse, tempted to redefine the semantics of existing HTTP status codes. Even if an application chooses not to use it to convey errors, reviewing its design can help guide the design decisions faced when conveying errors in an existing format.<a href="#section-1-9" class="pilcrow">¶</a></p>
-<p id="section-1-10">See <a href="#changes" class="auto internal xref">Appendix D</a> for a list of changes from RFC 7807.<a href="#section-1-10" class="pilcrow">¶</a></p>
+<p id="section-1-9">This specification's aim is to define common error formats for applications that need one so that they aren't required to define their own or, worse, tempted to redefine the semantics of existing HTTP status codes. Even if an application chooses not to use it to convey errors, reviewing its design can help guide the design decisions faced when conveying errors in an existing format.<a href="#section-1-9" class="pilcrow">¶</a></p>
+<p id="section-1-10">See <a href="#changes" class="auto internal xref">Appendix D</a> for a list of changes from <span>[<a href="#RFC7807" class="cite xref">RFC7807</a>]</span>.<a href="#section-1-10" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="notational-conventions">
+<div id="requirements-lang">
 <section id="section-2">
-      <h2 id="name-notational-conventions">
-<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-notational-conventions" class="section-name selfRef">Notational Conventions</a>
+      <h2 id="name-requirements-language">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-requirements-language" class="section-name selfRef">Requirements Language</a>
       </h2>
 <p id="section-2-1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
 NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
@@ -1351,9 +1351,9 @@ Content-Language: en
 }
 </pre><a href="#section-3-8" class="pilcrow">¶</a>
 </div>
-<p id="section-3-9">The fictional problem type here defines the "errors" extension, an array that describes the details of each validation error. Each member is an object containing "detail" to describe the issue, and "pointer" to locate the problem within the request's content using a JSON Pointer <span>[<a href="#JSON-POINTER" class="cite xref">JSON-POINTER</a>]</span>.<a href="#section-3-9" class="pilcrow">¶</a></p>
+<p id="section-3-9">The fictional problem type here defines the "errors" extension, an array that describes the details of each validation error. Each member is an object containing "detail" to describe the issue and "pointer" to locate the problem within the request's content using a JSON Pointer <span>[<a href="#JSON-POINTER" class="cite xref">JSON-POINTER</a>]</span>.<a href="#section-3-9" class="pilcrow">¶</a></p>
 <p id="section-3-10">When an API encounters multiple problems that do not share the same type, it is RECOMMENDED that the most relevant or urgent problem be represented in the response. While it is possible to create generic "batch" problem types that convey multiple, disparate types, they do not map well into HTTP semantics.<a href="#section-3-10" class="pilcrow">¶</a></p>
-<p id="section-3-11">Note also that the API has responded with the application/problem+json type, even though the client did not list it in Accept, as is allowed by HTTP (see <span><a href="https://rfc-editor.org/rfc/rfc9110#section-12.5.1" class="relref">Section 12.5.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>).<a href="#section-3-11" class="pilcrow">¶</a></p>
+<p id="section-3-11">Note also that the API has responded with the "application/problem+json" type, even though the client did not list it in Accept, as is allowed by HTTP (see <span><a href="https://rfc-editor.org/rfc/rfc9110#section-12.5.1" class="relref">Section 12.5.1</a> of [<a href="#HTTP" class="cite xref">HTTP</a>]</span>).<a href="#section-3-11" class="pilcrow">¶</a></p>
 <div id="members">
 <section id="section-3.1">
         <h3 id="name-members-of-a-problem-detail">
@@ -1369,7 +1369,7 @@ Content-Language: en
 <p id="section-3.1.1-2">When this member is not present, its value is assumed to be "about:blank".<a href="#section-3.1.1-2" class="pilcrow">¶</a></p>
 <p id="section-3.1.1-3">If the type URI is a locator (e.g., those with an "http" or "https" scheme), dereferencing it SHOULD provide human-readable documentation for the problem type (e.g., using HTML <span>[<a href="#HTML5" class="cite xref">HTML5</a>]</span>). However, consumers SHOULD NOT automatically dereference the type URI, unless they do so when providing information to developers (e.g., when a debugging tool is in use).<a href="#section-3.1.1-3" class="pilcrow">¶</a></p>
 <p id="section-3.1.1-4">When "type" contains a relative URI, it is resolved relative to the document's base URI, as per <span>[<a href="#URI" class="cite xref">URI</a>], <a href="https://rfc-editor.org/rfc/rfc3986#section-5" class="relref">Section 5</a></span>. However, using relative URIs can cause confusion, and they might not be handled correctly by all implementations.<a href="#section-3.1.1-4" class="pilcrow">¶</a></p>
-<p id="section-3.1.1-5">For example, if the two resources "https://api.example.org/foo/bar/123" and "https://api.example.org/widget/456" both respond with a "type" equal to the relative URI reference "example-problem", when resolved they will identify different resources ("https://api.example.org/foo/bar/example-problem" and "https://api.example.org/widget/example-problem" respectively). As a result, it is RECOMMENDED that absolute URIs be used in "type" when possible, and that when relative URIs are used, they include the full path (e.g., "/types/123").<a href="#section-3.1.1-5" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-5">For example, if the two resources "https://api.example.org/foo/bar/123" and "https://api.example.org/widget/456" both respond with a "type" equal to the relative URI reference "example-problem", when resolved they will identify different resources ("https://api.example.org/foo/bar/example-problem" and "https://api.example.org/widget/example-problem", respectively). As a result, it is RECOMMENDED that absolute URIs be used in "type" when possible and that when relative URIs are used, they include the full path (e.g., "/types/123").<a href="#section-3.1.1-5" class="pilcrow">¶</a></p>
 <p id="section-3.1.1-6">The type URI is allowed to be a non-resolvable URI. For example, the tag URI scheme <span>[<a href="#TAG" class="cite xref">TAG</a>]</span> can be used to uniquely identify problem types:<a href="#section-3.1.1-6" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-3.1.1-7">
 <pre>
@@ -1386,17 +1386,17 @@ tag:example@example.org,2021-09-17:OutOfLuck
           </h4>
 <p id="section-3.1.2-1">The "status" member is a JSON number indicating the HTTP status code (<span>[<a href="#HTTP" class="cite xref">HTTP</a>], <a href="https://rfc-editor.org/rfc/rfc9110#section-15" class="relref">Section 15</a></span>) generated by the origin server for this occurrence of the problem.<a href="#section-3.1.2-1" class="pilcrow">¶</a></p>
 <p id="section-3.1.2-2">The "status" member, if present, is only advisory; it conveys the HTTP status code used for the convenience of the consumer. Generators MUST use the same status code in the actual HTTP response, to assure that generic HTTP software that does not understand this format still behaves correctly. See <a href="#security-considerations" class="auto internal xref">Section 5</a> for further caveats regarding its use.<a href="#section-3.1.2-2" class="pilcrow">¶</a></p>
-<p id="section-3.1.2-3">Consumers can use the status member to determine what the original status code used by the generator was when it has been changed (e.g., by an intermediary or cache), and when a message's content is persisted without HTTP information. Generic HTTP software will still use the HTTP status code.<a href="#section-3.1.2-3" class="pilcrow">¶</a></p>
+<p id="section-3.1.2-3">Consumers can use the status member to determine what the original status code used by the generator was when it has been changed (e.g., by an intermediary or cache) and when a message's content is persisted without HTTP information. Generic HTTP software will still use the HTTP status code.<a href="#section-3.1.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="title">
+<div id="title1">
 <section id="section-3.1.3">
           <h4 id="name-title">
 <a href="#section-3.1.3" class="section-number selfRef">3.1.3. </a><a href="#name-title" class="section-name selfRef">"title"</a>
           </h4>
 <p id="section-3.1.3-1">The "title" member is a JSON string containing a short, human-readable summary of the problem type.<a href="#section-3.1.3-1" class="pilcrow">¶</a></p>
 <p id="section-3.1.3-2">It SHOULD NOT change from occurrence to occurrence of the problem, except for localization (e.g., using proactive content negotiation; see <span>[<a href="#HTTP" class="cite xref">HTTP</a>], <a href="https://rfc-editor.org/rfc/rfc9110#section-12.1" class="relref">Section 12.1</a></span>).<a href="#section-3.1.3-2" class="pilcrow">¶</a></p>
-<p id="section-3.1.3-3">The "title" string is advisory, and is included only for users who are both unaware of and cannot discover the semantics of the type URI (e.g., during offline log analysis).<a href="#section-3.1.3-3" class="pilcrow">¶</a></p>
+<p id="section-3.1.3-3">The "title" string is advisory and is included only for users who are unaware of and cannot discover the semantics of the type URI (e.g., during offline log analysis).<a href="#section-3.1.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="detail">
@@ -1416,9 +1416,9 @@ tag:example@example.org,2021-09-17:OutOfLuck
           </h4>
 <p id="section-3.1.5-1">The "instance" member is a JSON string containing a URI reference that identifies the specific occurrence of the problem.<a href="#section-3.1.5-1" class="pilcrow">¶</a></p>
 <p id="section-3.1.5-2">When the "instance" URI is dereferenceable, the problem details object can be fetched from it. It might also return information about the problem occurrence in other formats through use of proactive content negotiation (see <span>[<a href="#HTTP" class="cite xref">HTTP</a>], <a href="https://rfc-editor.org/rfc/rfc9110#section-12.5.1" class="relref">Section 12.5.1</a></span>).<a href="#section-3.1.5-2" class="pilcrow">¶</a></p>
-<p id="section-3.1.5-3">When the "instance" URI is not dereferenceable, it serves as a unique identifier for the problem occurrence that may be of significance to the server, but is opaque to the client.<a href="#section-3.1.5-3" class="pilcrow">¶</a></p>
+<p id="section-3.1.5-3">When the "instance" URI is not dereferenceable, it serves as a unique identifier for the problem occurrence that may be of significance to the server but is opaque to the client.<a href="#section-3.1.5-3" class="pilcrow">¶</a></p>
 <p id="section-3.1.5-4">When "instance" contains a relative URI, it is resolved relative to the document's base URI, as per <span>[<a href="#URI" class="cite xref">URI</a>], <a href="https://rfc-editor.org/rfc/rfc3986#section-5" class="relref">Section 5</a></span>. However, using relative URIs can cause confusion, and they might not be handled correctly by all implementations.<a href="#section-3.1.5-4" class="pilcrow">¶</a></p>
-<p id="section-3.1.5-5">For example, if the two resources "https://api.example.org/foo/bar/123" and "https://api.example.org/widget/456" both respond with an "instance" equal to the relative URI reference "example-instance", when resolved they will identify different resources ("https://api.example.org/foo/bar/example-instance" and "https://api.example.org/widget/example-instance" respectively). As a result, it is RECOMMENDED that absolute URIs be used in "instance" when possible, and that when relative URIs are used, they include the full path (e.g., "/instances/123").<a href="#section-3.1.5-5" class="pilcrow">¶</a></p>
+<p id="section-3.1.5-5">For example, if the two resources "https://api.example.org/foo/bar/123" and "https://api.example.org/widget/456" both respond with an "instance" equal to the relative URI reference "example-instance", when resolved they will identify different resources ("https://api.example.org/foo/bar/example-instance" and "https://api.example.org/widget/example-instance", respectively). As a result, it is RECOMMENDED that absolute URIs be used in "instance" when possible, and that when relative URIs are used, they include the full path (e.g., "/instances/123").<a href="#section-3.1.5-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1429,7 +1429,7 @@ tag:example@example.org,2021-09-17:OutOfLuck
 <a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-extension-members" class="section-name selfRef">Extension Members</a>
         </h3>
 <p id="section-3.2-1">Problem type definitions MAY extend the problem details object with additional members that are specific to that problem type.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
-<p id="section-3.2-2">For example, our "out of credit" problem above defines two such extensions -- "balance" and "accounts" to convey additional, problem-specific information.<a href="#section-3.2-2" class="pilcrow">¶</a></p>
+<p id="section-3.2-2">For example, our out-of-credit problem above defines two such extensions -- "balance" and "accounts" to convey additional, problem-specific information.<a href="#section-3.2-2" class="pilcrow">¶</a></p>
 <p id="section-3.2-3">Similarly, the "validation error" example defines an "errors" extension that contains a list of individual error occurrences found, with details and a pointer to the location of each.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
 <p id="section-3.2-4">Clients consuming problem details MUST ignore any such extensions that they don't recognize; this allows problem types to evolve and include additional information in the future.<a href="#section-3.2-4" class="pilcrow">¶</a></p>
 <p id="section-3.2-5">When creating extensions, problem type authors should choose their names carefully. To be used in the XML format (see <a href="#xml-syntax" class="auto internal xref">Appendix B</a>), they will need to conform to the Name rule in <span><a href="https://www.w3.org/TR/2008/REC-xml-20081126/#NT-Name" class="relref">Section 2.3</a> of [<a href="#XML" class="cite xref">XML</a>]</span>.<a href="#section-3.2-5" class="pilcrow">¶</a></p>
@@ -1443,22 +1443,22 @@ tag:example@example.org,2021-09-17:OutOfLuck
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-defining-new-problem-types" class="section-name selfRef">Defining New Problem Types</a>
       </h2>
 <p id="section-4-1">When an HTTP API needs to define a response that indicates an error condition, it might be appropriate to do so by defining a new problem type.<a href="#section-4-1" class="pilcrow">¶</a></p>
-<p id="section-4-2">Before doing so, it's important to understand what they are good for, and what's better left to other mechanisms.<a href="#section-4-2" class="pilcrow">¶</a></p>
-<p id="section-4-3">Problem details are not a debugging tool for the underlying implementation; rather, they are a way to expose greater detail about the HTTP interface itself. Designers of new problem types need to carefully take into account the Security Considerations (<a href="#security-considerations" class="auto internal xref">Section 5</a>), in particular, the risk of exposing attack vectors by exposing implementation internals through error messages.<a href="#section-4-3" class="pilcrow">¶</a></p>
+<p id="section-4-2">Before doing so, it's important to understand what they are good for and what is better left to other mechanisms.<a href="#section-4-2" class="pilcrow">¶</a></p>
+<p id="section-4-3">Problem details are not a debugging tool for the underlying implementation; rather, they are a way to expose greater detail about the HTTP interface itself. Designers of new problem types need to carefully take into account the <a href="#security-considerations" class="auto internal xref">Section 5</a>, in particular, the risk of exposing attack vectors by exposing implementation internals through error messages.<a href="#section-4-3" class="pilcrow">¶</a></p>
 <p id="section-4-4">Likewise, truly generic problems -- i.e., conditions that might apply to any resource on the Web -- are usually better expressed as plain status codes. For example, a "write access disallowed" problem is probably unnecessary, since a 403 Forbidden status code in response to a PUT request is self-explanatory.<a href="#section-4-4" class="pilcrow">¶</a></p>
 <p id="section-4-5">Finally, an application might have a more appropriate way to carry an error in a format that it already defines. Problem details are intended to avoid the necessity of establishing new "fault" or "error" document formats, not to replace existing domain-specific formats.<a href="#section-4-5" class="pilcrow">¶</a></p>
 <p id="section-4-6">That said, it is possible to add support for problem details to existing HTTP APIs using HTTP content negotiation (e.g., using the Accept request header to indicate a preference for this format; see <span>[<a href="#HTTP" class="cite xref">HTTP</a>], <a href="https://rfc-editor.org/rfc/rfc9110#section-12.5.1" class="relref">Section 12.5.1</a></span>).<a href="#section-4-6" class="pilcrow">¶</a></p>
 <p id="section-4-7">New problem type definitions MUST document:<a href="#section-4-7" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-4-8">
-<li id="section-4-8.1">a type URI (typically, with the "http" or "https" scheme),<a href="#section-4-8.1" class="pilcrow">¶</a>
+<li id="section-4-8.1">a type URI (typically, with the "http" or "https" scheme)<a href="#section-4-8.1" class="pilcrow">¶</a>
 </li>
-        <li id="section-4-8.2">a title that appropriately describes it (think short), and<a href="#section-4-8.2" class="pilcrow">¶</a>
+        <li id="section-4-8.2">a title that appropriately describes it (think short)<a href="#section-4-8.2" class="pilcrow">¶</a>
 </li>
-        <li id="section-4-8.3">the HTTP status code for it to be used with.<a href="#section-4-8.3" class="pilcrow">¶</a>
+        <li id="section-4-8.3">the HTTP status code for it to be used with<a href="#section-4-8.3" class="pilcrow">¶</a>
 </li>
       </ol>
 <p id="section-4-9">Problem type definitions MAY specify the use of the Retry-After response header (<span>[<a href="#HTTP" class="cite xref">HTTP</a>], <a href="https://rfc-editor.org/rfc/rfc9110#section-10.2.3" class="relref">Section 10.2.3</a></span>) in appropriate circumstances.<a href="#section-4-9" class="pilcrow">¶</a></p>
-<p id="section-4-10">A problem's type URI SHOULD resolve to HTML <span>[<a href="#HTML5" class="cite xref">HTML5</a>]</span> documentation that explains how to resolve the problem.<a href="#section-4-10" class="pilcrow">¶</a></p>
+<p id="section-4-10">A problem type URI SHOULD resolve to HTML <span>[<a href="#HTML5" class="cite xref">HTML5</a>]</span> documentation that explains how to resolve the problem.<a href="#section-4-10" class="pilcrow">¶</a></p>
 <p id="section-4-11">A problem type definition MAY specify additional members on the problem details object. For example, an extension might use typed links <span>[<a href="#WEB-LINKING" class="cite xref">WEB-LINKING</a>]</span> to another resource that machines can use to resolve the problem.<a href="#section-4-11" class="pilcrow">¶</a></p>
 <p id="section-4-12">If such additional members are defined, their names SHOULD start with a letter (ALPHA, as per <span>[<a href="#ABNF" class="cite xref">ABNF</a>], <a href="https://rfc-editor.org/rfc/rfc5234#appendix-B.1" class="relref">Appendix B.1</a></span>) and SHOULD comprise characters from ALPHA, DIGIT (<span>[<a href="#ABNF" class="cite xref">ABNF</a>], <a href="https://rfc-editor.org/rfc/rfc5234#appendix-B.1" class="relref">Appendix B.1</a></span>), and "_" (so that it can be serialized in formats other than JSON), and they SHOULD be three characters or longer.<a href="#section-4-12" class="pilcrow">¶</a></p>
 <div id="example">
@@ -1466,8 +1466,8 @@ tag:example@example.org,2021-09-17:OutOfLuck
         <h3 id="name-example">
 <a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-example" class="section-name selfRef">Example</a>
         </h3>
-<p id="section-4.1-1">For example, if you are publishing an HTTP API to your online shopping cart, you might need to indicate that the user is out of credit (our example from above), and therefore cannot make the purchase.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
-<p id="section-4.1-2">If you already have an application-specific format that can accommodate this information, it's probably best to do that. However, if you don't, you might use one of the problem details formats -- JSON if your API is JSON-based, or XML if it uses that format.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
+<p id="section-4.1-1">For example, if you are publishing an HTTP API to your online shopping cart, you might need to indicate that the user is out of credit (our example from above) and therefore cannot make the purchase.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.1-2">If you already have an application-specific format that can accommodate this information, it's probably best to do that. However, if you don't, you might use one of the problem detail formats -- JSON if your API is JSON-based or XML if it uses that format.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
 <p id="section-4.1-3">To do so, you might look in the registry (<a href="#registry" class="auto internal xref">Section 4.2</a>) for an already-defined type URI that suits your purposes. If one is available, you can reuse that URI.<a href="#section-4.1-3" class="pilcrow">¶</a></p>
 <p id="section-4.1-4">If one isn't available, you could mint and document a new type URI (which ought to be under your control and stable over time), an appropriate title and the HTTP status code that it will be used with, along with what it means and how it should be handled.<a href="#section-4.1-4" class="pilcrow">¶</a></p>
 </section>
@@ -1477,21 +1477,33 @@ tag:example@example.org,2021-09-17:OutOfLuck
         <h3 id="name-registered-problem-types">
 <a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-registered-problem-types" class="section-name selfRef">Registered Problem Types</a>
         </h3>
-<p id="section-4.2-1">This specification defines the HTTP Problem Type registry for common, widely-used problem type URIs, to promote reuse.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.2-1">This specification defines the "HTTP Problem Types" registry for common, widely used problem type URIs, to promote reuse.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
 <p id="section-4.2-2">The policy for this registry is Specification Required, per <span>[<a href="#RFC8126" class="cite xref">RFC8126</a>], <a href="https://rfc-editor.org/rfc/rfc8126#section-4.6" class="relref">Section 4.6</a></span>.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
-<p id="section-4.2-3">When evaluating requests, the Expert(s) should consider community feedback, how well-defined the problem type is, and this specification's requirements. Vendor-specific, application-specific, and deployment-specific values are not registerable. Specification documents should be published in a stable, freely available manner (ideally located with a URL), but need not be standards.<a href="#section-4.2-3" class="pilcrow">¶</a></p>
+<p id="section-4.2-3">When evaluating requests, the designated expert(s) should consider community feedback, how well-defined the problem type is, and this specification's requirements. Vendor-specific, application-specific, and deployment-specific values are unable to be registered. Specification documents should be published in a stable, freely available manner (ideally located with a URL), but need not be standards.<a href="#section-4.2-3" class="pilcrow">¶</a></p>
 <p id="section-4.2-4">Registrations MAY use the prefix "https://iana.org/assignments/http-problem-types#" for the type URI. Note that those URIs may not be able to be resolved.<a href="#section-4.2-4" class="pilcrow">¶</a></p>
-<p id="section-4.2-5">Registration requests should use the following template:<a href="#section-4.2-5" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-4.2-6.1">Type URI: [a URI for the problem type]<a href="#section-4.2-6.1" class="pilcrow">¶</a>
-</li>
-          <li class="normal" id="section-4.2-6.2">Title: [a short description of the problem type]<a href="#section-4.2-6.2" class="pilcrow">¶</a>
-</li>
-          <li class="normal" id="section-4.2-6.3">Recommended HTTP status code: [what status code is most appropriate to use with the type]<a href="#section-4.2-6.3" class="pilcrow">¶</a>
-</li>
-          <li class="normal" id="section-4.2-6.4">Reference: [to a specification defining the type]<a href="#section-4.2-6.4" class="pilcrow">¶</a>
-</li>
-        </ul>
+<p id="section-4.2-5">The following template should be used for registration requests:<a href="#section-4.2-5" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-4.2-6">
+          <dt id="section-4.2-6.1">Type URI:</dt>
+          <dd style="margin-left: 1.5em" id="section-4.2-6.2">
+            <p id="section-4.2-6.2.1">[a URI for the problem type]<a href="#section-4.2-6.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-4.2-6.3">Title:</dt>
+          <dd style="margin-left: 1.5em" id="section-4.2-6.4">
+            <p id="section-4.2-6.4.1">[a short description of the problem type]<a href="#section-4.2-6.4.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-4.2-6.5">Recommended HTTP status code:</dt>
+          <dd style="margin-left: 1.5em" id="section-4.2-6.6">
+            <p id="section-4.2-6.6.1">[what status code is most appropriate to use with the type]<a href="#section-4.2-6.6.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-4.2-6.7">Reference:</dt>
+          <dd style="margin-left: 1.5em" id="section-4.2-6.8">
+            <p id="section-4.2-6.8.1">[to a specification defining the type]<a href="#section-4.2-6.8.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
 <p id="section-4.2-7">See the registry at <a href="https://iana.org/assignments/http-problem-types">https://iana.org/assignments/http-problem-types</a> for details on where to send registration requests.<a href="#section-4.2-7" class="pilcrow">¶</a></p>
 <div id="blank">
 <section id="section-4.2.1">
@@ -1499,16 +1511,28 @@ tag:example@example.org,2021-09-17:OutOfLuck
 <a href="#section-4.2.1" class="section-number selfRef">4.2.1. </a><a href="#name-aboutblank" class="section-name selfRef">about:blank</a>
           </h4>
 <p id="section-4.2.1-1">This specification registers one Problem Type, "about:blank".<a href="#section-4.2.1-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-4.2.1-2.1">Type URI: about:blank<a href="#section-4.2.1-2.1" class="pilcrow">¶</a>
-</li>
-            <li class="normal" id="section-4.2.1-2.2">Title: See HTTP Status Code<a href="#section-4.2.1-2.2" class="pilcrow">¶</a>
-</li>
-            <li class="normal" id="section-4.2.1-2.3">Recommended HTTP status code: N/A<a href="#section-4.2.1-2.3" class="pilcrow">¶</a>
-</li>
-            <li class="normal" id="section-4.2.1-2.4">Reference: RFC nnnn<a href="#section-4.2.1-2.4" class="pilcrow">¶</a>
-</li>
-          </ul>
+<span class="break"></span><dl class="dlParallel" id="section-4.2.1-2">
+            <dt id="section-4.2.1-2.1">Type URI:</dt>
+            <dd style="margin-left: 1.5em" id="section-4.2.1-2.2">
+              <p id="section-4.2.1-2.2.1">about:blank<a href="#section-4.2.1-2.2.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-4.2.1-2.3">Title:</dt>
+            <dd style="margin-left: 1.5em" id="section-4.2.1-2.4">
+              <p id="section-4.2.1-2.4.1">See HTTP Status Code<a href="#section-4.2.1-2.4.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-4.2.1-2.5">Recommended HTTP status code:</dt>
+            <dd style="margin-left: 1.5em" id="section-4.2.1-2.6">
+              <p id="section-4.2.1-2.6.1">N/A<a href="#section-4.2.1-2.6.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-4.2.1-2.7">Reference:</dt>
+            <dd style="margin-left: 1.5em" id="section-4.2.1-2.8">
+              <p id="section-4.2.1-2.8.1">RFC 9457<a href="#section-4.2.1-2.8.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+</dl>
 <p id="section-4.2.1-3">The "about:blank" URI <span>[<a href="#ABOUT" class="cite xref">ABOUT</a>]</span>, when used as a problem type, indicates that the problem has no additional semantics beyond that of the HTTP status code.<a href="#section-4.2.1-3" class="pilcrow">¶</a></p>
 <p id="section-4.2.1-4">When "about:blank" is used, the title SHOULD be the same as the recommended HTTP status phrase for that code (e.g., "Not Found" for 404, and so on), although it MAY be localized to suit client preferences (expressed with the Accept-Language request header).<a href="#section-4.2.1-4" class="pilcrow">¶</a></p>
 <p id="section-4.2.1-5">Please note that according to how the "type" member is defined (<a href="#members" class="auto internal xref">Section 3.1</a>), the "about:blank" URI is the default value for that member. Consequently, any problem details object not carrying an explicit "type" member implicitly uses this URI.<a href="#section-4.2.1-5" class="pilcrow">¶</a></p>
@@ -1534,8 +1558,8 @@ tag:example@example.org,2021-09-17:OutOfLuck
       <h2 id="name-iana-considerations">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-6-1">Please update the "application/problem+json" and "application/problem+xml" registrations in the "Media Types" registry to refer to this document.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<p id="section-6-2">Please create the "HTTP Problem Types" registry as specified in <a href="#registry" class="auto internal xref">Section 4.2</a>, and populate it with "about:blank" as per <a href="#blank" class="auto internal xref">Section 4.2.1</a>.<a href="#section-6-2" class="pilcrow">¶</a></p>
+<p id="section-6-1">In the "application" registry under the "Media Types" registry, IANA has updated the "application/problem+json" and "application/problem+xml" registrations to refer to this document.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">IANA has created the "HTTP Problem Types" registry as specified in <a href="#registry" class="auto internal xref">Section 4.2</a> and populated it with "about:blank" as per <a href="#blank" class="auto internal xref">Section 4.2.1</a>.<a href="#section-6-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <section id="section-7">
@@ -1610,6 +1634,10 @@ tag:example@example.org,2021-09-17:OutOfLuck
         <dd>
 <span class="refAuthor">Adida, B., Ed.</span>, <span class="refAuthor">Herman, I., Ed.</span>, <span class="refAuthor">Birbeck, M., Ed.</span>, and <span class="refAuthor">S. McCarron, Ed.</span>, <span class="refTitle">"RDFa Core 1.1 - Third Edition"</span>, <span class="seriesInfo">W3C REC REC-rdfa-core-20150317</span>, <span class="seriesInfo">W3C REC-rdfa-core-20150317</span>, <time datetime="2015-03-17" class="refDate">17 March 2015</time>, <span>&lt;<a href="https://www.w3.org/TR/2015/REC-rdfa-core-20150317/">https://www.w3.org/TR/2015/REC-rdfa-core-20150317/</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC7807">[RFC7807]</dt>
+        <dd>
+<span class="refAuthor">Nottingham, M.</span> and <span class="refAuthor">E. Wilde</span>, <span class="refTitle">"Problem Details for HTTP APIs"</span>, <span class="seriesInfo">RFC 7807</span>, <span class="seriesInfo">DOI 10.17487/RFC7807</span>, <time datetime="2016-03" class="refDate">March 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7807">https://www.rfc-editor.org/rfc/rfc7807</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="TAG">[TAG]</dt>
         <dd>
 <span class="refAuthor">Kindberg, T.</span> and <span class="refAuthor">S. Hawke</span>, <span class="refTitle">"The 'tag' URI Scheme"</span>, <span class="seriesInfo">RFC 4151</span>, <span class="seriesInfo">DOI 10.17487/RFC4151</span>, <time datetime="2005-10" class="refDate">October 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc4151">https://www.rfc-editor.org/rfc/rfc4151</a>&gt;</span>. </dd>
@@ -1630,7 +1658,7 @@ tag:example@example.org,2021-09-17:OutOfLuck
       <h2 id="name-json-schema-for-http-proble">
 <a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-json-schema-for-http-proble" class="section-name selfRef">JSON Schema for HTTP Problems</a>
       </h2>
-<p id="appendix-A-1">This section presents a non-normative JSON Schema <span>[<a href="#JSON-SCHEMA" class="cite xref">JSON-SCHEMA</a>]</span> for HTTP Problem Details. If there is any disagreement between it and the text of the specification, the latter prevails.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
+<p id="appendix-A-1">This section presents a non-normative JSON Schema <span>[<a href="#JSON-SCHEMA" class="cite xref">JSON-SCHEMA</a>]</span> for HTTP problem details. If there is any disagreement between it and the text of the specification, the latter prevails.<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <div class="lang-json sourcecode" id="appendix-A-2">
 <pre>
 # NOTE: '\' line wrapping per RFC 8792
@@ -1705,7 +1733,7 @@ further information if dereferenced."
 </div>
 <p id="appendix-B-4">Note that this schema is only intended as documentation, and not as a normative schema that captures all constraints of the XML format. It is possible to use other XML schema languages to define a similar set of constraints (depending on the features of the chosen schema language).<a href="#appendix-B-4" class="pilcrow">¶</a></p>
 <p id="appendix-B-5">The media type for this format is "application/problem+xml".<a href="#appendix-B-5" class="pilcrow">¶</a></p>
-<p id="appendix-B-6">Extension arrays and objects are serialized into the XML format by considering an element containing a child or children to represent an object, except for elements that contain only child element(s) named 'i', which are considered arrays. For example, the example above appears in XML as follows:<a href="#appendix-B-6" class="pilcrow">¶</a></p>
+<p id="appendix-B-6">Extension arrays and objects are serialized into the XML format by considering an element containing a child or children to represent an object, except for elements containing only one or more child elements named "i", which are considered arrays. For example, the example above appears in XML as follows:<a href="#appendix-B-6" class="pilcrow">¶</a></p>
 <div class="lang-http-message sourcecode" id="appendix-B-7">
 <pre>
 HTTP/1.1 403 Forbidden
@@ -1727,7 +1755,7 @@ Content-Language: en
 </pre><a href="#appendix-B-7" class="pilcrow">¶</a>
 </div>
 <p id="appendix-B-8">This format uses an XML namespace, primarily to allow embedding it into other XML-based formats; it does not imply that it can or should be extended with elements or attributes in other namespaces. The RELAX NG schema explicitly only allows elements from the one namespace used in the XML format. Any extension arrays and objects MUST be serialized into XML markup using only that namespace.<a href="#appendix-B-8" class="pilcrow">¶</a></p>
-<p id="appendix-B-9">When using the XML format, it is possible to embed an XML processing instruction in the XML that instructs clients to transform the XML, using the referenced XSLT code <span>[<a href="#XSLT" class="cite xref">XSLT</a>]</span>. If this code is transforming the XML into (X)HTML, then it is possible to serve the XML format, and yet have clients capable of performing the transformation display human-friendly (X)HTML that is rendered and displayed at the client. Note that when using this method, it is advisable to use XSLT 1.0 in order to maximize the number of clients capable of executing the XSLT code.<a href="#appendix-B-9" class="pilcrow">¶</a></p>
+<p id="appendix-B-9">When using the XML format, it is possible to embed an XML processing instruction in the XML that instructs clients to transform the XML, using the referenced XSL Transformations (XSLT) code <span>[<a href="#XSLT" class="cite xref">XSLT</a>]</span>. If this code is transforming the XML into (X)HTML, then it is possible to serve the XML format, and yet have clients capable of performing the transformation display human-friendly (X)HTML that is rendered and displayed at the client. Note that when using this method, it is advisable to use XSLT 1.0 in order to maximize the number of clients capable of executing the XSLT code.<a href="#appendix-B-9" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="using-problem-details-with-other-formats">
@@ -1738,7 +1766,7 @@ Content-Language: en
 <p id="appendix-C-1">In some situations, it can be advantageous to embed problem details in formats other than those described here. For example, an API that uses HTML <span>[<a href="#HTML5" class="cite xref">HTML5</a>]</span> might want to also use HTML for expressing its problem details.<a href="#appendix-C-1" class="pilcrow">¶</a></p>
 <p id="appendix-C-2">Problem details can be embedded in other formats either by encapsulating one of the existing serializations (JSON or XML) into that format or by translating the model of a problem detail (as specified in <a href="#problem-json" class="auto internal xref">Section 3</a>) into the format's conventions.<a href="#appendix-C-2" class="pilcrow">¶</a></p>
 <p id="appendix-C-3">For example, in HTML, a problem could be embedded by encapsulating JSON in a script tag:<a href="#appendix-C-3" class="pilcrow">¶</a></p>
-<div class="lang-html sourcecode" id="appendix-C-4">
+<div class="alignLeft art-text artwork" id="appendix-C-4">
 <pre>
 &lt;script type="application/problem+json"&gt;
   {
@@ -1753,7 +1781,7 @@ Content-Language: en
 &lt;/script&gt;
 </pre><a href="#appendix-C-4" class="pilcrow">¶</a>
 </div>
-<p id="appendix-C-5">or by defining a mapping into RDFa <span>[<a href="#RDFA" class="cite xref">RDFA</a>]</span>.<a href="#appendix-C-5" class="pilcrow">¶</a></p>
+<p id="appendix-C-5">or by defining a mapping into a Resource Description Framework in Attributes (RDFa) <span>[<a href="#RDFA" class="cite xref">RDFA</a>]</span>.<a href="#appendix-C-5" class="pilcrow">¶</a></p>
 <p id="appendix-C-6">This specification does not make specific recommendations regarding embedding problem details in other formats; the appropriate way to embed them depends both upon the format in use and application of that format.<a href="#appendix-C-6" class="pilcrow">¶</a></p>
 </section>
 </div>
