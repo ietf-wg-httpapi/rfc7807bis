@@ -1,6 +1,6 @@
 ---
 title: Problem Details for HTTP APIs
-abbrev:
+abbrev: Problem Details for HTTP APIs
 docname: draft-ietf-httpapi-rfc7807bis-latest
 date: {DATE}
 category: std
@@ -90,13 +90,13 @@ This document obsoletes RFC 7807.
 
 # Introduction
 
-HTTP status codes ({{Section 15 of HTTP}}) cannot always convey enough information about errors to be helpful. While humans using Web browsers can often understand an HTML {{HTML5}} response content, non-human consumers of HTTP APIs have difficulty doing so.
+HTTP status codes ({{Section 15 of HTTP}}) cannot always convey enough information about errors to be helpful. While humans using web browsers can often understand an HTML {{HTML5}} response content, non-human consumers of HTTP APIs have difficulty doing so.
 
-To address that shortcoming, this specification defines simple JSON {{JSON}} and XML {{XML}} document formats to describe the specifics of problem(s) encountered -- "problem details".
+To address that shortcoming, this specification defines simple JSON {{JSON}} and XML {{XML}} document formats to describe the specifics of a problem(s) encountered -- "problem details".
 
-For example, consider a response indicating that the client's account doesn't have enough credit. The API's designer might decide to use the 403 Forbidden status code to inform HTTP-generic software (such as client libraries, caches, and proxies) of the response's general semantics. API-specific problem details (such as why the server refused the request and the applicable account balance) can be carried in the response content, so that the client can act upon them appropriately (for example, triggering a transfer of more credit into the account).
+For example, consider a response indicating that the client's account doesn't have enough credit. The API's designer might decide to use the 403 Forbidden status code to inform generic HTTP software (such as client libraries, caches, and proxies) of the response's general semantics. API-specific problem details (such as why the server refused the request and the applicable account balance) can be carried in the response content so that the client can act upon them appropriately (for example, triggering a transfer of more credit into the account).
 
-This specification identifies the specific "problem type" (e.g., "out of credit") with a URI {{URI}}. HTTP APIs can use URIs under their control to identify problems specific to them, or can reuse existing ones to facilitate interoperability and leverage common semantics (see {{registry}}).
+This specification identifies the specific "problem type" (e.g., "out of credit") with a URI {{URI}}. HTTP APIs can use URIs under their control to identify problems specific to them or can reuse existing ones to facilitate interoperability and leverage common semantics (see {{registry}}).
 
 Problem details can contain other information, such as a URI identifying the problem's specific occurrence (effectively giving an identifier to the concept "The time Joe didn't have enough credit last Thursday"), which can be useful for support or forensic purposes.
 
@@ -106,12 +106,12 @@ When they are conveyed in an HTTP response, the contents of problem details can 
 
 Problem details can be used with any HTTP status code, but they most naturally fit the semantics of 4xx and 5xx responses. Note that problem details are (naturally) not the only way to convey the details of a problem in HTTP. If the response is still a representation of a resource, for example, it's often preferable to describe the relevant details in that application's format. Likewise, defined HTTP status codes cover many situations with no need to convey extra detail.
 
-This specification's aim is to define common error formats for applications that need one so that they aren't required to define their own, or worse, tempted to redefine the semantics of existing HTTP status codes. Even if an application chooses not to use it to convey errors, reviewing its design can help guide the design decisions faced when conveying errors in an existing format.
+This specification's aim is to define common error formats for applications that need one so that they aren't required to define their own or, worse, tempted to redefine the semantics of existing HTTP status codes. Even if an application chooses not to use it to convey errors, reviewing its design can help guide the design decisions faced when conveying errors in an existing format.
 
-See {{changes}} for a list of changes from RFC 7807.
+See {{changes}} for a list of changes from {{?RFC7807}}.
 
 
-# Notational Conventions
+# Requirements Language
 
 {::boilerplate bcp14}
 
@@ -188,11 +188,11 @@ Content-Language: en
 }
 ~~~
 
-The fictional problem type here defines the "errors" extension, an array that describes the details of each validation error. Each member is an object containing "detail" to describe the issue, and "pointer" to locate the problem within the request's content using a JSON Pointer {{JSON-POINTER}}.
+The fictional problem type here defines the "errors" extension, an array that describes the details of each validation error. Each member is an object containing "detail" to describe the issue and "pointer" to locate the problem within the request's content using a JSON Pointer {{JSON-POINTER}}.
 
 When an API encounters multiple problems that do not share the same type, it is RECOMMENDED that the most relevant or urgent problem be represented in the response. While it is possible to create generic "batch" problem types that convey multiple, disparate types, they do not map well into HTTP semantics.
 
-Note also that the API has responded with the application/problem+json type, even though the client did not list it in Accept, as is allowed by HTTP (see {{Section 12.5.1 of HTTP}}).
+Note also that the API has responded with the "application/problem+json" type, even though the client did not list it in Accept, as is allowed by HTTP (see {{Section 12.5.1 of HTTP}}).
 
 
 ## Members of a Problem Details Object {#members}
@@ -209,7 +209,7 @@ If the type URI is a locator (e.g., those with an "http" or "https" scheme), der
 
 When "type" contains a relative URI, it is resolved relative to the document's base URI, as per {{URI, Section 5}}. However, using relative URIs can cause confusion, and they might not be handled correctly by all implementations.
 
-For example, if the two resources "https://api.example.org/foo/bar/123" and "https://api.example.org/widget/456" both respond with a "type" equal to the relative URI reference "example-problem", when resolved they will identify different resources ("https://api.example.org/foo/bar/example-problem" and "https://api.example.org/widget/example-problem" respectively). As a result, it is RECOMMENDED that absolute URIs be used in "type" when possible, and that when relative URIs are used, they include the full path (e.g., "/types/123").
+For example, if the two resources "https://api.example.org/foo/bar/123" and "https://api.example.org/widget/456" both respond with a "type" equal to the relative URI reference "example-problem", when resolved they will identify different resources ("https://api.example.org/foo/bar/example-problem" and "https://api.example.org/widget/example-problem", respectively). As a result, it is RECOMMENDED that absolute URIs be used in "type" when possible and that when relative URIs are used, they include the full path (e.g., "/types/123").
 
 The type URI is allowed to be a non-resolvable URI. For example, the tag URI scheme {{TAG}} can be used to uniquely identify problem types:
 
@@ -225,7 +225,7 @@ The "status" member is a JSON number indicating the HTTP status code ({{HTTP, Se
 
 The "status" member, if present, is only advisory; it conveys the HTTP status code used for the convenience of the consumer. Generators MUST use the same status code in the actual HTTP response, to assure that generic HTTP software that does not understand this format still behaves correctly. See {{security-considerations}} for further caveats regarding its use.
 
-Consumers can use the status member to determine what the original status code used by the generator was when it has been changed (e.g., by an intermediary or cache), and when a message's content is persisted without HTTP information. Generic HTTP software will still use the HTTP status code.
+Consumers can use the status member to determine what the original status code used by the generator was when it has been changed (e.g., by an intermediary or cache) and when a message's content is persisted without HTTP information. Generic HTTP software will still use the HTTP status code.
 
 ### "title" {#title}
 
@@ -233,7 +233,7 @@ The "title" member is a JSON string containing a short, human-readable summary o
 
 It SHOULD NOT change from occurrence to occurrence of the problem, except for localization (e.g., using proactive content negotiation; see {{HTTP, Section 12.1}}).
 
-The "title" string is advisory, and is included only for users who are both unaware of and cannot discover the semantics of the type URI (e.g., during offline log analysis).
+The "title" string is advisory and is included only for users who are unaware of and cannot discover the semantics of the type URI (e.g., during offline log analysis).
 
 ### "detail" {#detail}
 
@@ -249,18 +249,18 @@ The "instance" member is a JSON string containing a URI reference that identifie
 
 When the "instance" URI is dereferenceable, the problem details object can be fetched from it. It might also return information about the problem occurrence in other formats through use of proactive content negotiation (see {{HTTP, Section 12.5.1}}).
 
-When the "instance" URI is not dereferenceable, it serves as a unique identifier for the problem occurrence that may be of significance to the server, but is opaque to the client.
+When the "instance" URI is not dereferenceable, it serves as a unique identifier for the problem occurrence that may be of significance to the server but is opaque to the client.
 
 When "instance" contains a relative URI, it is resolved relative to the document's base URI, as per {{URI, Section 5}}. However, using relative URIs can cause confusion, and they might not be handled correctly by all implementations.
 
-For example, if the two resources "https://api.example.org/foo/bar/123" and "https://api.example.org/widget/456" both respond with an "instance" equal to the relative URI reference "example-instance", when resolved they will identify different resources ("https://api.example.org/foo/bar/example-instance" and "https://api.example.org/widget/example-instance" respectively). As a result, it is RECOMMENDED that absolute URIs be used in "instance" when possible, and that when relative URIs are used, they include the full path (e.g., "/instances/123").
+For example, if the two resources "https://api.example.org/foo/bar/123" and "https://api.example.org/widget/456" both respond with an "instance" equal to the relative URI reference "example-instance", when resolved they will identify different resources ("https://api.example.org/foo/bar/example-instance" and "https://api.example.org/widget/example-instance", respectively). As a result, it is RECOMMENDED that absolute URIs be used in "instance" when possible, and that when relative URIs are used, they include the full path (e.g., "/instances/123").
 
 
 ## Extension Members {#extension}
 
 Problem type definitions MAY extend the problem details object with additional members that are specific to that problem type.
 
-For example, our "out of credit" problem above defines two such extensions -- "balance" and "accounts" to convey additional, problem-specific information.
+For example, our out-of-credit problem above defines two such extensions -- "balance" and "accounts" to convey additional, problem-specific information.
 
 Similarly, the "validation error" example defines an "errors" extension that contains a list of individual error occurrences found, with details and a pointer to the location of each.
 
@@ -273,9 +273,9 @@ When creating extensions, problem type authors should choose their names careful
 
 When an HTTP API needs to define a response that indicates an error condition, it might be appropriate to do so by defining a new problem type.
 
-Before doing so, it's important to understand what they are good for, and what's better left to other mechanisms.
+Before doing so, it's important to understand what they are good for and what is better left to other mechanisms.
 
-Problem details are not a debugging tool for the underlying implementation; rather, they are a way to expose greater detail about the HTTP interface itself. Designers of new problem types need to carefully take into account the Security Considerations ({{security-considerations}}), in particular, the risk of exposing attack vectors by exposing implementation internals through error messages.
+Problem details are not a debugging tool for the underlying implementation; rather, they are a way to expose greater detail about the HTTP interface itself. Designers of new problem types need to carefully take into account the {{security-considerations}}, in particular, the risk of exposing attack vectors by exposing implementation internals through error messages.
 
 Likewise, truly generic problems -- i.e., conditions that might apply to any resource on the Web -- are usually better expressed as plain status codes. For example, a "write access disallowed" problem is probably unnecessary, since a 403 Forbidden status code in response to a PUT request is self-explanatory.
 
@@ -285,13 +285,13 @@ That said, it is possible to add support for problem details to existing HTTP AP
 
 New problem type definitions MUST document:
 
-1. a type URI (typically, with the "http" or "https" scheme),
-2. a title that appropriately describes it (think short), and
-3. the HTTP status code for it to be used with.
+1. a type URI (typically, with the "http" or "https" scheme)
+2. a title that appropriately describes it (think short)
+3. the HTTP status code for it to be used with
 
 Problem type definitions MAY specify the use of the Retry-After response header ({{HTTP, Section 10.2.3}}) in appropriate circumstances.
 
-A problem's type URI SHOULD resolve to HTML {{HTML5}} documentation that explains how to resolve the problem.
+A problem type URI SHOULD resolve to HTML {{HTML5}} documentation that explains how to resolve the problem.
 
 A problem type definition MAY specify additional members on the problem details object. For example, an extension might use typed links {{WEB-LINKING}} to another resource that machines can use to resolve the problem.
 
@@ -302,7 +302,7 @@ If such additional members are defined, their names SHOULD start with a letter (
 
 For example, if you are publishing an HTTP API to your online shopping cart, you might need to indicate that the user is out of credit (our example from above), and therefore cannot make the purchase.
 
-If you already have an application-specific format that can accommodate this information, it's probably best to do that. However, if you don't, you might use one of the problem details formats -- JSON if your API is JSON-based, or XML if it uses that format.
+If you already have an application-specific format that can accommodate this information, it's probably best to do that. However, if you don't, you might use one of the problem detail formats -- JSON if your API is JSON-based or XML if it uses that format.
 
 To do so, you might look in the registry ({{registry}}) for an already-defined type URI that suits your purposes. If one is available, you can reuse that URI.
 
@@ -311,15 +311,15 @@ If one isn't available, you could mint and document a new type URI (which ought 
 
 ## Registered Problem Types {#registry}
 
-This specification defines the HTTP Problem Type registry for common, widely-used problem type URIs, to promote reuse.
+This specification defines the "HTTP Problem Types" registry for common, widely-used problem type URIs, to promote reuse.
 
 The policy for this registry is Specification Required, per {{RFC8126, Section 4.6}}.
 
-When evaluating requests, the Expert(s) should consider community feedback, how well-defined the problem type is, and this specification's requirements. Vendor-specific, application-specific, and deployment-specific values are not registerable. Specification documents should be published in a stable, freely available manner (ideally located with a URL), but need not be standards.
+When evaluating requests, the designated expert(s) should consider community feedback, how well-defined the problem type is, and this specification's requirements. Vendor-specific, application-specific, and deployment-specific values are unable to be registered. Specification documents should be published in a stable, freely available manner (ideally located with a URL), but need not be standards.
 
 Registrations MAY use the prefix "https://iana.org/assignments/http-problem-types#" for the type URI. Note that those URIs may not be able to be resolved.
 
-Registration requests should use the following template:
+The following template should be used for registration requests:
 
 * Type URI: \[a URI for the problem type\]
 * Title: \[a short description of the problem type\]
@@ -361,7 +361,7 @@ The "status" member duplicates the information available in the HTTP status code
 
 In the "application" registry under the "Media Types" registry, IANA has updated the "application/problem+json" and "application/problem+xml" registrations to refer to this document.
 
-IANA has created the "HTTP Problem Types" registry as specified in {{registry}}, and populated it with "about:blank" as per {{blank}}.
+IANA has created the "HTTP Problem Types" registry as specified in {{registry}} and populated it with "about:blank" as per {{blank}}.
 
 
 --- back
@@ -369,7 +369,7 @@ IANA has created the "HTTP Problem Types" registry as specified in {{registry}},
 
 # JSON Schema for HTTP Problems {#json-schema}
 
-This section presents a non-normative JSON Schema {{JSON-SCHEMA}} for HTTP Problem Details. If there is any disagreement between it and the text of the specification, the latter prevails.
+This section presents a non-normative JSON Schema {{JSON-SCHEMA}} for HTTP problem details. If there is any disagreement between it and the text of the specification, the latter prevails.
 
 ~~~ json
 # NOTE: '\' line wrapping per RFC 8792
@@ -407,7 +407,7 @@ Note that this schema is only intended as documentation, and not as a normative 
 
 The media type for this format is "application/problem+xml".
 
-Extension arrays and objects are serialized into the XML format by considering an element containing a child or children to represent an object, except for elements that contain only child element(s) named 'i', which are considered arrays. For example, the example above appears in XML as follows:
+Extension arrays and objects are serialized into the XML format by considering an element containing a child or children to represent an object, except for elements containing only one or more child elements named "i", which are considered arrays. For example, the example above appears in XML as follows:
 
 ~~~ http-message
 HTTP/1.1 403 Forbidden
@@ -441,7 +441,7 @@ Problem details can be embedded in other formats either by encapsulating one of 
 
 For example, in HTML, a problem could be embedded by encapsulating JSON in a script tag:
 
-~~~ html
+~~~
 <script type="application/problem+json">
   {
    "type": "https://example.com/probs/out-of-credit",
@@ -455,7 +455,7 @@ For example, in HTML, a problem could be embedded by encapsulating JSON in a scr
 </script>
 ~~~
 
-or by defining a mapping into RDFa {{RDFA}}.
+or by defining a mapping into a Resource Description Framework in Attributes (RDFa) {{RDFA}}.
 
 This specification does not make specific recommendations regarding embedding problem details in other formats; the appropriate way to embed them depends both upon the format in use and application of that format.
 
