@@ -417,7 +417,7 @@ The RELAX NG schema {{ISO-19757-2}} for the XML format is:
       | attribute  *     { text })*
 ~~~
 
-Note that this schema is only intended as documentation, and not as a normative schema that captures all constraints of the XML format. It is possible to use other XML schema languages to define a similar set of constraints (depending on the features of the chosen schema language).
+Note that this schema is only intended as documentation and not as a normative schema that captures all constraints of the XML format. It is possible to use other XML schema languages to define a similar set of constraints (depending on the features of the chosen schema language).
 
 The media type for this format is "application/problem+xml".
 
