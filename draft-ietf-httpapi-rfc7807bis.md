@@ -315,7 +315,7 @@ This specification defines the "HTTP Problem Types" registry for common, widely 
 
 The policy for this registry is Specification Required, per {{RFC8126, Section 4.6}}.
 
-When evaluating requests, the designated expert(s) should consider community feedback, how well-defined the problem type is, and this specification's requirements. Vendor-specific, application-specific, and deployment-specific values are unable to be registered. Specification documents should be published in a stable, freely available manner (ideally located with a URL), but need not be standards.
+When evaluating requests, the designated expert(s) should consider community feedback, how well-defined the problem type is, and this specification's requirements. Vendor-specific, application-specific, and deployment-specific values are unable to be registered. Specification documents should be published in a stable, freely available manner (ideally located with a URL) but need not be standards.
 
 Registrations MAY use the prefix "https://iana.org/assignments/http-problem-types#" for the type URI. Note that those URIs may not be able to be resolved.
 
@@ -338,7 +338,7 @@ See the registry at <https://iana.org/assignments/http-problem-types> for detail
 
 ### about:blank {#blank}
 
-This specification registers one Problem Type, "about:blank".
+This specification registers one Problem Type, "about:blank", as follows.
 
 Type URI:
 : about:blank
@@ -397,7 +397,7 @@ HTTP-based APIs that use XML {{XML}} can express problem details using the forma
 
 The RELAX NG schema {{ISO-19757-2}} for the XML format is:
 
-~~~ relax-ng-compact-syntax
+~~~ rnc
    default namespace ns = "urn:ietf:rfc:7807"
 
    start = problem
