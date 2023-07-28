@@ -737,7 +737,7 @@ Appendix B.  HTTP Problems and XML
         (  element    ns:*  { anyNsElement | text }
          | attribute  *     { text })*
 
-   Note that this schema is only intended as documentation, and not as a
+   Note that this schema is only intended as documentation and not as a
    normative schema that captures all constraints of the XML format.  It
    is possible to use other XML schema languages to define a similar set
    of constraints (depending on the features of the chosen schema
