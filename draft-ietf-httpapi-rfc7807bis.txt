@@ -6,8 +6,8 @@ httpapi                                                    M. Nottingham
 Internet-Draft                                                          
 Obsoletes: 7807 (if approved)                                   E. Wilde
 Intended status: Standards Track                                        
-Expires: 26 January 2024                                        S. Dalal
-                                                            25 July 2023
+Expires: 29 January 2024                                        S. Dalal
+                                                            28 July 2023
 
 
                      Problem Details for HTTP APIs
@@ -43,7 +43,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 January 2024.
+   This Internet-Draft will expire on 29 January 2024.
 
 Copyright Notice
 
@@ -487,7 +487,7 @@ Table of Contents
    specification's requirements.  Vendor-specific, application-specific,
    and deployment-specific values are unable to be registered.
    Specification documents should be published in a stable, freely
-   available manner (ideally located with a URL), but need not be
+   available manner (ideally located with a URL) but need not be
    standards.
 
    Registrations MAY use the prefix "https://iana.org/assignments/http-
@@ -511,7 +511,8 @@ Table of Contents
 
 4.2.1.  about:blank
 
-   This specification registers one Problem Type, "about:blank".
+   This specification registers one Problem Type, "about:blank", as
+   follows.
 
    Type URI:  about:blank
 
